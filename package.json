@@ -1,9 +1,1 @@
-{
-  "name":"accounting-tools",
-  "private":true,
-  "version":"0.1.0",
-  "type":"module",
-  "scripts":{"dev":"vite","build":"vite build","preview":"vite preview"},
-  "dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","lucide-react":"latest"},
-  "devDependencies":{}
-}
+{"name":"accounting-tools","private":true,"version":"0.2.0","type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview"},"dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","lucide-react":"latest","pdfjs-dist":"6.3.289","pdf-lib":"1.17.1","tesseract.js":"7.0.0","xlsx":"0.18.5","docx":"9.7.2"},"devDependencies":{}}
