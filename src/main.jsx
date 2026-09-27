@@ -1,197 +1,44 @@
-import React,{useMemo,useRef,useState} from 'react';
-import {createRoot} from 'react-dom/client';
-import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-import {PDFDocument} from 'pdf-lib';
-import * as XLSX from 'xlsx';
-import {createWorker} from 'tesseract.js';
-import {Document as WordDocument,Paragraph,TextRun,Packer} from 'docx';
-import {FileSpreadsheet,FileText,Image as ImageIcon,Search,Sun,Moon,Upload,ShieldCheck,WandSparkles,Merge,Scissors,Download,Trash2,X,Play,FileDown,Table2,LoaderCircle} from 'lucide-react';
-import './styles.css';
+import React,{useMemo,useState}from'react';import{createRoot}from'react-dom/client';import{createWorker}from'tesseract.js';import{Document,Paragraph,TextRun,Packer}from'docx';import{FileSpreadsheet,FileText,Image as Img,Search,Sun,Moon,Upload,ShieldCheck,WandSparkles,Merge,Scissors,Download,X,Play,Table2,LoaderCircle,RotateCw,Trash2,Copy,ArrowUpDown,Replace,Columns3,Rows3,FileOutput,Minimize2,Hash,Stamp,RefreshCw,CheckCircle2}from'lucide-react';import * as XLSX from'xlsx';import{download,bytesDownload,safeName,loadPdf,renderPage,pdfRows,rowsWorkbook,exportRows,excelRows,normalize,mergePdfs,pagesPdf,rotatePdf,annotatePdf,rasterCompress,imagesPdf}from'./tools';import'./styles.css';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc=pdfWorker;
+const T=[
+['pdf-excel','PDF','PDF إلى Excel','حوّل PDF النصي أو الممسوح إلى Excel قابل للتعديل مع معاينة.',FileSpreadsheet,'.pdf',1],
+['merge-pdf','PDF','دمج PDF','ادمج عدة ملفات PDF في ملف واحد.',Merge,'.pdf'],
+['split-pdf','PDF','تقسيم PDF','استخرج نطاقاً من الصفحات.',Scissors,'.pdf'],
+['pdf-delete','PDF','حذف صفحات','احذف أرقام صفحات محددة.',Trash2,'.pdf'],
+['pdf-reorder','PDF','ترتيب صفحات','أعد ترتيب الصفحات بكتابة ترتيبها.',ArrowUpDown,'.pdf'],
+['pdf-rotate','PDF','تدوير PDF','دوّر الصفحات 90 أو 180 أو 270 درجة.',RotateCw,'.pdf'],
+['pdf-compress','PDF','ضغط PDF','قلّل الحجم بإعادة معالجة الصفحات.',Minimize2,'.pdf'],
+['pdf-images','PDF','PDF إلى صور','حوّل الصفحات إلى PNG أو JPG.',Img,'.pdf'],
+['pdf-word','PDF','PDF إلى Word','استخرج النص وأنشئ DOCX.',FileText,'.pdf'],
+['word-pdf','PDF','Word إلى PDF','جهّز نسخة HTML من Word للطباعة كـ PDF.',FileOutput,'.docx'],
+['pdf-number','PDF','ترقيم صفحات','أضف رقم الصفحة لكل صفحة.',Hash,'.pdf'],
+['pdf-watermark','PDF','علامة مائية','أضف نصاً شفافاً على الصفحات.',Stamp,'.pdf'],
+['ocr','OCR','OCR استخراج النص','استخرج العربي والإنجليزي من صورة أو PDF.',WandSparkles,'image/*,.pdf'],
+['image-pdf','صور','صور إلى PDF','اجمع الصور في PDF.',Img,'image/*'],
+['image-convert','صور','تحويل الصور','PNG / JPG / WEBP.',RefreshCw,'image/*'],
+['image-resize','صور','تغيير حجم الصورة','غيّر أبعاد الصورة.',Rows3,'image/*'],
+['image-compress','صور','ضغط الصورة','حدد الجودة والحجم.',Minimize2,'image/*'],
+['image-crop','صور','قص الصورة','قص مركزي مربع.',Columns3,'image/*'],
+['excel-clean','Excel','تنظيف Excel','احذف الفراغات والتكرارات ونظّف النص.',FileSpreadsheet,'.xlsx,.xls,.csv'],
+['excel-csv','Excel','Excel ↔ CSV','تحويل بين الصيغ.',FileSpreadsheet,'.xlsx,.xls,.csv'],
+['excel-columns','Excel','حذف الأعمدة الفارغة','احذف الأعمدة التي بلا بيانات.',Columns3,'.xlsx,.xls,.csv'],
+['excel-split','Excel','تقسيم Excel','قسّم الملف حسب عدد الصفوف.',Scissors,'.xlsx,.xls,.csv'],
+['excel-merge','Excel','دمج Excel','ادمج عدة ملفات.',Merge,'.xlsx,.xls,.csv'],
+['excel-find','Excel','بحث واستبدال','استبدل نصاً داخل الخلايا.',Replace,'.xlsx,.xls,.csv'],
+['excel-sort','Excel','ترتيب Excel','رتّب حسب عمود.',ArrowUpDown,'.xlsx,.xls,.csv'],
+['excel-dedupe','Excel','إزالة التكرار','احذف الصفوف المكررة.',Copy,'.xlsx,.xls,.csv'],
+['excel-normalize','Excel','توحيد البيانات','نظّف الأرقام والمسافات.',CheckCircle2,'.xlsx,.xls,.csv'],
+['data-extract','Excel','استخراج هواتف وبريد','استخرج الهواتف والبريد من الملف.',FilePlus2,'.xlsx,.xls,.csv'],
+['compare','Excel','مقارنة ملفين','حدد المشترك والمختلف.',ArrowUpDown,'.xlsx,.xls,.csv'],
+['amount','Excel','المبلغ إلى كلمات','حوّل مبلغاً رقمياً إلى كلمات عربية.',FileText,''],
+['numbers','Excel','أرقام عربي ↔ إنجليزي','حوّل الأرقام داخل النص.',RefreshCw,'']
+].map(x=>({id:x[0],cat:x[1],title:x[2],desc:x[3],icon:x[4],accept:x[5],featured:x[6]}));
 
-const OWNER='Accountant Abdel-hamid Zahran';
-const PHONE='01095247005';
+function App(){const[dark,setDark]=useState(false),[q,setQ]=useState(''),[cat,setCat]=useState('الكل'),[sel,setSel]=useState(null);const cats=['الكل','PDF','Excel','صور','OCR'];const list=useMemo(()=>T.filter(t=>(cat==='الكل'||t.cat===cat)&&(t.title+t.desc).includes(q)),[q,cat]);return <div className={dark?'app dark':'app'}><header><div className="brand"><div className="logo">أ</div><div><h1>أدوات المحاسب</h1><p>أدوات عملية تنجز الشغل</p></div></div><button className="theme"onClick={()=>setDark(!dark)}>{dark?<Sun/>:<Moon/>}</button></header><main><section className="hero"><span className="eyebrow"><ShieldCheck/> معالجة محلية بدون قاعدة بيانات</span><h2>كل أدوات شغلك<br/><span>في مكان واحد.</span></h2><p>PDF وExcel والصور وOCR وتنظيف البيانات، بدون حسابات أو حفظ دائم.</p><div className="search"><Search/><input value={q}onChange={e=>setQ(e.target.value)}placeholder="ابحث عن أداة..."/></div></section><div className="cats">{cats.map(c=><button className={cat===c?'active':''}onClick={()=>setCat(c)}key={c}>{c}</button>)}</div><section className="grid">{list.map(t=>{const I=t.icon;return <button className={'tool '+(t.featured?'featured':'')}onClick={()=>setSel(t)}key={t.id}><div className="tooltop"><span className="icon"><I/></span><span>←</span></div><h3>{t.title}</h3><p>{t.desc}</p>{t.featured&&<span className="badge">الأداة الأساسية</span>}</button>})}</section><Drop onPick={f=>{const t=f.type==='application/pdf'?T[0]:f.type.startsWith('image/')?T.find(x=>x.id==='ocr'):T.find(x=>x.id==='excel-clean');setSel(t||T[0])}}/><section className="privacy"><ShieldCheck/><div><b>خصوصيتك أولاً</b><span>المعالجة داخل المتصفح، ولا توجد قاعدة بيانات أو تخزين دائم.</span></div></section></main><footer>أدوات المحاسب • PDF · Excel · صور · OCR<div>Accountant Abdel-hamid Zahran • 01095247005</div></footer>{sel&&<Modal t={sel}close={()=>setSel(null)}/>}</div>}
 
-const tools=[
- {id:'pdf-excel',cat:'PDF',title:'PDF إلى Excel',desc:'حوّل PDF النصي أو الممسوح ضوئياً إلى Excel قابل للتعديل مع ترتيب الصفوف والأعمدة.',icon:FileSpreadsheet,featured:true,accept:'.pdf'},
- {id:'merge-pdf',cat:'PDF',title:'دمج PDF',desc:'ادمج عدة ملفات PDF في ملف واحد بالترتيب الذي تختاره.',icon:Merge,accept:'.pdf'},
- {id:'split-pdf',cat:'PDF',title:'تقسيم PDF',desc:'استخرج صفحات محددة أو نطاقاً من الصفحات إلى ملف PDF جديد.',icon:Scissors,accept:'.pdf'},
- {id:'pdf-images',cat:'PDF',title:'PDF إلى صور',desc:'حوّل كل صفحة إلى PNG عالية الدقة قابلة للتحميل.',icon:ImageIcon,accept:'.pdf'},
- {id:'pdf-word',cat:'PDF',title:'PDF إلى Word',desc:'استخرج النص من PDF وأنشئ ملف Word قابل للتحرير.',icon:FileText,accept:'.pdf'},
- {id:'excel-clean',cat:'Excel',title:'تنظيف Excel',desc:'احذف الصفوف الفارغة والتكرارات ونظّف المسافات.',icon:FileSpreadsheet,accept:'.xlsx,.xls,.csv'},
- {id:'excel-csv',cat:'Excel',title:'Excel ↔ CSV',desc:'حوّل ملفات Excel إلى CSV أو CSV إلى Excel.',icon:FileSpreadsheet,accept:'.xlsx,.xls,.csv'},
- {id:'image-pdf',cat:'صور',title:'صور إلى PDF',desc:'اجمع JPG وPNG في ملف PDF واحد بالترتيب.',icon:ImageIcon,accept:'image/*'},
- {id:'ocr',cat:'OCR',title:'OCR استخراج النص',desc:'استخرج النص العربي والإنجليزي من الصور والمستندات الممسوحة.',icon:WandSparkles,accept:'image/*,.pdf'}
-];
+function Drop({onPick}){return <label className="drop"><Upload/><div><b>اسحب ملفك هنا</b><span>وسنقترح الأداة المناسبة</span></div><input type="file"onChange={e=>onPick(e.target.files?.[0])}/></label>}
 
-function downloadBlob(blob,name){
- const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function downloadBytes(bytes,name,type='application/octet-stream'){downloadBlob(new Blob([bytes],{type}),name)}
-function safeName(name){return name.replace(/\.[^.]+$/,'').replace(/[^\w\u0600-\u06FF-]+/g,'_')}
-
-async function loadPdf(file){
- return pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
-}
-function groupItems(items){
- const rows=[];
- for(const item of items.filter(x=>x.str?.trim())){
-   const x=item.transform?.[4]??0, y=item.transform?.[5]??0;
-   let row=rows.find(r=>Math.abs(r.y-y)<4);
-   if(!row){row={y,items:[]};rows.push(row)}
-   row.items.push({x,text:item.str.trim()});
- }
- return rows.sort((a,b)=>b.y-a.y).map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.text));
-}
-function wordsToRows(words){
- const clean=words.filter(w=>w.text?.trim()&&Number(w.conf??100)>15);
- const rows=[];
- for(const w of clean){
-   const y=(w.bbox?.y0??0)+(w.bbox?.y1??0)/2, x=w.bbox?.x0??0;
-   let row=rows.find(r=>Math.abs(r.y-y)<Math.max(8,(w.bbox?.y1-w.bbox?.y0||12)*.65));
-   if(!row){row={y,items:[]};rows.push(row)}
-   row.items.push({x,text:w.text.trim()});
- }
- return rows.sort((a,b)=>a.y-b.y).map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.text));
-}
-function rowsToWorkbook(rows){
- const normalized=rows.filter(r=>r.some(v=>String(v).trim()));
- const max=Math.min(30,Math.max(1,...normalized.map(r=>r.length)));
- const data=normalized.map(r=>{const a=r.slice(0,max); while(a.length<max)a.push(''); return a});
- const ws=XLSX.utils.aoa_to_sheet(data.length?data:[['لا توجد بيانات']]);
- ws['!cols']=Array.from({length:max},(_,c)=>({wch:Math.min(42,Math.max(12,...data.map(r=>String(r[c]??'').length+2)))}));
- const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Extracted');
- return wb;
-}
-async function renderPage(page,scale=2){
- const viewport=page.getViewport({scale}); const canvas=document.createElement('canvas');
- canvas.width=Math.ceil(viewport.width); canvas.height=Math.ceil(viewport.height);
- await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
- return canvas;
-}
-async function pdfRows(file,onProgress){
- const pdf=await loadPdf(file); let all=[]; let digital=0;
- for(let p=1;p<=pdf.numPages;p++){
-   const page=await pdf.getPage(p); const text=await page.getTextContent();
-   const rows=groupItems(text.items);
-   if(rows.length){digital++; all.push(...rows)}
-   onProgress?.(Math.round(p/pdf.numPages*35),`قراءة الصفحة ${p} من ${pdf.numPages}`);
- }
- if(digital>=Math.max(1,Math.ceil(pdf.numPages*.6))) return {rows:all,mode:'text'};
- const worker=await createWorker('ara+eng',1,{logger:m=>onProgress?.(35+Math.round((m.progress||0)*55),m.status||'OCR')});
- all=[];
- for(let p=1;p<=pdf.numPages;p++){
-   const page=await pdf.getPage(p); const canvas=await renderPage(page,2);
-   const result=await worker.recognize(canvas,{}, {text:true,tsv:true});
-   all.push(...wordsToRows(result.data.words||[]));
-   onProgress?.(35+Math.round(p/pdf.numPages*55),`OCR الصفحة ${p} من ${pdf.numPages}`);
- }
- await worker.terminate();
- return {rows:all,mode:'ocr'};
-}
-
-async function mergePdfs(files){
- const out=await PDFDocument.create();
- for(const file of files){
-   const src=await PDFDocument.load(await file.arrayBuffer());
-   const pages=await out.copyPages(src,src.getPageIndices()); pages.forEach(p=>out.addPage(p));
- }
- return out.save();
-}
-async function splitPdf(file,start,end){
- const src=await PDFDocument.load(await file.arrayBuffer()), out=await PDFDocument.create();
- const from=Math.max(1,start), to=Math.min(src.getPageCount(),end);
- const pages=await out.copyPages(src,Array.from({length:Math.max(0,to-from+1)},(_,i)=>from-1+i)); pages.forEach(p=>out.addPage(p));
- return out.save();
-}
-async function imagesToPdf(files){
- const out=await PDFDocument.create();
- for(const file of files){
-   const bytes=await file.arrayBuffer(); const isPng=file.type.includes('png');
-   const img=isPng?await out.embedPng(bytes):await out.embedJpg(bytes);
-   const page=out.addPage([img.width,img.height]); page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
- }
- return out.save();
-}
-async function excelRows(file){
- const data=await file.arrayBuffer(); const wb=XLSX.read(data,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]];
- return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
-}
-
-function ToolModal({tool,onClose}){
- const [files,setFiles]=useState([]),[busy,setBusy]=useState(false),[progress,setProgress]=useState(0),[message,setMessage]=useState(''),[resultRows,setResultRows]=useState(null),[split,setSplit]=useState({start:1,end:1});
- const inputRef=useRef(null);
- const pick=e=>setFiles(Array.from(e.target.files||[]));
- const run=async()=>{
-   if(!files.length){setMessage('اختر ملفاً أولاً');return}
-   setBusy(true);setMessage('');setResultRows(null);
-   try{
-    if(tool.id==='pdf-excel'){
-      const r=await pdfRows(files[0],(p,m)=>{setProgress(p);setMessage(m)});
-      setResultRows(r.rows);setMessage(r.mode==='ocr'?'تم استخدام OCR لأن الملف ممسوح ضوئياً. راجع الجدول قبل التصدير.':'تم استخراج النص والجداول من PDF.');
-    } else if(tool.id==='merge-pdf'){
-      const b=await mergePdfs(files);downloadBytes(b,'merged.pdf','application/pdf');setMessage('تم دمج الملفات وتنزيل الملف.');
-    } else if(tool.id==='split-pdf'){
-      const b=await splitPdf(files[0],Number(split.start),Number(split.end));downloadBytes(b,`${safeName(files[0].name)}_pages_${split.start}-${split.end}.pdf`,'application/pdf');setMessage('تم تقسيم الملف وتنزيل النتيجة.');
-    } else if(tool.id==='pdf-images'){
-      const pdf=await loadPdf(files[0]);
-      for(let p=1;p<=pdf.numPages;p++){const canvas=await renderPage(await pdf.getPage(p),2);const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));downloadBlob(blob,`${safeName(files[0].name)}_page_${p}.png`);setProgress(Math.round(p/pdf.numPages*100))}
-      setMessage('تم تحويل الصفحات إلى PNG.');
-    } else if(tool.id==='pdf-word'){
-      const pdf=await loadPdf(files[0]); const paras=[];
-      for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const text=await page.getTextContent();const rows=groupItems(text.items);rows.forEach(r=>paras.push(new Paragraph({children:[new TextRun(r.join(' '))]})));setProgress(Math.round(p/pdf.numPages*100))}
-      if(!paras.length) throw new Error('هذا PDF يبدو ممسوحاً ضوئياً. استخدم OCR أو PDF إلى Excel.');
-      const doc=new WordDocument({sections:[{children:paras}]});const blob=await Packer.toBlob(doc);downloadBlob(blob,`${safeName(files[0].name)}.docx`);setMessage('تم إنشاء ملف Word.');
-    } else if(tool.id==='ocr'){
-      let text='';
-      if(files[0].type==='application/pdf'){const r=await pdfRows(files[0],(p,m)=>{setProgress(p);setMessage(m)});text=r.rows.map(r=>r.join(' ')).join('\n')}
-      else {const worker=await createWorker('ara+eng',1,{logger:m=>{setProgress(Math.round((m.progress||0)*100));setMessage(m.status||'OCR')}});const r=await worker.recognize(files[0]);text=r.data.text;await worker.terminate()}
-      const blob=new Blob([text],{type:'text/plain;charset=utf-8'});downloadBlob(blob,`${safeName(files[0].name)}_OCR.txt`);setMessage('تم استخراج النص وتنزيله.');
-    } else if(tool.id==='image-pdf'){
-      const b=await imagesToPdf(files);downloadBytes(b,'images.pdf','application/pdf');setMessage('تم إنشاء PDF من الصور.');
-    } else if(tool.id==='excel-clean'){
-      const rows=await excelRows(files[0]);const seen=new Set();const cleaned=rows.filter(r=>r.some(v=>String(v).trim())).filter(r=>{const k=JSON.stringify(r);if(seen.has(k))return false;seen.add(k);return true});
-      setResultRows(cleaned);setMessage(`تم تنظيف البيانات: ${rows.length-cleaned.length} صف تم حذفه.`);
-    } else if(tool.id==='excel-csv'){
-      if(/\.csv$/i.test(files[0].name)){const text=await files[0].text();const wb=XLSX.read(text,{type:'string'});XLSX.writeFile(wb,`${safeName(files[0].name)}.xlsx`);setMessage('تم تحويل CSV إلى Excel.')}
-      else {const wb=XLSX.read(await files[0].arrayBuffer(),{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const csv=XLSX.utils.sheet_to_csv(ws);downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),`${safeName(files[0].name)}.csv`);setMessage('تم تحويل Excel إلى CSV.')}
-    }
-   }catch(e){setMessage('حدث خطأ: '+(e?.message||'تعذر تنفيذ الأداة'))}
-   finally{setBusy(false)}
- };
- const exportRows=()=>{if(!resultRows?.length)return;const wb=rowsToWorkbook(resultRows);XLSX.writeFile(wb,`${safeName(files[0]?.name||'result')}_processed.xlsx`)};
- return <div className="overlay" onMouseDown={e=>e.target===e.currentTarget&&onClose()}>
-  <div className="modal">
-   <div className="modalhead"><div><span className="modalicon"><tool.icon size={22}/></span><div><h3>{tool.title}</h3><p>{tool.desc}</p></div></div><button className="close" onClick={onClose}><X/></button></div>
-   <label className="filebox"><input ref={inputRef} type="file" multiple={['merge-pdf','image-pdf'].includes(tool.id)} accept={tool.accept} onChange={pick}/><Upload size={28}/><strong>{files.length?files.map(f=>f.name).join(' • '):'اسحب الملفات هنا أو اضغط للاختيار'}</strong><span>{tool.accept}</span></label>
-   {tool.id==='split-pdf'&&<div className="range"><label>من صفحة <input type="number" min="1" value={split.start} onChange={e=>setSplit({...split,start:e.target.value})}/></label><label>إلى صفحة <input type="number" min="1" value={split.end} onChange={e=>setSplit({...split,end:e.target.value})}/></label></div>}
-   {busy&&<div className="progress"><div><span>{message||'جاري المعالجة...'}</span><b>{progress}%</b></div><i><em style={{width:`${progress}%`}}/></i></div>}
-   {message&&!busy&&<div className="notice">{message}</div>}
-   {resultRows&&<div className="preview"><div className="previewhead"><strong><Table2 size={18}/> معاينة النتيجة</strong><button onClick={exportRows}><Download size={17}/> تصدير Excel</button></div><div className="tablewrap"><table><tbody>{resultRows.slice(0,80).map((r,i)=><tr key={i}>{r.map((v,j)=><td key={j}>{String(v)}</td>)}</tr>)}</tbody></table></div><small>المعاينة تعرض أول 80 صفاً فقط، والتصدير يشمل كل الصفوف.</small></div>}
-   <div className="modalactions"><button className="secondary" onClick={onClose}>إغلاق</button><button className="primary" disabled={busy} onClick={run}>{busy?<LoaderCircle className="spin"/>:<Play size={17}/>} تنفيذ الأداة</button></div>
-  </div>
- </div>
-}
-
-function App(){
- const [dark,setDark]=useState(false),[query,setQuery]=useState(''),[cat,setCat]=useState('الكل'),[selected,setSelected]=useState(null),[drag,setDrag]=useState(false);
- const cats=['الكل','PDF','Excel','صور','OCR'];
- const filtered=useMemo(()=>tools.filter(t=>(cat==='الكل'||t.cat===cat)&&((t.title+' '+t.desc).includes(query))),[cat,query]);
- const handleDrop=e=>{e.preventDefault();setDrag(false);const file=e.dataTransfer.files?.[0];if(!file)return;const match=tools.find(t=>(file.type==='application/pdf'&&t.id==='pdf-excel')||(file.type.includes('spreadsheet')&&t.id==='excel-clean')||(file.type.startsWith('image/')&&t.id==='ocr'));setSelected(match||tools[0])};
- return <div className={dark?'app dark':'app'}>
-  <header><div className="brand"><div className="logo">أ</div><div><h1>أدوات المحاسب</h1><p>أدوات عملية تنجز الشغل</p></div></div><button className="theme" onClick={()=>setDark(!dark)}>{dark?<Sun size={19}/>:<Moon size={19}/>}</button></header>
-  <main>
-   <section className="hero"><span className="eyebrow"><ShieldCheck size={16}/> معالجة محلية وبدون قاعدة بيانات</span><h2>كل أدوات شغلك<br/><span>في مكان واحد.</span></h2><p>PDF وExcel والصور وOCR — ارفع الملف، نفّذ العملية، ونزّل النتيجة مباشرة.</p><div className="search"><Search size={20}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="ابحث عن أداة..."/></div></section>
-   <div className="cats">{cats.map(c=><button className={cat===c?'active':''} onClick={()=>setCat(c)} key={c}>{c}</button>)}</div>
-   <section className="grid">{filtered.map(t=>{const I=t.icon;return <button className={'tool '+(t.featured?'featured':'')} key={t.id} onClick={()=>setSelected(t)}><div className="tooltop"><span className="icon"><I size={22}/></span><span className="go">←</span></div><h3>{t.title}</h3><p>{t.desc}</p>{t.featured&&<span className="badge">الأداة الأساسية</span>}</button>})}</section>
-   <section className={'drop '+(drag?'drag':'')} onDragOver={e=>{e.preventDefault();setDrag(true)}} onDragLeave={()=>setDrag(false)} onDrop={handleDrop}><Upload size={24}/><div><strong>اسحب ملفك هنا</strong><span>وسنقترح لك الأداة المناسبة حسب نوع الملف</span></div><button onClick={()=>document.getElementById('globalPick').click()}>اختيار ملف</button><input id="globalPick" hidden type="file" onChange={e=>{const f=e.target.files?.[0];if(f){const m=tools.find(t=>(f.type==='application/pdf'&&t.id==='pdf-excel')||(f.type.startsWith('image/')&&t.id==='ocr'));setSelected(m||tools[0])}}}/></section>
-   <section className="privacy"><ShieldCheck size={20}/><div><strong>خصوصيتك أولاً</strong><span>المعالجة تتم داخل متصفحك، ولا توجد قاعدة بيانات أو حسابات أو حفظ دائم لملفاتك.</span></div></section>
-  </main>
-  <footer><div>أدوات المحاسب <span>•</span> أدوات عملية للمحاسب والعمل المكتبي</div><div className="watermark">{OWNER} <b>•</b> {PHONE}</div></footer>
-  {selected&&<ToolModal tool={selected} onClose={()=>setSelected(null)}/>}
- </div>
-}
-createRoot(document.getElementById('root')).render(<App/>);
+function Modal({t,close}){const[fs,setFs]=useState([]),[busy,setBusy]=useState(false),[p,setP]=useState(0),[msg,setMsg]=useState(''),[rows,setRows]=useState(null),[o,setO]=useState({start:1,end:1,pages:'',angle:90,quality:.7,find:'',rep:'',col:1,text:'ACCOUNTING TOOLS',amount:'',input:'',w:1200,h:1200,format:'image/jpeg'});const set=(k,v)=>setO(x=>({...x,[k]:v}));const run=async()=>{if(!fs.length&&!['amount','numbers'].includes(t.id))return setMsg('اختر ملفاً أولاً');setBusy(true);setMsg('');setRows(null);try{let r,b,pdf;if(t.id==='pdf-excel'){r=await pdfRows(fs[0],(x,m)=>{setP(x);setMsg(m)});setRows(r.rows);setMsg('راجع المعاينة ثم صدّر Excel.')}else if(t.id==='merge-pdf'){b=await mergePdfs(fs);bytesDownload(b,'merged.pdf','application/pdf')}else if(t.id==='split-pdf'){pdf=await loadPdf(fs[0]);let a=+o.start,z=Math.min(+o.end||pdf.numPages,pdf.numPages);b=await pagesPdf(fs[0],Array.from({length:Math.max(0,z-a+1)},(_,i)=>a+i));bytesDownload(b,'split.pdf','application/pdf')}else if(t.id==='pdf-delete'){pdf=await loadPdf(fs[0]);let d=new Set(o.pages.split(',').map(Number)),keep=Array.from({length:pdf.numPages},(_,i)=>i+1).filter(n=>!d.has(n));bytesDownload(await pagesPdf(fs[0],keep),'pages_deleted.pdf','application/pdf')}else if(t.id==='pdf-reorder'){pdf=await loadPdf(fs[0]);let a=o.pages.split(',').map(Number);if(a.length!==pdf.numPages)throw Error('اكتب كل الصفحات بالترتيب');bytesDownload(await pagesPdf(fs[0],a),'reordered.pdf','application/pdf')}else if(t.id==='pdf-rotate')bytesDownload(await rotatePdf(fs[0],+o.angle),'rotated.pdf','application/pdf');else if(t.id==='pdf-compress')bytesDownload(await rasterCompress(fs[0],+o.quality,setP),'compressed.pdf','application/pdf');else if(t.id==='pdf-images'){pdf=await loadPdf(fs[0]);for(let i=1;i<=pdf.numPages;i++){const c=await renderPage(await pdf.getPage(i),2),bl=await new Promise(x=>c.toBlob(x,o.format,.9));download(bl,'page-'+i+'.'+(o.format==='image/png'?'png':'jpg'));setP(Math.round(i/pdf.numPages*100))}}else if(t.id==='pdf-word'){pdf=await loadPdf(fs[0]);let ps=[];for(let i=1;i<=pdf.numPages;i++){groupItemsSafe((await(await pdf.getPage(i)).getTextContent()).items).forEach(x=>ps.push(new Paragraph({children:[new TextRun(x.join(' '))]})))}download(await Packer.toBlob(new Document({sections:[{children:ps}]})),'document.docx')}else if(t.id==='pdf-number'||t.id==='pdf-watermark')bytesDownload(await annotatePdf(fs[0],t.id==='pdf-number'?'number':'watermark',o.text),t.id+'.pdf','application/pdf');else if(t.id==='ocr'){let text;if(fs[0].type==='application/pdf'){r=await pdfRows(fs[0],(x,m)=>{setP(x);setMsg(m)});text=r.rows.map(x=>x.join(' ')).join('\n')}else{const w=await createWorker('ara+eng',1,{logger:m=>{setP(Math.round((m.progress||0)*100));setMsg(m.status||'OCR')}});text=(await w.recognize(fs[0])).data.text;await w.terminate()}download(new Blob([text],{type:'text/plain;charset=utf-8'}),'OCR.txt')}else if(t.id==='image-pdf')bytesDownload(await imagesPdf(fs),'images.pdf','application/pdf');else if(t.cat==='صور'){const f=fs[0],img=new Image();img.src=URL.createObjectURL(f);await new Promise((res,rej)=>{img.onload=res;img.onerror=rej});let w=+o.w,h=+o.h,sc=Math.min(1,w/img.width,h/img.height);const c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);const bl=await new Promise(x=>c.toBlob(x,o.format,+o.quality));download(bl,'image-processed.'+(o.format==='image/webp'?'webp':o.format==='image/png'?'png':'jpg'))}else if(t.cat==='Excel'){let data=await excelRows(fs[0]);if(t.id==='excel-clean'){data=data.filter(r=>r.some(v=>String(v).trim())).map(r=>r.map(normalize));const seen=new Set;data=data.filter(r=>{let k=JSON.stringify(r);if(seen.has(k))return false;seen.add(k);return true})}if(t.id==='excel-columns'){const n=Math.max(...data.map(r=>r.length)),keep=[];for(let c=0;c<n;c++)if(data.some(r=>String(r[c]??'').trim()))keep.push(c);data=data.map(r=>keep.map(c=>r[c]??''))}if(t.id==='excel-dedupe'){const seen=new Set;data=data.filter(r=>{let k=JSON.stringify(r);if(seen.has(k))return false;seen.add(k);return true})}if(t.id==='excel-find')data=data.map(r=>r.map(v=>String(v).split(o.find).join(o.rep)));if(t.id==='excel-sort'){let c=Math.max(0,+o.col-1),h=data[0]||[];data=[h,...data.slice(1).sort((a,b)=>String(a[c]??'').localeCompare(String(b[c]??''),'ar',{numeric:true}))]}if(t.id==='excel-normalize')data=data.map(r=>r.map(normalize));if(t.id==='excel-split'){let n=Math.max(1,+o.col||1000);for(let i=0,k=1;i<data.length;i+=n,k++)exportRows(data.slice(i,i+n),'part-'+k+'.xlsx')}if(t.id==='excel-merge'){data=[];for(const f of fs)data.push(...await excelRows(f))}if(t.id==='data-extract'){let s=data.flat().join(' ');data=[['النوع','القيمة'],...[...new Set(s.match(/(?:\+?20|0)?1[0-25-9]\d{8}/g)||[])].map(x=>['هاتف',x]),...[...new Set(s.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g)||[])].map(x=>['بريد',x])]}if(t.id==='compare'){if(fs.length<2)throw Error('اختر ملفين');let a=new Set(data.flat().map(normalize)),b=new Set((await excelRows(fs[1])).flat().map(normalize));data=[['القيمة','الحالة'],...[...a].map(x=>[x,b.has(x)?'مشترك':'الأول فقط']),[...b].filter(x=>!a.has(x)).map(x=>[x,'الثاني فقط'])]}setRows(data)}else if(t.id==='amount')setMsg(amountWords(+o.amount));else if(t.id==='numbers'){let e=o.input.replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))),a=e.replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);setMsg('English: '+e+'\nArabic: '+a)}setMsg(msg||'تم التنفيذ بنجاح')}catch(e){setMsg('حدث خطأ: '+e.message)}finally{setBusy(false)}};return <div className="overlay"onMouseDown={e=>e.target===e.currentTarget&&close()}><div className="modal"><div className="modalhead"><div><span className="modalicon"><t.icon/></span><div><h3>{t.title}</h3><p>{t.desc}</p></div></div><button className="close"onClick={close}><X/></button></div>{!['amount','numbers'].includes(t.id)&&<label className="filebox"><input type="file"multiple={['merge-pdf','image-pdf','excel-merge','compare'].includes(t.id)}accept={t.accept}onChange={e=>setFs([...e.target.files])}/><Upload/><b>{fs.length?fs.map(f=>f.name).join(' • '):'اختر أو اسحب الملف هنا'}</b></label>}<div className="options">{t.id==='split-pdf'&&<><Field n="من صفحة"v={o.start}set={x=>set('start',x)}/><Field n="إلى صفحة"v={o.end}set={x=>set('end',x)}/></>}{['pdf-delete','pdf-reorder'].includes(t.id)&&<Field n="أرقام الصفحات"v={o.pages}set={x=>set('pages',x)}/>} {t.id==='pdf-rotate'&&<select value={o.angle}onChange={e=>set('angle',e.target.value)}><option>90</option><option>180</option><option>270</option></select>}{t.id==='pdf-compress'&&<select value={o.quality}onChange={e=>set('quality',e.target.value)}><option value=".55">أعلى ضغط</option><option value=".7">متوسط</option><option value=".85">جودة عالية</option></select>}{['pdf-watermark'].includes(t.id)&&<Field n="النص"v={o.text}set={x=>set('text',x)}/>} {['excel-find'].includes(t.id)&&<><Field n="ابحث عن"v={o.find}set={x=>set('find',x)}/><Field n="استبدل بـ"v={o.rep}set={x=>set('rep',x)}/></>}{['excel-sort','excel-split'].includes(t.id)&&<Field n={t.id==='excel-sort'?'رقم العمود':'عدد الصفوف'}v={o.col}set={x=>set('col',x)}/>} {['amount','numbers'].includes(t.id)&&<Field n={t.id==='amount'?'المبلغ':'النص'}v={t.id==='amount'?o.amount:o.input}set={x=>set(t.id==='amount'?'amount':'input',x)}/>}</div>{busy&&<div className="progress"><b>{p}%</b><i><em style={{width:p+'%'}}/></i><span>{msg}</span></div>}{msg&&!busy&&<div className="notice">{msg}</div>}{rows&&<div className="preview"><div className="previewhead"><b><Table2/> معاينة</b><button onClick={()=>exportRows(rows,'result.xlsx')}><Download/> تصدير Excel</button></div><div className="tablewrap"><table><tbody>{rows.slice(0,80).map((r,i)=><tr key={i}>{r.map((v,j)=><td key={j}>{String(v??'')}</td>)}</tr>)}</tbody></table></div></div>}<div className="modalactions"><button className="secondary"onClick={close}>إغلاق</button><button className="primary"disabled={busy}onClick={run}>{busy?<LoaderCircle className="spin"/>:<Play/>} تنفيذ</button></div></div></div>}
+function Field({n,v,set}){return <label className="option"><span>{n}</span><input value={v}onChange={e=>set(e.target.value)}/></label>}
+function groupItemsSafe(items){const a=[];for(const x of items.filter(x=>x.str?.trim())){const y=x.transform?.[5]??0;let r=a.find(z=>Math.abs(z.y-y)<4);if(!r){r={y,a:[]};a.push(r)}r.a.push({x:x.transform?.[4]??0,t:x.str.trim()})}return a.sort((x,y)=>y.y-x.y).map(r=>r.a.sort((x,y)=>x.x-y.x).map(x=>x.t))}
+function amountWords(n){if(!Number.isFinite(n))return'';if(n===0)return'صفر';const u=['صفر','واحد','اثنان','ثلاثة','أربعة','خمسة','ستة','سبعة','ثمانية','تسعة'];const t=['','','عشرون','ثلاثون','أربعون','خمسون','ستون','سبعون','ثمانون','تسعون'];const h=['','مائة','مائتان','ثلاثمائة','أربعمائة','خمسمائة','ستمائة','سبعمائة','ثمانمائة','تسعمائة'];function x(v){if(v<10)return u[v];if(v<20)return['عشرة','أحد عشر','اثنا عشر','ثلاثة عشر','أربعة عشر','خمسة عشر','ستة عشر','سبعة عشر','ثمانية عشر','تسعة عشر'][v-10];let z=Math.floor(v/10),r=v%10;return r?u[r]+' و'+t[z]:t[z]}function y(v){if(v<100)return x(v);let z=Math.floor(v/100),r=v%100;return h[z]+(r?' و'+x(r):'')}let z=Math.floor(Math.abs(n)),a=[],i=0;const un=[['',''],['ألف','آلاف'],['مليون','ملايين'],['مليار','مليارات']];while(z){let g=z%1000;if(g){let s=y(g);if(i)s+=' '+(g===1?un[i][0]:g===2?'ألفان':un[i][1]);a.unshift(s)}z=Math.floor(z/1000);i++}return(n<0?'سالب ':'')+a.join(' و')}createRoot(document.getElementById('root')).render(<App/>);
