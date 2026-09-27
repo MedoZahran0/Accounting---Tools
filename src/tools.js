@@ -16,8 +16,13 @@ const rowGroup=(items,tolerance=0.55)=>{
   const rows=[];
   for(const i of items.filter(x=>String(x.str??x.text??'').trim())){
     const x=Number(i.transform?.[4]??i.bbox?.x0??0), y=Number(i.transform?.[5]??((i.bbox?.y0??0)+(i.bbox?.y1??0))/2);
-    const h=Math.max(6,Math.abs(Number(i.transform?.[3]??i.transform?.[0]??((i.bbox?.y1??0)-(i.bbox?.y0??0))||10)));
-    const text=String(i.str??i.text??'').trim(), w=Number(i.width??((i.bbox?.x1??0)-(i.bbox?.x0??0))||0);
+    const fallbackH=((i.bbox?.y1??0)-(i.bbox?.y0??0));
+    const rawH=Number(i.transform?.[3]??i.transform?.[0]??fallbackH);
+    const h=Math.max(6,Math.abs(Number.isFinite(rawH)?rawH:10));
+    const text=String(i.str??i.text??'').trim();
+    const fallbackW=((i.bbox?.x1??0)-(i.bbox?.x0??0));
+    const rawW=Number(i.width??fallbackW);
+    const w=Number.isFinite(rawW)?rawW:0;
     let r=rows.find(z=>Math.abs(z.y-y)<=Math.max(3,h*tolerance));
     if(!r){r={y,h,items:[]};rows.push(r)}
     r.items.push({x,w,h,text});
