@@ -34,31 +34,14 @@ const T=[
 ].map(x=>({id:x[0],cat:x[1],title:x[2],desc:x[3],icon:x[4],accept:x[5],featured:x[6]}));
 
 function App(){
-const[dark,setDark]=useState(()=>localStorage.getItem('at-dark')==='1'),[q,setQ]=useState(''),[cat,setCat]=useState('الكل'),[sel,setSel]=useState(null),[fav,setFav]=useState(()=>JSON.parse(localStorage.getItem('at-fav')||'[]')),[recent,setRecent]=useState(()=>JSON.parse(localStorage.getItem('at-recent')||'[]'));
-const cats=['الكل','PDF','Excel','صور','OCR'];
+const[dark,setDark]=useState(()=>localStorage.getItem('at-dark')==='1'),[q,setQ]=useState(''),[section,setSection]=useState(null),[sel,setSel]=useState(null),[fav,setFav]=useState(()=>JSON.parse(localStorage.getItem('at-fav')||'[]'));
+const groups=[{id:'PDF',title:'أدوات PDF',desc:'كل ما تحتاجه للتعامل مع ملفات PDF',icon:FileText},{id:'Excel',title:'أدوات Excel',desc:'تنظيف وتحليل وتنظيم ملفات Excel',icon:FileSpreadsheet},{id:'صور',title:'أدوات الصور',desc:'تحويل وضغط وتعديل الصور',icon:Img},{id:'OCR',title:'OCR',desc:'استخراج النص من الصور والملفات الممسوحة',icon:WandSparkles}];
 const toggleFav=id=>{const n=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id];setFav(n);localStorage.setItem('at-fav',JSON.stringify(n))};
-const open=t=>{setSel(t);const n=[t.id,...recent.filter(x=>x!==t.id)].slice(0,6);setRecent(n);localStorage.setItem('at-recent',JSON.stringify(n))};
-const list=useMemo(()=>T.filter(t=>(cat==='الكل'||t.cat===cat)&&(t.title+' '+t.desc).toLowerCase().includes(q.trim().toLowerCase())),[q,cat]);
-const recentTools=recent.map(id=>T.find(t=>t.id===id)).filter(Boolean);
-const favoriteTools=fav.map(id=>T.find(t=>t.id===id)).filter(Boolean);
-return <div className={dark?'app dark':'app'}>
-<header><div className="brand"><div className="logo">أ</div><div><h1>أدوات المحاسب</h1><p>أدوات عملية للشغل اليومي</p></div></div><button className="theme" aria-label="الوضع الداكن" onClick={()=>{setDark(!dark);localStorage.setItem('at-dark',dark?'0':'1')}}>{dark?<Sun/>:<Moon/>}</button></header>
-<main>
-<section className="hero">
-<div className="heroCopy"><span className="eyebrow"><ShieldCheck/> ملفاتك تُعالج داخل المتصفح</span><h2>أدوات المحاسب<br/><span>بشكل أسرع وأبسط.</span></h2><p>PDF وExcel والصور وOCR — اختار الأداة أو اسحب الملف وسيتم توجيهك للأداة المناسبة.</p></div>
-<div className="heroTools"><div className="search"><Search/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث عن أداة..."/></div><Drop onPick={f=>{const t=f?.type==='application/pdf'?T.find(x=>x.id==='pdf-excel'):f?.type?.startsWith('image/')?T.find(x=>x.id==='ocr'):T.find(x=>x.id==='excel-clean');if(t)open(t)}}/></div>
-</section>
-<div className="highlights"><div><b>{T.length}</b><span>أداة متاحة</span></div><div><b>100%</b><span>بدون حساب</span></div><div><b>محلي</b><span>بدون تخزين دائم</span></div></div>
-{(recentTools.length>0||favoriteTools.length>0)&&<section className="quick"><div className="quickhead"><b>الوصول السريع</b><span>المفضلة والمستخدمة مؤخرًا</span></div>{favoriteTools.length>0&&<div className="quickrow">{favoriteTools.map(t=><QuickTool key={t.id} t={t} fav onOpen={open} onFav={toggleFav}/>)}</div>}{recentTools.length>0&&<div className="quickrow">{recentTools.map(t=><QuickTool key={t.id} t={t} onOpen={open} onFav={toggleFav}/>)}</div>}</section>}
-<nav className="cats" aria-label="تصنيفات الأدوات">{cats.map(c=><button className={cat===c?'active':''} onClick={()=>setCat(c)} key={c}>{c}<small>{c==='الكل'?T.length:T.filter(t=>t.cat===c).length}</small></button>)}</nav>
-<section className="toolsHeader"><div><h2>{cat==='الكل'?'كل الأدوات':cat}</h2><span>{list.length} أداة — جاهزة للاستخدام</span></div>{q&&<button className="clearSearch" onClick={()=>setQ('')}><X/> مسح البحث</button>}</section>
-<section className="grid">{list.map(t=><ToolCard key={t.id} t={t} fav={fav.includes(t.id)} onOpen={open} onFav={toggleFav}/>)}</section>
-{!list.length&&<div className="empty"><Search/><b>لا توجد أداة مطابقة</b><span>جرّب كلمة بحث أخرى أو غيّر التصنيف.</span></div>}
-<section className="privacy"><ShieldCheck/><div><b>خصوصيتك أولاً</b><span>المعالجة داخل المتصفح، ولا توجد قاعدة بيانات أو تخزين دائم لملفاتك.</span></div></section>
-</main>
-<footer>أدوات المحاسب • PDF · Excel · صور · OCR<div>Accountant Abdel-hamid Zahran • 01095247005</div></footer>
-{sel&&<Modal t={sel} close={()=>setSel(null)}/>}</div>}
-
+const openTool=t=>setSel(t);
+const filtered=T.filter(t=>(!q||(t.title+' '+t.desc).toLowerCase().includes(q.trim().toLowerCase()))&&(!section||t.cat===section));
+return <div className={dark?'app dark':'app'}><header><div className="brand"><div className="logo">أ</div><div><h1>أدوات المحاسب</h1><p>أدوات العمل اليومية في مكان واحد</p></div></div><button className="theme" onClick={()=>{setDark(!dark);localStorage.setItem('at-dark',dark?'0':'1')}}>{dark?<Sun/>:<Moon/>}</button></header><main>
+!section&&!q?<><section className="hero homeHero"><div><span className="eyebrow"><ShieldCheck/> معالجة محلية داخل المتصفح</span><h2>كل أدوات المحاسب<br/><span>بترتيب بسيط وواضح.</span></h2><p>اختار نوع الملفات أولاً، وبعدها هتلاقي كل الأدوات الخاصة بيه في مكان واحد.</p></div><div className="search"><Search/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث عن أداة..."/></div></section><section className="categoryGrid">{groups.map(g=>{const I=g.icon;return <button className="categoryCard" key={g.id} onClick={()=>setSection(g.id)}><span className="categoryIcon"><I/></span><div><h3>{g.title}</h3><p>{g.desc}</p><small>{T.filter(t=>t.cat===g.id).length} أدوات</small></div><span className="categoryArrow">←</span></button>})}</section><section className="privacy"><ShieldCheck/><div><b>خصوصيتك أولاً</b><span>الملفات تتم معالجتها داخل المتصفح بدون حساب أو تخزين دائم.</span></div></section></>:<><div className="sectionTop"><button className="backBtn" onClick={()=>{setSection(null);setQ('')}}>→ الرئيسية</button><div><h2>{section?groups.find(g=>g.id===section)?.title:'نتائج البحث'}</h2><p>{section?groups.find(g=>g.id===section)?.desc:filtered.length+' نتيجة'}</p></div><div className="search"><Search/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ابحث داخل الأدوات..."/></div></div>{section&&<div className="subcats">{groups.map(g=><button key={g.id} className={g.id===section?'active':''} onClick={()=>setSection(g.id)}>{g.title}<small>{T.filter(t=>t.cat===g.id).length}</small></button>)}</div>}<section className="grid">{filtered.map(t=><ToolCard key={t.id} t={t} fav={fav.includes(t.id)} onOpen={openTool} onFav={toggleFav}/>)}</section>{!filtered.length&&<div className="empty"><Search/><b>لا توجد أداة مطابقة</b><span>جرّب كلمة بحث أخرى.</span></div>}</>
+</main><footer>أدوات المحاسب • PDF · Excel · صور · OCR<div>Accountant Abdel-hamid Zahran • 01095247005</div></footer>{sel&&<Modal t={sel} close={()=>setSel(null)}/>}</div>}
 function ToolCard({t,fav,onOpen,onFav}){const I=t.icon;return <div className={'tool '+(t.featured?'featured':'')}><button className="toolmain"onClick={()=>onOpen(t)}><div className="tooltop"><span className="icon"><I/></span><span className="openArrow">←</span></div><h3>{t.title}</h3><p>{t.desc}</p>{t.featured&&<span className="badge">أساسية</span>}</button><button aria-label="مفضلة" className={'fav '+(fav?'on':'')}onClick={e=>{e.stopPropagation();onFav(t.id)}}>{fav?'★':'☆'}</button></div>}
 function QuickTool({t,fav,onOpen,onFav}){const I=t.icon;return <div className="quicktool"><button onClick={()=>onOpen(t)}><I/><span>{t.title}</span></button><button className={'fav '+(fav?'on':'')}onClick={()=>onFav(t.id)}>{fav?'★':'☆'}</button></div>}
 
