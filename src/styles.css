@@ -447,3 +447,37 @@ main{max-width:1320px!important;padding-left:24px!important;padding-right:24px!i
 .app.dark .brandLogo:before{border-color:#202124}.app.dark .brandLogo i{background:#202124}.app.dark .brandLogo em{background:#202124}
 .app.dark .subcats button{background:#222326!important;border-color:#3a3c40!important;color:#f5f5f5!important}
 .app.dark .subcats button small{background:#303237;color:#b8bec7}
+
+/* v1.9 - compact category cards, elegant header and name-only intro */
+.categoryGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important}
+.categoryCard{min-height:118px!important;height:118px!important;padding:18px 20px!important;border-radius:16px!important}
+.categoryIcon{width:52px!important;height:52px!important;flex-basis:52px!important;border-radius:14px!important}
+.categoryIcon svg{width:27px!important;height:27px!important}
+.categoryCard h3{font-size:18px!important;line-height:1.35!important;margin-bottom:4px!important}
+.categoryCard p{font-size:12.5px!important;line-height:1.55!important}
+.categoryCard small{font-size:11px!important}
+.categoryArrow{font-size:18px!important}
+.tool{min-height:225px!important}
+.toolmain{padding:22px 21px 20px!important}
+.tool .icon{width:52px!important;height:52px!important;border-radius:14px!important}
+.tool .icon svg{width:27px!important;height:27px!important}
+.tool h3{font-size:19px!important;line-height:1.4!important;margin-bottom:8px!important}
+.tool p{font-size:13.5px!important;line-height:1.75!important}
+header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52%,#fff 100%)!important;border-bottom:1px solid #f0d4d1!important;box-shadow:0 5px 22px rgba(229,57,53,.08)!important}
+.logoText{min-width:285px!important;gap:11px!important}
+.azLogo{width:48px;height:48px;display:grid;place-items:center;flex:0 0 48px;border-radius:15px;background:linear-gradient(145deg,#202124,#45484d);color:#fff;font-size:16px;font-weight:950;letter-spacing:-1px;box-shadow:0 7px 18px rgba(32,33,36,.2);position:relative;overflow:hidden}
+.azLogo:after{content:"";position:absolute;width:24px;height:3px;right:-5px;bottom:9px;background:#e53935;transform:rotate(-42deg);border-radius:3px}
+.nameStack{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.mzName{font-size:18px!important;font-weight:900!important;color:#202124!important;line-height:1.2}
+.nameStack small{font-size:10px;font-weight:700;color:#8a6060;white-space:nowrap;line-height:1.2}
+.brand{gap:0!important}
+.theme{background:#fff!important;border:1px solid #eadbdd!important;color:#e53935!important}
+.theme:hover{background:#fff0ef!important;border-color:#f0b8b4!important}
+.siteIntro{background:radial-gradient(circle at 50% 45%,#fff2f0 0,#ffd5d1 16%,#f58d87 38%,#df625c 68%,#c94b46 100%)!important}
+.introLogo{width:auto!important;min-width:0!important;height:auto!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;display:block!important}
+.introBrand{display:block!important;color:#fff!important;font-size:42px!important;font-weight:950!important;letter-spacing:-1.2px!important;text-shadow:0 8px 30px rgba(120,35,31,.3)!important;animation:introNameReveal 1s cubic-bezier(.2,.8,.2,1) .18s both!important}
+.siteIntro h1{margin-top:24px!important}
+@keyframes introNameReveal{0%{opacity:0;transform:translateY(22px) scale(.94);filter:blur(8px);letter-spacing:4px}55%{opacity:1;filter:blur(0);letter-spacing:-.5px}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);letter-spacing:-1.2px}}
+@media(max-width:800px){.categoryGrid{grid-template-columns:1fr!important}.categoryCard{height:auto!important;min-height:105px!important}.introBrand{font-size:31px!important}.logoText{min-width:0!important}}
+.app.dark header{background:linear-gradient(90deg,#202124,#2b2020 52%,#202124)!important;border-bottom-color:#4b3030!important}
+.app.dark .azLogo{background:linear-gradient(145deg,#f4f4f4,#d7d7d7);color:#202124}.app.dark .mzName{color:#fff!important}.app.dark .nameStack small{color:#d7a5a2}
