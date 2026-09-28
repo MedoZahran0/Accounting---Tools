@@ -176,7 +176,7 @@ export const mergePdfs=async(files,onProgress)=>{
  const order=[];
  for(let i=0;i<files.length;i++){
   const pdf=await loadPdf(files[i]);
-  for(let p=1;p<=pdf.numPages;p++)order.push({fileIndex:i,page:p-1});
+  for(let p=1;p<=pdf.numPages;p++)order.push({fileIndex:i,page:p});
  }
  return mergePreservingPdf(files,order,onProgress);
 };
