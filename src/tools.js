@@ -1,5 +1,9 @@
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
+
+// PDF.js worker: Vite must be given the worker URL explicitly, otherwise
+// PDF rendering fails in the browser with GlobalWorkerOptions.workerSrc.
+pdfjsLib.GlobalWorkerOptions.workerSrc=new URL('pdfjs-dist/build/pdf.worker.mjs',import.meta.url).toString();
 import {PDFDocument,degrees,StandardFonts,rgb} from 'pdf-lib';
 import {createWorker} from 'tesseract.js';
 
@@ -9,7 +13,7 @@ export const normalize=v=>toEnglish(v).replace(/[\u200e\u200f]/g,'').replace(/\s
 export const safeName=(n='result')=>n.replace(/\.[^.]+$/,'').replace(/[^\w\u0600-\u06FF-]+/g,'_')||'result';
 export const download=(blob,name)=>{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
 export const bytesDownload=(b,n,t='application/octet-stream')=>download(new Blob([b],{type:t}),n,t);
-export const loadPdf=async f=>pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
+export const loadPdf=async f=>pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer()),useWorkerFetch:true}).promise;
 export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.ceil(v.width);c.height=Math.ceil(v.height);await page.render({canvasContext:c.getContext('2d',{willReadFrequently:true}),viewport:v}).promise;return c};
 
 const rowGroup=(items,tolerance=0.55)=>{
