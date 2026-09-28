@@ -114,26 +114,21 @@ export const annotatePdf=async(f,kind,text)=>{const p=await PDFDocument.load(awa
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
 
-export async function aiRefineRows(rows,{endpoint='',signal}={})=>{
-  const cleaned=rows.map(r=>r.map(v=>String(v??'').replace(/[\\u200b-\\u200d\\ufeff]/g,'').replace(/[ \\t]+/g,' ').trim()));
-  const local=cleaned.map((r,ri)=>{
-    const out=[...r];
-    for(let i=0;i<out.length;i++){
-      if(!out[i]) continue;
-      out[i]=out[i]
-        .replace(/(?<=\\d)[٠-٩](?=\\d)/g,m=>toEnglish(m))
-        .replace(/[|¦]/g,'I');
-      if(/^(?:0{1,2}[\\/.-])/.test(out[i])) out[i]=out[i].replace(/^0+(?=\\d)/,'');
-    }
-    return out;
-  });
-  if(!endpoint) return {rows:local,source:'local',confidence:'تحسين ذكي محلي'};
+const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'';
+
+const normalizeAiRows=(rows)=>rows.map(r=>Array.isArray(r)?r.map(v=>String(v??'').trim()):[]);
+
+export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='document_ocr'}={}){
+  const cleaned=normalizeAiRows(rows).map(r=>r.map(v=>v.replace(/[\\u200b-\\u200d\\ufeff]/g,'').replace(/[ \\t]+/g,' ').trim()));
+  const local=cleaned.map(r=>r.map(v=>v.replace(/[|¦]/g,'I').replace(/[٠-٩]/g,d=>toEnglish(d))));
+  if(!endpoint) return {rows:local,source:'local',confidence:'محلي'};
   try{
-    const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:'pdf_to_word_ocr_refinement',rows:local,instructions:'Correct OCR only when strongly supported by surrounding text. Preserve numbers, dates, amounts, names and original meaning. Return JSON object {rows:[[...]]}. Do not summarize.',language:'ar+en'}),signal});
+    const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task,rows:local,language:'ar+en'}),signal});
     if(!res.ok) throw Error('AI endpoint '+res.status);
-    const data=await res.json(), refined=Array.isArray(data?.rows)?data.rows:local;
-    return {rows:refined.map(r=>Array.isArray(r)?r.map(v=>String(v??'')):[]),source:'ai',confidence:'AI'};
-  }catch(e){
-    return {rows:local,source:'local-fallback',confidence:'تحسين محلي بعد تعذر AI'};
-  }
-};
+    const data=await res.json();
+    const refined=normalizeAiRows(data?.rows);
+    if(!Array.isArray(data?.rows)||refined.length!==local.length) throw Error('Invalid AI response');
+    const safe=refined.map((r,i)=>r.length===local[i].length?r:local[i]);
+    return {rows:safe,source:'ai',confidence:data?.confidence||'AI'};
+  }catch(e){return {rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
+}
