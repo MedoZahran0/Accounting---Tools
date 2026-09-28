@@ -632,3 +632,150 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
   font-size:10px!important;
   padding-inline:10px!important;
 }
+
+
+/* v1.16 - compact natural section buttons + lighter intro + compact section header */
+.subcats{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  gap:7px!important;
+  margin:6px 0 12px!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.subcats>button{
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:auto!important;
+  min-height:34px!important;
+  height:34px!important;
+  padding:5px 10px!important;
+  border-radius:9px!important;
+  font-size:11px!important;
+  gap:6px!important;
+  white-space:nowrap!important;
+  box-shadow:none!important;
+}
+.subcats>button small{
+  min-width:18px!important;
+  height:18px!important;
+  padding:1px 4px!important;
+  margin-inline-start:4px!important;
+  font-size:9px!important;
+  border-radius:6px!important;
+}
+.subcats>.backBtn{
+  flex:0 0 auto!important;
+  font-size:10px!important;
+  padding-inline:9px!important;
+}
+
+/* Make the section title block shorter and move it upward */
+.sectionTop{
+  min-height:58px!important;
+  padding:10px 16px!important;
+  margin-top:0!important;
+  border-radius:14px!important;
+}
+.sectionTop h2{
+  font-size:20px!important;
+  line-height:1.25!important;
+  margin:0 0 2px!important;
+}
+.sectionTop p{
+  font-size:11px!important;
+  line-height:1.4!important;
+  margin:0!important;
+}
+
+/* Smaller tool cards so the complete PDF section fits on one screen */
+.grid{
+  gap:12px!important;
+}
+.tool{
+  min-height:195px!important;
+}
+.toolmain{
+  padding:17px 17px 15px!important;
+}
+.tooltop{
+  margin-bottom:12px!important;
+}
+.tool .icon{
+  width:44px!important;
+  height:44px!important;
+  border-radius:12px!important;
+}
+.tool .icon svg{
+  width:23px!important;
+  height:23px!important;
+}
+.tool h3{
+  font-size:16px!important;
+  line-height:1.3!important;
+  margin-bottom:5px!important;
+}
+.tool p{
+  font-size:12px!important;
+  line-height:1.55!important;
+}
+
+/* Lighter, calmer opening screen */
+.siteIntro{
+  background:radial-gradient(circle at 50% 42%,#fff 0%,#fff8f7 28%,#f6e6e4 58%,#edd2d0 100%)!important;
+}
+.siteIntro:before,.siteIntro:after{
+  border-color:rgba(120,60,55,.08)!important;
+}
+.introGlow{
+  width:220px!important;
+  height:220px!important;
+  background:#f1c9c5!important;
+  opacity:.18!important;
+  filter:blur(70px)!important;
+}
+.introLogo{
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:0!important;
+  animation:introNameClean .95s cubic-bezier(.16,1,.3,1) both!important;
+}
+.introBrand{
+  color:#35191a!important;
+  -webkit-text-fill-color:#35191a!important;
+  font-size:42px!important;
+  font-weight:900!important;
+  letter-spacing:-1.5px!important;
+  text-shadow:none!important;
+  filter:none!important;
+}
+.introLine{
+  width:46px!important;
+  height:2px!important;
+  margin-top:16px!important;
+  background:#c98b86!important;
+  box-shadow:none!important;
+}
+.siteIntro h1{
+  color:#35191a!important;
+  text-shadow:none!important;
+  font-size:28px!important;
+  margin-top:18px!important;
+}
+.siteIntro p{
+  color:#765d5b!important;
+  font-size:13px!important;
+}
+.siteIntro>span{
+  color:#927976!important;
+  font-size:11px!important;
+}
+@media(max-width:800px){
+  .subcats{flex-wrap:wrap!important}
+  .sectionTop{min-height:54px!important;padding:9px 13px!important}
+  .tool{min-height:180px!important}
+  .toolmain{padding:15px!important}
+  .introBrand{font-size:32px!important}
+}
