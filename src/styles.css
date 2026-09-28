@@ -952,3 +952,16 @@ main{
 .fileCountBadge{display:inline-flex;align-items:center;justify-content:center;margin-inline-start:7px;min-width:26px;padding:3px 8px;border-radius:999px;background:#e8f2ff;color:#1769aa;font-size:11px;font-weight:900;white-space:nowrap}.app.dark .fileCountBadge{background:#20364d;color:#9dccff}
 
 .mergeEditorPage.dragging{pointer-events:none;z-index:5;opacity:.55;transform:scale(.96);outline:3px dashed #2785d7;outline-offset:3px}.mergeEditorPage{transition:transform .12s ease,opacity .12s ease}.mergeEditorPage:active{cursor:grabbing}.mergeEditorGrid{overscroll-behavior:contain}
+
+/* v1.0 visual polish */
+body{background:#f3f7fb}
+body::before{content:"";position:fixed;inset:-15%;z-index:-1;pointer-events:none;opacity:.42;background:radial-gradient(ellipse at 15% 20%,#dcecff 0 10%,transparent 34%),radial-gradient(ellipse at 85% 35%,#e9f3ff 0 9%,transparent 30%),radial-gradient(ellipse at 35% 90%,#e4f1ff 0 8%,transparent 28%);filter:blur(18px)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;background-image:radial-gradient(circle at 20% 30%,#3478b9 0 1px,transparent 1.5px),radial-gradient(circle at 75% 70%,#6c91b5 0 1px,transparent 1.5px);background-size:130px 130px,190px 190px}
+.app{background:transparent;position:relative}
+header{background:#fff;border-bottom:1px solid #dfe7f0;box-shadow:0 2px 14px #18324d0b}
+.app.dark header{background:#151f2d;border-bottom-color:#29364a;box-shadow:0 2px 18px #0003}
+.app.dark body{background:#0d1420}
+.app.dark main,.app.dark footer{background:transparent}
+/* keep the tools workspace top bar visually consistent with the main header */
+.modalhead{background:#fff;border:1px solid #dfe6ef;border-radius:14px;padding:10px 12px;margin:-2px -2px 14px}
+.app.dark .modalhead{background:#151f2d;border-color:#29364a}
