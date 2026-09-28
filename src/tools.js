@@ -150,45 +150,87 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
 };
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
+const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++)for(let page=1;page<=docs[fi].numPages;page++)out.push({fileIndex:fi,page});return out};
+const normalizeMergeOrder=(docs,order)=>{
+ const all=buildSequentialOrder(docs);
+ if(!Array.isArray(order)||order.length!==all.length)return all;
+ const seen=new Set(),safe=[];
+ for(const item of order){
+  const fi=Number(item?.fileIndex),page=Number(item?.page);
+  if(!Number.isInteger(fi)||fi<0||fi>=docs.length||!Number.isInteger(page)||page<1||page>docs[fi].numPages)return all;
+  const key=fi+':'+page;
+  if(seen.has(key))return all;
+  seen.add(key);safe.push({fileIndex:fi,page});
+ }
+ return safe.length===all.length?safe:all;
+};
 const mergeRasterPdf=async(files,order,onProgress)=>{
  const out=await PDFDocument.create();
- const sources=[];
- for(let fi=0;fi<files.length;fi++)sources[fi]=await loadPdf(files[fi]);
- for(let i=0;i<order.length;i++){
-  const item=order[i],fi=Number(item.fileIndex),file=files[fi];
-  if(!file||!sources[fi])throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const src=sources[fi];
-  const requested=Number(item.page);
-  const pageNumber=Number.isInteger(requested)?(requested<1?requested+1:requested):NaN;
-  if(!Number.isInteger(pageNumber)||pageNumber<1||pageNumber>src.numPages)throw Error('الصفحة '+requested+' غير موجودة في الملف '+file.name);
+ const sources=await Promise.all(files.map(loadPdf));
+ const safeOrder=normalizeMergeOrder(sources,order);
+ for(let i=0;i<safeOrder.length;i++){
+  const item=safeOrder[i],fi=item.fileIndex,file=files[fi],src=sources[fi];
+  if(!file||!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
+  const pageNumber=item.page;
+  if(!Number.isInteger(pageNumber)||pageNumber<1||pageNumber>src.numPages)throw Error('الصفحة '+pageNumber+' غير موجودة في الملف '+file.name);
   const srcPage=await src.getPage(pageNumber);
   const viewport=srcPage.getViewport({scale:3.2});
   const canvas=document.createElement('canvas');
   canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-  await srcPage.render({canvasContext:canvas.getContext('2d',{willReadFrequently:true}),viewport}).promise;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  await srcPage.render({canvasContext:ctx,viewport}).promise;
   const png=await new Promise((resolve,reject)=>canvas.toBlob(async b=>b?resolve(await b.arrayBuffer()):reject(Error('تعذر تجهيز الصفحة '+(i+1))),'image/png'));
   const img=await out.embedPng(png);
   const page=out.addPage([viewport.width/3.2,viewport.height/3.2]);
   page.drawImage(img,{x:0,y:0,width:page.getWidth(),height:page.getHeight()});
   canvas.width=canvas.height=1;
-  onProgress?.(Math.round((i+1)/Math.max(1,order.length)*100),'جاري دمج الصفحة '+(i+1)+' من '+order.length);
+  onProgress?.(Math.round((i+1)/Math.max(1,safeOrder.length)*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
  }
  if(!out.getPageCount())throw Error('لم يتم العثور على صفحات لدمجها');
  return out.save({useObjectStreams:false});
 };
 const mergePreservingPdf=async(files,order,onProgress)=>mergeRasterPdf(files,order,onProgress);
 export const mergePdfs=async(files,onProgress)=>{
- const order=[];
- for(let i=0;i<files.length;i++){
-  const pdf=await loadPdf(files[i]);
-  for(let p=1;p<=pdf.numPages;p++)order.push({fileIndex:i,page:p});
- }
- return mergePreservingPdf(files,order,onProgress);
+ const docs=await Promise.all(files.map(loadPdf));
+ return mergePreservingPdf(files,buildSequentialOrder(docs),onProgress);
 };
-export const mergeOrderedPdfs=async(files,order,onProgress)=>mergePreservingPdf(files,order,onProgress);
+export const mergeOrderedPdfs=async(files,order,onProgress)=>{
+ const docs=await Promise.all(files.map(loadPdf));
+ return mergePreservingPdf(files,normalizeMergeOrder(docs,order),onProgress);
+};
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
-export const annotatePdf=async(f,kind,text,opts={})=>{const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),font=await p.embedFont(StandardFonts.Helvetica);p.getPages().forEach((x,i)=>{const{width,height}=x.getSize();if(kind==='number')x.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)});else{const size=Math.max(8,Math.min(180,Number(opts.size)||24)),opacity=Math.max(0,Math.min(1,Number(opts.opacity)??.22)),angle=Number(opts.angle)||35,txt=String(text||'ACCOUNTING TOOLS');const tw=font.widthOfTextAtSize(txt,size);x.drawText(txt,{x:(width-tw)/2,y:(height-size)/2,size,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle)})}});return p.save()};
+export const annotatePdf=async(f,kind,text,opts={})=>{
+ const pdf=await loadPdf(f),out=await PDFDocument.create();
+ const size=Math.max(8,Math.min(180,Number(opts.size)||24));
+ const opacity=Math.max(0,Math.min(1,Number(opts.opacity)??.22));
+ const angle=Number(opts.angle)||35;
+ const label=String(text||'ACCOUNTING TOOLS').trim()||'ACCOUNTING TOOLS';
+ for(let i=1;i<=pdf.numPages;i++){
+  const srcPage=await pdf.getPage(i),vp=srcPage.getViewport({scale:3.2});
+  const canvas=document.createElement('canvas');canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  await srcPage.render({canvasContext:ctx,viewport:vp}).promise;
+  ctx.save();
+  if(kind==='number'){
+   const px=Math.max(24,Math.round(size*3.2));
+   ctx.fillStyle='rgba(90,90,90,.9)';ctx.font=px+'px Arial';ctx.textAlign='right';ctx.textBaseline='bottom';
+   ctx.fillText(String(i),vp.width-58,vp.height-34);
+  }else{
+   const px=Math.max(24,Math.round(size*3.2));
+   ctx.translate(vp.width/2,vp.height/2);ctx.rotate(angle*Math.PI/180);
+   ctx.globalAlpha=opacity;ctx.fillStyle='rgb(90,90,90)';ctx.font='bold '+px+'px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+   ctx.fillText(label,0,0);
+  }
+  ctx.restore();
+  const png=await new Promise((resolve,reject)=>canvas.toBlob(async b=>b?resolve(await b.arrayBuffer()):reject(Error('تعذر تجهيز الصفحة '+i)),'image/png'));
+  const img=await out.embedPng(png),page=out.addPage([vp.width/3.2,vp.height/3.2]);
+  page.drawImage(img,{x:0,y:0,width:page.getWidth(),height:page.getHeight()});
+  canvas.width=canvas.height=1;
+  opts.onProgress?.(Math.round(i/pdf.numPages*100),'جاري تجهيز الصفحة '+i+' من '+pdf.numPages);
+ }
+ return out.save({useObjectStreams:false});
+};
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const page=await p.getPage(i),vp=page.getViewport({scale:1}),scale=quality<.55?1:quality<.8?1.25:1.6,c=await renderPage(page,scale),b=await new Promise((resolve,reject)=>c.toBlob(x=>x?x.arrayBuffer().then(resolve,reject):reject(Error('تعذر ضغط الصفحة '+i)),'image/jpeg',quality)),img=await o.embedJpg(b),pg=o.addPage([vp.width,vp.height]);pg.drawImage(img,{x:0,y:0,width:vp.width,height:vp.height});c.width=c.height=1;onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
 
