@@ -481,3 +481,17 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
 @media(max-width:800px){.categoryGrid{grid-template-columns:1fr!important}.categoryCard{height:auto!important;min-height:105px!important}.introBrand{font-size:31px!important}.logoText{min-width:0!important}}
 .app.dark header{background:linear-gradient(90deg,#202124,#2b2020 52%,#202124)!important;border-bottom-color:#4b3030!important}
 .app.dark .azLogo{background:linear-gradient(145deg,#f4f4f4,#d7d7d7);color:#202124}.app.dark .mzName{color:#fff!important}.app.dark .nameStack small{color:#d7a5a2}
+
+/* v1.10 - stronger intro name, remove category counters */
+.introBrand{
+  font-size:48px!important;
+  font-weight:1000!important;
+  color:#fff!important;
+  text-shadow:0 4px 18px rgba(70,20,18,.55),0 0 28px rgba(255,255,255,.18)!important;
+  -webkit-font-smoothing:antialiased!important;
+  animation:introNameReveal 1s cubic-bezier(.2,.8,.2,1) .18s both!important;
+}
+@media(max-width:800px){
+  .introBrand{font-size:34px!important}
+}
+.categoryCard small{display:none!important}
