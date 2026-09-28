@@ -995,3 +995,53 @@ header{
 .excelDownload button:not(.renameBtn){height:34px!important;padding:0 10px!important}
 .app.dark .resultItem{background:#1b2029!important;border-color:#303a49!important}
 @media(max-width:700px){.resultFileBar{flex-wrap:wrap}.resultName{flex-basis:100%}.excelDownload{flex-wrap:wrap}.excelDownload input{width:150px!important}}
+
+
+/* v1.23 - true full-page workspace */
+.overlay:has(.toolWorkspaceModal){
+  padding:0!important;
+  place-items:stretch!important;
+}
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal{
+  width:100vw!important;
+  max-width:none!important;
+  min-width:100vw!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:26px 5vw 20px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .workspaceIntro,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .filebox,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .options,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .progress,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .notice,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .resultPreview,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .preview,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .pdfPicker,
+.overlay:has(.toolWorkspaceModal) .toolWorkspaceModal .ocrTextPreview{
+  width:100%!important;
+  max-width:1320px!important;
+}
+.previewPdfObject{
+  width:100%!important;
+  height:100%!important;
+  border:0!important;
+  background:#fff!important;
+}
+.previewModalBody iframe{
+  width:100%!important;
+  height:100%!important;
+  border:0!important;
+}
+@media(max-width:700px){
+  .overlay:has(.toolWorkspaceModal) .toolWorkspaceModal{
+    padding:16px 14px 18px!important;
+  }
+}
