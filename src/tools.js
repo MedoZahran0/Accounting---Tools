@@ -13,7 +13,24 @@ export const normalize=v=>toEnglish(v).replace(/[\u200e\u200f]/g,'').replace(/\s
 export const safeName=(n='result')=>n.replace(/\.[^.]+$/,'').replace(/[^\w\u0600-\u06FF-]+/g,'_')||'result';
 export const download=(blob,name)=>{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
 export const bytesDownload=(b,n,t='application/octet-stream')=>download(new Blob([b],{type:t}),n,t);
-export const loadPdf=async f=>pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer()),useWorkerFetch:true}).promise;
+const pdfBytes=async f=>{
+  if(f instanceof Uint8Array)return f;
+  if(f instanceof ArrayBuffer)return new Uint8Array(f);
+  if(ArrayBuffer.isView(f))return new Uint8Array(f.buffer,f.byteOffset,f.byteLength);
+  if(!f||typeof f.arrayBuffer!=='function')throw Error('ملف PDF غير صالح أو غير قابل للقراءة');
+  return new Uint8Array(await f.arrayBuffer());
+};
+export const loadPdf=async f=>{
+  const data=await pdfBytes(f);
+  const head=new TextDecoder('latin1').decode(data.slice(0,1024));
+  if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً (لم يتم العثور على ترويسة PDF). اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
+  try{return await pdfjsLib.getDocument({data,useWorkerFetch:true}).promise}
+  catch(e){
+    const m=String(e?.message||e);
+    if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
+    throw e;
+  }
+};
 export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.ceil(v.width);c.height=Math.ceil(v.height);await page.render({canvasContext:c.getContext('2d',{willReadFrequently:true}),viewport:v}).promise;return c};
 
 const rowGroup=(items,tolerance=0.55)=>{
