@@ -136,7 +136,7 @@ export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='docum
     const data=await res.json(),refined=normalizeAiRows(data?.rows);
     if(!Array.isArray(data?.rows)||!refined.length)throw Error('Invalid AI response');
     if(local.length&&refined.length!==local.length)throw Error('AI changed row count');
-    const safe=local.length?refined.map((r,i)=>r.length===local[i].length?r:local[i]):refined;
+    const safe=local.length?refined.map((r,i)=>r.length===local[i].length?r.map((v,j)=>{const ai=repairArabicText(v),src=repairArabicText(local[i][j]);const aiAr=(ai.match(/[\u0600-\u06FF]/g)||[]).length,srcAr=(src.match(/[\u0600-\u06FF]/g)||[]).length;const aiWords=(ai.match(/\s+/g)||[]).length,srcWords=(src.match(/\s+/g)||[]).length;if(aiAr>=4&&srcAr>=4&&srcWords>0&&aiWords===0&&src.length>ai.length*.8)return src;return ai;}):local[i]):refined;
     return{rows:safe,source:'ai',confidence:data?.confidence||'AI'};
   }catch(e){return{rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
 }
