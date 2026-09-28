@@ -150,17 +150,15 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
 };
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
-const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++)for(let page=1;page<=docs[fi].numPages;page++)out.push({fileIndex:fi,page});return out};
+const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++){const count=docs[fi]?.getPageCount?.()||0;for(let page=1;page<=count;page++)out.push({fileIndex:fi,page})}return out};
 const normalizeMergeOrder=(docs,order)=>{
  const all=buildSequentialOrder(docs);
  if(!Array.isArray(order)||order.length!==all.length)return all;
  const seen=new Set(),safe=[];
  for(const item of order){
-  const fi=Number(item?.fileIndex),page=Number(item?.page);
-  if(!Number.isInteger(fi)||fi<0||fi>=docs.length||!Number.isInteger(page)||page<1||page>docs[fi].numPages)return all;
-  const key=fi+':'+page;
-  if(seen.has(key))return all;
-  seen.add(key);safe.push({fileIndex:fi,page});
+  const fi=Number(item?.fileIndex),page=Number(item?.page),count=docs[fi]?.getPageCount?.()||0;
+  if(!Number.isInteger(fi)||fi<0||fi>=docs.length||!Number.isInteger(page)||page<1||page>count)return all;
+  const key=fi+':'+page;if(seen.has(key))return all;seen.add(key);safe.push({fileIndex:fi,page});
  }
  return safe.length===all.length?safe:all;
 };
@@ -171,9 +169,9 @@ const mergePreservingPdf=async(files,order,onProgress)=>{
  for(let i=0;i<safeOrder.length;i++){
   const item=safeOrder[i],src=sources[item.fileIndex];
   if(!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const pages=await out.copyPages(src,[item.page-1]);
-  if(!pages[0])throw Error('الصفحة '+item.page+' غير موجودة');
-  out.addPage(pages[0]);
+  const copied=await out.copyPages(src,[item.page-1]);
+  if(!copied.length)throw Error('الصفحة '+item.page+' غير موجودة');
+  out.addPage(copied[0]);
   onProgress?.(Math.round((i+1)/Math.max(1,safeOrder.length)*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
  }
  if(!out.getPageCount())throw Error('لم يتم العثور على صفحات لدمجها');
