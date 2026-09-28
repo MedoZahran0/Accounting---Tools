@@ -1046,3 +1046,66 @@ header{background:#fff;border-bottom:1px solid #dfe7f0;box-shadow:0 2px 14px #18
  .modalhead h3{font-size:16px!important}
  .workspaceBack{padding:0 9px!important;font-size:10px!important}
 }
+
+/* v1.25 - refined background shapes + workspace header aligned with main header */
+body{
+  background:
+    radial-gradient(circle at 8% 12%,rgba(52,120,185,.10) 0 90px,transparent 91px),
+    radial-gradient(circle at 92% 78%,rgba(36,101,168,.08) 0 120px,transparent 121px),
+    #f6f8fb;
+}
+body::before{
+  content:"";
+  position:fixed;
+  width:210px;height:210px;
+  left:-70px;top:180px;
+  border:1px solid rgba(52,120,185,.10);
+  border-radius:42% 58% 55% 45%;
+  transform:rotate(18deg);
+  pointer-events:none;
+  z-index:-1;
+}
+body::after{
+  opacity:.11!important;
+}
+.app.dark{
+  background:
+    radial-gradient(circle at 8% 12%,rgba(52,120,185,.13) 0 90px,transparent 91px),
+    radial-gradient(circle at 92% 78%,rgba(36,101,168,.10) 0 120px,transparent 121px),
+    #0d1420!important;
+}
+.app.dark body{background:#0d1420!important}
+.app.dark body::before{
+  border-color:rgba(82,145,205,.12);
+}
+/* workspace header uses the same visual language as the main site header */
+.modalhead{
+  background:linear-gradient(135deg,#173b67 0%,#2465a8 100%)!important;
+  color:#fff!important;
+  border:0!important;
+  border-bottom:0!important;
+  box-shadow:0 8px 24px rgba(23,59,103,.18)!important;
+}
+.modalhead h3,.modalhead p,.workspaceEyebrow{color:#fff!important}
+.modalhead p{opacity:.78}
+.workspaceEyebrow{opacity:.82}
+.modalicon{
+  background:rgba(255,255,255,.15)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+}
+.workspaceBack{
+  border-color:rgba(255,255,255,.30)!important;
+  color:#fff!important;
+  background:rgba(255,255,255,.08)!important;
+}
+.workspaceBack:hover{background:rgba(255,255,255,.16)!important}
+.app.dark .modalhead{
+  background:linear-gradient(135deg,#173b67 0%,#245f96 100%)!important;
+  border:0!important;
+}
+.app.dark .modalhead h3,.app.dark .modalhead p,.app.dark .workspaceEyebrow{color:#fff!important}
+.app.dark .workspaceBack{
+  border-color:rgba(255,255,255,.24)!important;
+  color:#fff!important;
+  background:rgba(255,255,255,.08)!important;
+}
