@@ -1141,3 +1141,14 @@ header{
 .app.dark .previewPdfPages{background:#17181a}
 .app.dark .previewPdfPages img{background:#fff}
 .app.dark .previewLoading{color:#d7dee8}
+
+/* v1.26 - live drag feedback for PDF page ordering */
+.pdfPicker-reorder .pageGrid{position:relative;user-select:none;touch-action:none}
+.pdfPicker-reorder .pageThumb{cursor:grab;transition:transform .14s ease,opacity .14s ease,box-shadow .14s ease}
+.pdfPicker-reorder .pageThumb:active{cursor:grabbing}
+.pdfPicker-reorder .pageThumb.dragging{opacity:.55;transform:scale(.94);z-index:30}
+.pdfPicker-reorder .pageThumb.dragging .pagePaper{box-shadow:0 12px 30px rgba(24,70,110,.28);outline:3px dashed #2b78b8;outline-offset:3px}
+.pdfPicker-reorder .pageThumb:not(.dragging){transition:transform .16s ease}
+body.pdf-dragging{cursor:grabbing!important;user-select:none!important}
+body.pdf-dragging *{cursor:grabbing!important}
+.previewPdfPages{scroll-behavior:smooth}
