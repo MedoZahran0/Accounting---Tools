@@ -980,3 +980,18 @@ header{
 .app.dark .modalhead{background:linear-gradient(135deg,#241d20,#151f2d)!important;border-bottom-color:#3b3034!important}
 .app.dark .workspaceIntro{background:linear-gradient(135deg,#251f22,#151f2d)!important;border-color:#44343a!important}
 @media(max-width:700px){.modal{width:96vw!important;padding:16px!important}}
+
+/* v1.22 - compact rename/preview controls */
+.resultItem{padding:8px!important;border:1px solid #e6eaf0!important;background:#fff!important}
+.resultFileBar{display:flex!important;align-items:center!important;gap:7px!important;min-height:34px!important}
+.resultName{flex:1!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:11px!important;font-weight:800!important}
+.renameBtn,.fullPreviewBtn{width:auto!important;min-width:0!important;min-height:34px!important;height:34px!important;padding:0 10px!important;border-radius:8px!important;font-size:10px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;white-space:nowrap!important}
+.renameInput{flex:1!important;min-width:0!important;height:34px!important;padding:6px 9px!important;border-radius:8px!important}
+.resultItem>.fullPreviewBtn{width:auto!important;min-width:92px!important;height:34px!important;min-height:34px!important;margin-top:7px!important}
+.resultItem>.primary{width:auto!important;min-width:100px!important;height:34px!important;min-height:34px!important;margin-top:7px!important}
+.excelDownload{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:nowrap!important}
+.excelDownload input{width:170px!important;height:34px!important}
+.excelDownload .renameBtn{width:62px!important}
+.excelDownload button:not(.renameBtn){height:34px!important;padding:0 10px!important}
+.app.dark .resultItem{background:#1b2029!important;border-color:#303a49!important}
+@media(max-width:700px){.resultFileBar{flex-wrap:wrap}.resultName{flex-basis:100%}.excelDownload{flex-wrap:wrap}.excelDownload input{width:150px!important}}
