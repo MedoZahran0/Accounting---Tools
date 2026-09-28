@@ -119,7 +119,7 @@ const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'/api/ai';
 const normalizeAiRows=(rows)=>rows.map(r=>Array.isArray(r)?r.map(v=>String(v??'').trim()):[]);
 
 export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='document_ocr'}={}){
-  const cleaned=normalizeAiRows(rows).map(r=>r.map(v=>v.replace(/[\\u200b-\\u200d\\ufeff]/g,'').replace(/[ \\t]+/g,' ').trim()));
+  const cleaned=normalizeAiRows(rows).map(r=>r.map(v=>v.replace(/[\u200B\u200C\u200D\uFEFF]/g,'').replace(/[ \\t]+/g,' ').trim()));
   const local=cleaned.map(r=>r.map(v=>v.replace(/[|¦]/g,'I').replace(/[٠-٩]/g,d=>toEnglish(d))));
   if(!endpoint) return {rows:local,source:'local',confidence:'محلي'};
   try{
