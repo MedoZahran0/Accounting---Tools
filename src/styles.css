@@ -404,3 +404,46 @@ main{max-width:1180px;padding-top:42px}
 }
 .app.dark .tool h3,.app.dark .categoryCard h3{color:#fff!important}
 .app.dark .tool p,.app.dark .categoryCard p{color:#aeb8c4!important}
+
+/* v1.8 - Abdel-hamid Zahran branding, navigation and workspace polish */
+.logoText{min-width:250px!important;gap:12px!important}
+.brandLogo{position:relative;width:48px;height:48px;flex:0 0 48px;border-radius:15px;display:block;background:linear-gradient(145deg,#202124 0%,#34373c 55%,#e53935 56%,#ff6b66 100%);box-shadow:0 8px 20px rgba(32,33,36,.2);overflow:hidden}
+.brandLogo:before{content:"";position:absolute;width:24px;height:24px;border:3px solid #fff;border-radius:8px;left:12px;top:11px;transform:rotate(45deg);opacity:.95}
+.brandLogo i{position:absolute;width:6px;height:27px;border-radius:5px;background:#fff;left:21px;top:10px;transform:rotate(45deg);z-index:2}
+.brandLogo b{position:absolute;width:19px;height:5px;border-radius:4px;background:#ff7770;left:6px;bottom:8px;transform:rotate(-28deg);z-index:3}
+.brandLogo em{position:absolute;width:10px;height:5px;border-radius:4px;background:#fff;right:7px;bottom:10px;transform:rotate(-28deg);z-index:3}
+.mzName{font-size:19px!important;font-weight:900!important;letter-spacing:-.45px!important}
+.siteIntro{background:radial-gradient(circle at 50% 38%,#fff4f1 0,#ffd9d5 13%,#f28c86 30%,#d95b56 55%,#b94742 100%)!important}
+.siteIntro:before,.siteIntro:after{border-color:rgba(255,255,255,.25)!important}
+.introGlow{width:240px!important;height:240px!important;background:#fff!important;opacity:.26!important;filter:blur(65px)!important}
+.introLogo{min-width:0!important;width:auto!important;height:auto!important;padding:14px 24px!important;border-radius:24px!important;background:rgba(255,255,255,.97)!important;color:#202124!important;gap:13px!important;box-shadow:0 22px 70px rgba(107,35,32,.24)!important;backdrop-filter:blur(10px)}
+.introLogo .brandLogo{width:58px!important;height:58px!important;flex-basis:58px!important;box-shadow:0 7px 20px rgba(32,33,36,.18)!important}
+.introBrand{font-size:28px!important;font-weight:900!important;letter-spacing:-.7px!important}
+.introLine{background:#fff!important;height:4px!important;box-shadow:0 0 18px rgba(255,255,255,.55)!important}
+.siteIntro h1{font-size:34px!important;font-weight:900!important;text-shadow:0 4px 20px rgba(93,25,22,.18)}
+.siteIntro p{font-size:15px!important;color:#fff!important;font-weight:600!important}
+.siteIntro>span{color:#ffeceb!important}
+.subcats{gap:12px!important;margin:20px 0 24px!important;padding:6px!important;overflow-x:auto}
+.subcats button{min-height:58px!important;padding:13px 22px!important;border-radius:14px!important;font-size:15px!important;font-weight:800!important;border:1px solid #d8dee6!important;background:#fff!important;color:#3e4855!important;box-shadow:0 5px 16px rgba(32,33,36,.06)!important;white-space:nowrap!important}
+.subcats button small{font-size:12px!important;margin-inline-start:9px!important;padding:3px 8px!important;border-radius:9px!important;background:#f0f2f5!important;color:#697585!important}
+.subcats button.active{box-shadow:0 7px 18px rgba(229,57,53,.2)!important}
+.sectionTop{min-height:92px!important;padding:22px 24px!important}
+.sectionTop h2{font-size:25px!important}
+.sectionTop p{font-size:14px!important}
+main{max-width:1320px!important;padding-left:24px!important;padding-right:24px!important}
+.workspace{max-width:1320px!important;width:calc(100% - 32px)!important;margin:24px auto!important}
+.workspaceIntro{padding:24px 28px!important;border-radius:20px!important}
+.filebox{max-width:1320px!important;min-height:205px!important;border-radius:20px!important}
+.options,.progress,.notice,.resultPreview,.preview,.modalactions,.pdfPicker,.ocrTextPreview{max-width:1320px!important}
+.tool{min-height:250px!important}
+@media(max-width:700px){
+ .logoText{min-width:0!important}.mzName{font-size:16px!important}.brandLogo{width:43px;height:43px;flex-basis:43px}
+ main{padding-left:14px!important;padding-right:14px!important}
+ .introBrand{font-size:21px!important}.introLogo{padding:12px 18px!important}
+ .subcats button{min-height:52px!important;padding:11px 17px!important}
+ .workspace{width:calc(100% - 16px)!important}
+}
+.app.dark .brandLogo{background:linear-gradient(145deg,#f7f7f7 0%,#d9d9d9 55%,#e53935 56%,#ff6b66 100%)}
+.app.dark .brandLogo:before{border-color:#202124}.app.dark .brandLogo i{background:#202124}.app.dark .brandLogo em{background:#202124}
+.app.dark .subcats button{background:#222326!important;border-color:#3a3c40!important;color:#f5f5f5!important}
+.app.dark .subcats button small{background:#303237;color:#b8bec7}
