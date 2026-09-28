@@ -183,3 +183,15 @@ footer{padding:14px 0 40px}
 .mergePicker .pageGrid{max-height:none}
 .mergePicker .pageLabel span{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:700px){.modal{padding:0 14px 35px}.modalhead{margin:0 -14px 18px;padding:13px 14px}.modalhead h3{font-size:17px}.modalhead p{display:none}.workspaceBack{padding:8px 10px;font-size:10px}.filebox{min-height:125px}.modalactions{bottom:0}}
+
+.resultFileBar{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px;direction:rtl}
+.resultFileBar .resultName{font-weight:800;direction:ltr;text-align:left;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.renameBtn{border:1px solid #d5dee8;background:#fff;color:#34465b;border-radius:9px;padding:7px 10px;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
+.renameBtn:hover{border-color:#3478b9;color:#3478b9}
+.renameInput{flex:1;min-width:120px;border:1px solid #3478b9;border-radius:9px;padding:8px 10px;background:#fff;color:#1d2938;font:inherit;font-size:12px;direction:ltr}
+.downloadHint{font-size:10px;opacity:.7}
+.excelDownload{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.excelDownload input{width:190px;border:1px solid #d5dee8;border-radius:8px;padding:7px 9px;background:#fff;color:#243244;direction:ltr;font:inherit;font-size:11px}
+.app.dark .renameBtn,.app.dark .excelDownload input{background:#151f2d;border-color:#334257;color:#edf2f7}
+.app.dark .renameInput{background:#151f2d;color:#edf2f7;border-color:#4d9be8}
+@media(max-width:700px){.resultFileBar{align-items:stretch;flex-direction:column}.excelDownload{width:100%}.excelDownload input{flex:1;width:auto}.downloadHint{display:none}}
