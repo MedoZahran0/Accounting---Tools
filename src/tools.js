@@ -116,7 +116,7 @@ export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f
 
 const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'/api/ai';
 
-const repairArabicText=v=>{let s=String(v??'').normalize('NFKC').replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g,'').trim();if(!s)return s;const ar=(s.match(/[\u0600-\u06FF]/g)||[]).length;const tokens=s.split(/\s+/).filter(Boolean);const isolated=tokens.filter(t=>/^[\u0600-\u06FF]$/.test(t)).length;if(ar>=4&&isolated>=Math.max(3,Math.ceil(ar*.55))){s=s.replace(/\s+/g,'');return Array.from(s).reverse().join('')}return s};
+const repairArabicText=v=>{let s=String(v??'').normalize('NFKC').replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g,'').trim();if(!s)return s;const tokens=s.split(/\s+/).filter(Boolean);const isolated=tokens.filter(t=>/^[\u0600-\u06FF]$/.test(t)).length;const ar=(s.match(/[\u0600-\u06FF]/g)||[]).length;if(ar>=4&&isolated>=Math.max(3,Math.ceil(ar*.55))){const joined=tokens.join('');return Array.from(joined).reverse().join('')}return s};
 const normalizeAiRows=rows=>Array.isArray(rows)?rows.map(r=>Array.isArray(r)?r.map(v=>String(v??'').trim()):[]):[];
 
 export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='document_ocr',file=null}={}){
