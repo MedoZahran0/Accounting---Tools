@@ -1045,3 +1045,63 @@ header{
     padding:16px 14px 18px!important;
   }
 }
+
+
+/* v1.24 - enforce full workspace and PDF preview */
+.toolWorkspaceOverlay{
+  padding:0!important;
+  place-items:stretch!important;
+  overflow:hidden!important;
+}
+.toolWorkspaceOverlay .toolWorkspaceModal{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  max-height:100vh!important;
+  margin:0!important;
+  padding:24px 5vw 18px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+.toolWorkspaceOverlay .toolWorkspaceModal .modalhead{
+  position:sticky!important;
+  top:0!important;
+  z-index:20!important;
+}
+.toolWorkspaceOverlay .toolWorkspaceModal .filebox,
+.toolWorkspaceOverlay .toolWorkspaceModal .options,
+.toolWorkspaceOverlay .toolWorkspaceModal .progress,
+.toolWorkspaceOverlay .toolWorkspaceModal .notice,
+.toolWorkspaceOverlay .toolWorkspaceModal .resultPreview,
+.toolWorkspaceOverlay .toolWorkspaceModal .preview,
+.toolWorkspaceOverlay .toolWorkspaceModal .pdfPicker,
+.toolWorkspaceOverlay .toolWorkspaceModal .ocrTextPreview,
+.toolWorkspaceOverlay .toolWorkspaceModal .workspaceIntro{
+  width:100%!important;
+  max-width:1320px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.previewModalBody{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+}
+.previewPdfFrame{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:70vh!important;
+  border:0!important;
+  background:#fff!important;
+}
+@media(max-width:700px){
+  .toolWorkspaceOverlay .toolWorkspaceModal{
+    padding:14px!important;
+  }
+}
