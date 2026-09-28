@@ -152,11 +152,16 @@ export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
 const mergeRasterPdf=async(files,order,onProgress)=>{
  const out=await PDFDocument.create();
+ const sources=[];
+ for(let fi=0;fi<files.length;fi++)sources[fi]=await loadPdf(files[fi]);
  for(let i=0;i<order.length;i++){
-  const item=order[i],file=files[item.fileIndex];
-  if(!file)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const src=await loadPdf(file);
-  const srcPage=await src.getPage(item.page);
+  const item=order[i],fi=Number(item.fileIndex),file=files[fi];
+  if(!file||!sources[fi])throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
+  const src=sources[fi];
+  const requested=Number(item.page);
+  const pageNumber=Number.isInteger(requested)?(requested<1?requested+1:requested):NaN;
+  if(!Number.isInteger(pageNumber)||pageNumber<1||pageNumber>src.numPages)throw Error('الصفحة '+requested+' غير موجودة في الملف '+file.name);
+  const srcPage=await src.getPage(pageNumber);
   const viewport=srcPage.getViewport({scale:3.2});
   const canvas=document.createElement('canvas');
   canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
