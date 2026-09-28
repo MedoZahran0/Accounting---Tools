@@ -250,3 +250,13 @@ body.pdf-dragging *{user-select:none!important}
 .app.dark .pageNumberControl small{color:#aeb9c7}
 .app.dark .pageDeleteBtn{background:#182333;color:#ff8585}
 @media(max-width:600px){.pageNumberControl>div{flex-direction:column;align-items:stretch}.pageNumberControl button{width:100%}}
+
+
+.ocrTextPreview{margin-top:18px;border:1px solid var(--line,#ddd);border-radius:18px;background:var(--card,#fff);padding:16px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.ocrTextPreview .previewhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.ocrTextArea{width:100%;min-height:420px;resize:vertical;border:1px solid var(--line,#ddd);border-radius:14px;padding:18px;background:var(--input,#fff);color:inherit;font:500 17px/2 Arial,sans-serif;white-space:pre-wrap;direction:auto;unicode-bidi:plaintext;outline:none}
+.ocrTextArea:focus{border-color:var(--accent,#2563eb);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.copyAllBtn{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.dark .ocrTextPreview{background:#171b22;border-color:#303746}
+.dark .ocrTextArea{background:#10141b;border-color:#303746;color:#f3f4f6}
+@media(max-width:700px){.ocrTextPreview .previewhead{align-items:stretch;flex-direction:column}.copyAllBtn{justify-content:center}.ocrTextArea{min-height:320px}}
