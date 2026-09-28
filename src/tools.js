@@ -59,6 +59,45 @@ export const detectStatementColumns=(detailedRows)=>{
   return {columns:cols,confidence:cols.length>=3?'جيدة':cols.length===2?'متوسطة':'مبدئية'};
 };
 
+
+function canonicalBankRows(detailed,statement){
+  const cols=statement.columns||[];
+  const byKind={};
+  for(const c of cols)if(!byKind[c.kind])byKind[c.kind]=c;
+  const ordered=['date','description','debit','credit','balance'];
+  const out=[['التاريخ','الوصف','المدين','الدائن','الرصيد']];
+  for(const r of detailed){
+    const cells={date:[],description:[],debit:[],credit:[],balance:[]};
+    for(const i of r.items){
+      const x=i.x+i.w/2;
+      let bestKind='',bestDist=Infinity;
+      for(const kind of ordered){
+        const col=byKind[kind]; if(!col) continue;
+        const d=Math.abs(x-col.x);
+        if(d<bestDist){bestDist=d;bestKind=kind}
+      }
+      if(bestKind)cells[bestKind].push(i.text);
+    }
+    const date=cells.date.join(' ').trim();
+    const description=cells.description.join(' ').trim();
+    const debit=cells.debit.map(numberValue).find(v=>v!==null);
+    const credit=cells.credit.map(numberValue).find(v=>v!==null);
+    const balance=cells.balance.map(numberValue).find(v=>v!==null);
+    const all=[date,description,debit,credit,balance];
+    const hasDate=!!dateValue(date);
+    const hasAmount=[debit,credit,balance].some(v=>v!==undefined&&v!==null);
+    const headerText=normalize(r.items.map(i=>i.text).join(' ')).toLowerCase();
+    const isHeader=/date|description|details|debit|credit|balance|التاريخ|الوصف|البيان|مدين|دائن|الرصيد/.test(headerText);
+    if(!isHeader&&(hasDate||hasAmount)&&description)out.push([
+      hasDate?date:'',
+      description,
+      debit??'',
+      credit??'',
+      balance??''
+    ]);
+  }
+  return out.length>1?out:[['التاريخ','الوصف','المدين','الدائن','الرصيد']];
+}
 function assignStatementRows(detailed,statement){
   if(!statement.columns.length)return detailed.map(r=>r.items.map(i=>i.text));
   const cols=[...statement.columns].sort((a,b)=>a.x-b.x), out=[];
@@ -93,9 +132,13 @@ export async function pdfRows(file,onProgress){
     }
     await worker.terminate();
   }
-  const statement=detectStatementColumns(detailed), rows=assignStatementRows(detailed,statement);
+  const statement=detectStatementColumns(detailed);
+  const rawRows=assignStatementRows(detailed,statement);
+  const statementKinds=new Set(statement.columns.map(c=>c.kind));
+  const looksLikeBank=statementKinds.has('date')&&statementKinds.has('description')&&statementKinds.has('balance')&&(statementKinds.has('debit')||statementKinds.has('credit'));
+  const rows=looksLikeBank?canonicalBankRows(detailed,statement):rawRows;
   onProgress?.(100,'اكتملت القراءة');
-  return {rows,mode,detailed,statement};
+  return {rows,mode,detailed,statement,isBankStatement:looksLikeBank};
 }
 
 export const rowsWorkbook=(rows,sheet='Data')=>{
