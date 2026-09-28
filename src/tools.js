@@ -24,14 +24,14 @@ export const loadPdf=async f=>{
   const data=await pdfBytes(f);
   const head=new TextDecoder('latin1').decode(data.slice(0,1024));
   if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً (لم يتم العثور على ترويسة PDF). اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
-  try{return await pdfjsLib.getDocument({data,useWorkerFetch:true}).promise}
+  try{return await pdfjsLib.getDocument({data,useWorkerFetch:false,isEvalSupported:false,disableAutoFetch:false}).promise}
   catch(e){
     const m=String(e?.message||e);
     if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
     throw e;
   }
 };
-export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.ceil(v.width);c.height=Math.ceil(v.height);await page.render({canvasContext:c.getContext('2d',{willReadFrequently:true}),viewport:v}).promise;return c};
+export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.max(1,Math.ceil(v.width));c.height=Math.max(1,Math.ceil(v.height));const ctx=c.getContext('2d',{willReadFrequently:true,alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);await page.render({canvasContext:ctx,viewport:v,background:'#fff'}).promise;return c};
 
 const rowGroup=(items,tolerance=0.55)=>{
   const rows=[];
