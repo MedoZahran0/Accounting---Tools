@@ -114,7 +114,7 @@ export const annotatePdf=async(f,kind,text)=>{const p=await PDFDocument.load(awa
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
 
-const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'';
+const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'/api/ai';
 
 const normalizeAiRows=(rows)=>rows.map(r=>Array.isArray(r)?r.map(v=>String(v??'').trim()):[]);
 
