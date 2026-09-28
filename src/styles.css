@@ -161,3 +161,5 @@ footer{padding:14px 0 40px}
 @media(max-width:440px){.pdfPicker .pageGrid{grid-template-columns:repeat(2,minmax(115px,1fr));gap:9px}.pdfPicker .pickerCount{min-width:52px;height:46px}.pdfPicker .pageThumb{padding:5px}.pdfPicker .pageCheck,.pdfPicker .pageNumber{top:6px}.pdfPicker .pageCheck{left:6px}.pdfPicker .pageNumber{right:6px}}
 
 .aiToggle{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line,#ddd);border-radius:12px;cursor:pointer}.aiToggle input{accent-color:currentColor}.aiToggle span{font-weight:700}
+
+.aiBadge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 7px;border-radius:7px;background:#eef7ff;color:#2875b8;font-size:9px;font-weight:800}.app.dark .aiBadge{background:#1b3048;color:#8bc4f3}
