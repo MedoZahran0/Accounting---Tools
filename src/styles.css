@@ -501,3 +501,9 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
   color:#fff!important;
   text-shadow:0 3px 16px rgba(74,18,15,.72),0 0 2px rgba(74,18,15,.9)!important;
 }
+
+/* v1.12 - section navigation */
+.subcats{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.subcats>button{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
+.subcats>button small{margin-inline-start:auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:26px!important}
+.subcats>.backBtn{flex:0 0 auto!important;justify-content:center!important}
