@@ -987,3 +987,62 @@ header{background:#fff;border-bottom:1px solid #dfe7f0;box-shadow:0 2px 14px #18
 .app.dark .modalhead{background:#151f2d!important;border-color:#29364a!important;box-shadow:0 2px 14px rgba(0,0,0,.22)!important}.app.dark .workspaceIntro{background:rgba(21,31,45,.9)!important;border-color:#29364a!important}
 .resultPreview{margin-top:8px!important;padding:7px!important;border-radius:10px!important;background:rgba(248,250,252,.9)!important}.resultPreview .previewhead{margin-bottom:4px!important;padding:2px!important;min-height:28px!important}.resultPreview .downloadHint{font-size:9px!important}.resultItem{margin-top:5px!important;padding:6px!important;border-radius:8px!important}.resultFileBar{min-height:25px!important;gap:5px!important}.resultName{font-size:11px!important;margin-bottom:0!important}.resultItem .renameBtn{padding:4px 7px!important;font-size:9px!important}.resultItem .fullPreviewBtn{min-height:38px!important;height:38px!important;padding:5px!important;font-size:9px!important;border-radius:8px!important}.resultItem .primary{margin-top:5px!important;padding:6px 9px!important;font-size:10px!important}.resultItem .primary svg{width:14px!important;height:14px!important}.resultItem .fileReady{padding:8px!important;font-size:9px!important}.app.dark .resultPreview{background:rgba(16,24,35,.9)!important}
 @media(max-width:700px){.modal{background-size:70px 70px,105px 105px,90px 90px,100% 100%}.modalhead{min-height:52px!important}.resultPreview{padding:6px!important}}
+
+/* v1.24 - workspace bar matches main header */
+.modalhead{
+  min-height:76px!important;
+  margin:-22px -22px 12px!important;
+  padding:0 18px!important;
+  background:#fff!important;
+  border:0!important;
+  border-bottom:1px solid #e8edf3!important;
+  border-radius:0!important;
+  box-shadow:0 2px 14px rgba(24,50,77,.06)!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.modalhead>div{gap:11px!important}
+.modalicon{
+  width:40px!important;
+  height:40px!important;
+  border-radius:12px!important;
+  background:#173b67!important;
+  color:#fff!important;
+}
+.modalhead h3{font-size:18px!important;margin:0!important}
+.modalhead p{font-size:11px!important;margin:1px 0 0!important;color:#8390a3!important}
+.workspaceEyebrow{font-size:10px!important;color:#2465a8!important}
+.workspaceBack{
+  border:1px solid #dfe5ed!important;
+  background:transparent!important;
+  color:#172033!important;
+  border-radius:11px!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+}
+.workspaceIntro{
+  background:#f7f9fc!important;
+  border-color:#e8edf3!important;
+  box-shadow:none!important;
+}
+.app.dark .modalhead{
+  background:#151f2d!important;
+  border-bottom-color:#29364a!important;
+  box-shadow:0 2px 18px rgba(0,0,0,.18)!important;
+}
+.app.dark .modalicon{background:#3478b9!important;color:#fff!important}
+.app.dark .modalhead p{color:#9eabbc!important}
+.app.dark .workspaceBack{
+  border-color:#334257!important;
+  color:#edf2f7!important;
+  background:transparent!important;
+}
+.app.dark .workspaceIntro{
+  background:#101925!important;
+  border-color:#29364a!important;
+}
+@media(max-width:700px){
+ .modalhead{margin:-16px -16px 10px!important;min-height:64px!important;padding:0 12px!important}
+ .modalhead h3{font-size:16px!important}
+ .workspaceBack{padding:0 9px!important;font-size:10px!important}
+}
