@@ -1109,3 +1109,11 @@ body::after{
   color:#fff!important;
   background:rgba(255,255,255,.08)!important;
 }
+
+/* v0.7 workspace header aligned with main header */
+.modalhead{background:linear-gradient(135deg,#173b67 0%,#2465a8 100%);color:#fff;margin:-22px -22px 20px;padding:16px 22px;border-radius:20px 20px 0 0;position:relative;top:8px}
+.modalhead p{color:#dbeafe}
+.modalhead .modalicon{background:#ffffff22;color:#fff}
+.modalhead .close{color:#fff;background:#ffffff18}
+.app.dark .modalhead{background:linear-gradient(135deg,#173b67 0%,#2465a8 100%);color:#fff}
+.app.dark .modalhead p{color:#dbeafe}
