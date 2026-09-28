@@ -24,8 +24,26 @@ export const loadPdf=async f=>{
   const data=await pdfBytes(f);
   const head=new TextDecoder('latin1').decode(data.slice(0,1024));
   if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً (لم يتم العثور على ترويسة PDF). اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
-  try{return await pdfjsLib.getDocument({data,useWorkerFetch:false,isEvalSupported:false,disableAutoFetch:false}).promise}
-  catch(e){
+  try{
+    // Preview must remain reliable even when the browser cannot start PDF.js's worker.
+    // The worker is faster, but the main-thread fallback is intentionally supported.
+    try{
+      return await pdfjsLib.getDocument({
+        data,
+        useWorkerFetch:false,
+        isEvalSupported:false,
+        disableAutoFetch:false
+      }).promise;
+    }catch(workerError){
+      return await pdfjsLib.getDocument({
+        data,
+        disableWorker:true,
+        useWorkerFetch:false,
+        isEvalSupported:false,
+        disableAutoFetch:false
+      }).promise;
+    }
+  }catch(e){
     const m=String(e?.message||e);
     if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
     throw e;
