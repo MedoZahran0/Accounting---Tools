@@ -230,3 +230,23 @@ body.pdf-dragging *{user-select:none!important}
 .app.dark .mergePicker .pickerToolbar>span{color:#8bc4f3}
 @media(max-width:1100px){.pdfPicker .pageGrid{grid-template-columns:repeat(4,minmax(140px,1fr))}}
 @media(max-width:760px){.workspaceIntro{align-items:flex-start;flex-direction:column}.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(105px,1fr));gap:11px;max-height:none}}
+
+/* v1.3 numeric page controls + quick delete */
+.pageNumberControl{margin:14px 0;padding:14px 16px;border:1px solid #dfe6ee;border-radius:14px;background:#f8fafc;direction:rtl}
+.pageNumberControl>label{display:block;font-size:11px;font-weight:900;color:#33465a;margin-bottom:7px}
+.pageNumberControl>div{display:flex;gap:8px;align-items:center}
+.pageNumberControl input{flex:1;min-width:0;border:1px solid #cfd9e4;border-radius:10px;padding:10px 12px;background:#fff;color:#26384b;font:inherit;font-size:12px;direction:ltr;text-align:left;outline:none}
+.pageNumberControl input:focus{border-color:#3478b9;box-shadow:0 0 0 3px #3478b91a}
+.pageNumberControl button{border:0;border-radius:10px;padding:10px 15px;background:#3478b9;color:#fff;font:inherit;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+.pageNumberControl button:hover{filter:brightness(1.06)}
+.pageNumberControl small{display:block;margin-top:7px;font-size:9px;color:#7a8795}
+.pageDeleteBtn{position:absolute;top:8px;right:8px;width:30px;height:30px;border:0;border-radius:9px;background:#fff;color:#d34b4b;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px #0002;z-index:3}
+.pageDeleteBtn svg{width:15px;height:15px}
+.pageDeleteBtn:hover{background:#d34b4b;color:#fff;transform:scale(1.05)}
+.pdfPicker .pagePaper{position:relative}
+.app.dark .pageNumberControl{background:#151f2d;border-color:#2f3d50}
+.app.dark .pageNumberControl>label{color:#edf2f7}
+.app.dark .pageNumberControl input{background:#0f1722;border-color:#334257;color:#edf2f7}
+.app.dark .pageNumberControl small{color:#aeb9c7}
+.app.dark .pageDeleteBtn{background:#182333;color:#ff8585}
+@media(max-width:600px){.pageNumberControl>div{flex-direction:column;align-items:stretch}.pageNumberControl button{width:100%}}
