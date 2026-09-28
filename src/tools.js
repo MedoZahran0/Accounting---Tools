@@ -3,7 +3,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 // PDF.js worker: Vite must be given the worker URL explicitly, otherwise
 // PDF rendering fails in the browser with GlobalWorkerOptions.workerSrc.
-pdfjsLib.GlobalWorkerOptions.workerSrc=new URL('pdfjs-dist/build/pdf.worker.mjs',import.meta.url).toString();
+pdfjsLib.GlobalWorkerOptions.workerSrc=new URL('pdfjs-dist/build/pdf.worker.min.mjs',import.meta.url).toString();
 import {PDFDocument,degrees,StandardFonts,rgb} from 'pdf-lib';
 import {createWorker} from 'tesseract.js';
 
@@ -25,24 +25,8 @@ export const loadPdf=async f=>{
   const head=new TextDecoder('latin1').decode(data.slice(0,1024));
   if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً (لم يتم العثور على ترويسة PDF). اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
   try{
-    // Preview must remain reliable even when the browser cannot start PDF.js's worker.
-    // The worker is faster, but the main-thread fallback is intentionally supported.
-    try{
-      return await pdfjsLib.getDocument({
-        data,
-        useWorkerFetch:false,
-        isEvalSupported:false,
-        disableAutoFetch:false
-      }).promise;
-    }catch(workerError){
-      return await pdfjsLib.getDocument({
-        data,
-        disableWorker:true,
-        useWorkerFetch:false,
-        isEvalSupported:false,
-        disableAutoFetch:false
-      }).promise;
-    }
+    // Use the main thread for previews. This avoids browser/CDN worker startup failures.
+    return await pdfjsLib.getDocument({data,disableWorker:true,useWorkerFetch:false,isEvalSupported:false,disableAutoFetch:false}).promise;
   }catch(e){
     const m=String(e?.message||e);
     if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
