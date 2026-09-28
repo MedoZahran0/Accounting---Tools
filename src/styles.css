@@ -916,3 +916,12 @@ main{
 .app.dark .previewModalHead button{background:#303237!important;color:#fff!important}
 .app.dark .previewModalBody{background:#17181a!important}
 .app.dark .fullPreviewBtn{background:#25262a!important;border-color:#41434a!important;color:#e4e6ea!important}
+
+/* v1.20 - compact multi-file picker and scalable PDF merge */
+.fileNameSummary{display:block!important;max-width:min(72vw,760px)!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:14px!important;font-weight:900!important}
+.fileNameSummary small{display:inline-block!important;margin-inline-start:8px!important;padding:4px 8px!important;border-radius:999px!important;background:#eef2f6!important;color:#647182!important;font-size:10px!important;font-weight:800!important;vertical-align:middle!important}
+.filebox span{max-width:90%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.mergePreviewLimit{margin:8px 0!important;padding:9px 12px!important;border-radius:10px!important;background:#fff8e8!important;border:1px solid #f1dfae!important;color:#795b1b!important;font-size:11px!important;font-weight:700!important;line-height:1.5!important}
+.app.dark .fileNameSummary small{background:#303237!important;color:#c8ced7!important}
+.app.dark .mergePreviewLimit{background:#302b1d!important;border-color:#5a4c2b!important;color:#eadcae!important}
+@media(max-width:700px){.fileNameSummary{max-width:78vw!important;font-size:12px!important}.fileNameSummary small{font-size:9px!important}.mergePreviewLimit{font-size:10px!important}}
