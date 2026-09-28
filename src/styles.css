@@ -605,3 +605,30 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
   }
   .introBrand{font-size:34px!important}
 }
+
+
+/* v1.15 - ultra compact section navigation */
+.subcats{
+  grid-template-columns:auto repeat(3,minmax(110px,1fr))!important;
+  gap:6px!important;
+  margin:8px 0 12px!important;
+}
+.subcats>button{
+  min-height:38px!important;
+  height:38px!important;
+  padding:6px 9px!important;
+  border-radius:9px!important;
+  font-size:11px!important;
+  gap:5px!important;
+  box-shadow:none!important;
+}
+.subcats>button small{
+  min-width:18px!important;
+  padding:1px 4px!important;
+  font-size:9px!important;
+  border-radius:5px!important;
+}
+.subcats>.backBtn{
+  font-size:10px!important;
+  padding-inline:10px!important;
+}
