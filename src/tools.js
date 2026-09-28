@@ -85,14 +85,14 @@ function canonicalBankRows(detailed,statement){
     const balance=cells.balance.map(numberValue).find(v=>v!==null);
     const all=[date,description,debit,credit,balance];
     const hasDate=!!dateValue(date);
-    const hasAmount=[bankDebit,bankCredit,balance].some(v=>v!==undefined&&v!==null);
+    const hasAmount=[debit,credit,balance].some(v=>v!==undefined&&v!==null);
     const headerText=normalize(r.items.map(i=>i.text).join(' ')).toLowerCase();
     const isHeader=/date|description|details|debit|credit|balance|التاريخ|الوصف|البيان|مدين|دائن|الرصيد/.test(headerText);
     if(!isHeader&&(hasDate||hasAmount)&&description)out.push([
       hasDate?date:'',
       description,
-      bankCredit??'',
-      bankDebit??'',
+      credit??'',
+      debit??'',
       balance??''
     ]);
   }
