@@ -195,3 +195,38 @@ footer{padding:14px 0 40px}
 .app.dark .renameBtn,.app.dark .excelDownload input{background:#151f2d;border-color:#334257;color:#edf2f7}
 .app.dark .renameInput{background:#151f2d;color:#edf2f7;border-color:#4d9be8}
 @media(max-width:700px){.resultFileBar{align-items:stretch;flex-direction:column}.excelDownload{width:100%}.excelDownload input{flex:1;width:auto}.downloadHint{display:none}}
+
+/* v1.2 professional tool workspace + reliable long-press dragging */
+body.pdf-dragging{cursor:grabbing!important;user-select:none}
+body.pdf-dragging *{user-select:none!important}
+.workspaceEyebrow{display:block;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#3478b9;margin-bottom:3px}
+.workspaceIntro{max-width:1180px;margin:0 auto 18px;padding:13px 16px;border:1px solid #e1e7ef;border-radius:14px;background:linear-gradient(135deg,#fff,#f7f9fc);display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 16px rgba(29,52,78,.05)}
+.workspaceIntro>div{display:flex;align-items:center;gap:10px}
+.workspaceIntro b{font-size:12px;color:#25364a}
+.workspaceIntro span{font-size:10px;color:#7b8796}
+.workspaceStatus{padding:6px 10px;border-radius:999px;background:#edf8f2;color:#29805b!important;font-weight:800;white-space:nowrap}
+.app.dark .workspaceIntro{background:linear-gradient(135deg,#121b29,#101722);border-color:#2b394d}
+.app.dark .workspaceIntro b{color:#edf2f7}
+.app.dark .workspaceIntro span{color:#aeb9c7}
+.app.dark .workspaceStatus{background:#17352b;color:#7dd5ad!important}
+.overlay{background:radial-gradient(circle at 50% -10%,#ffffff 0,#f5f7fa 42%,#eef2f6 100%)}
+.modal{padding-left:clamp(18px,4vw,64px);padding-right:clamp(18px,4vw,64px)}
+.modalhead{margin-left:calc(-1 * clamp(18px,4vw,64px));margin-right:calc(-1 * clamp(18px,4vw,64px));padding-left:clamp(18px,4vw,64px);padding-right:clamp(18px,4vw,64px);box-shadow:0 2px 18px rgba(25,45,68,.05)}
+.filebox{max-width:1180px;min-height:180px;border:2px dashed #cbd7e4!important;border-radius:18px!important;background:rgba(255,255,255,.9)!important;box-shadow:0 8px 30px rgba(29,52,78,.06)!important;transition:.2s}
+.filebox:hover{border-color:#4f9bd5!important;box-shadow:0 12px 36px rgba(52,120,185,.1)!important;transform:translateY(-1px)}
+.options,.progress,.notice,.resultPreview,.preview,.modalactions{max-width:1180px}
+.options{padding:16px;border:1px solid #e1e7ef;border-radius:16px;background:rgba(255,255,255,.78);box-shadow:0 4px 20px rgba(29,52,78,.04)}
+.app.dark .filebox{background:#111a27!important;border-color:#35465b!important}
+.app.dark .options{background:#111a27;border-color:#2b394d}
+.pdfPicker{max-width:1180px!important;border-radius:18px!important;padding:20px!important;box-shadow:0 7px 30px rgba(29,52,78,.07)}
+.pdfPicker .pageGrid{grid-template-columns:repeat(5,minmax(145px,1fr));gap:18px;max-height:calc(100vh - 390px);padding:8px 6px 18px}
+.pdfPicker .pageThumb{touch-action:none;cursor:grab;will-change:transform}
+.pdfPicker .pageThumb:active{cursor:grabbing}
+.pdfPicker .pageThumb.dragging{outline:3px solid #3478b9;opacity:.72;transform:scale(1.035) rotate(1deg);z-index:20;box-shadow:0 22px 42px rgba(32,69,103,.25)}
+.pdfPicker .dragHandle{font-size:17px;box-shadow:0 3px 10px #0002}
+.mergePicker .pickerToolbar{padding:9px 11px;border-radius:10px;background:#eef4f9}
+.mergePicker .pickerToolbar>span{font-weight:800;color:#3478b9}
+.app.dark .mergePicker .pickerToolbar{background:#172434}
+.app.dark .mergePicker .pickerToolbar>span{color:#8bc4f3}
+@media(max-width:1100px){.pdfPicker .pageGrid{grid-template-columns:repeat(4,minmax(140px,1fr))}}
+@media(max-width:760px){.workspaceIntro{align-items:flex-start;flex-direction:column}.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(105px,1fr));gap:11px;max-height:none}}
