@@ -159,3 +159,5 @@ footer{padding:14px 0 40px}
 @media(max-width:1000px){.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(140px,1fr))}}
 @media(max-width:680px){.pdfPicker{padding:12px}.pdfPicker .pickerHeader{align-items:flex-start}.pdfPicker .pickerHeader b{font-size:13px}.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(100px,1fr));gap:10px}.pdfPicker .pickerToolbar{align-items:flex-start;flex-direction:column}.pdfPicker .pickerToolbar>span{align-self:flex-start}}
 @media(max-width:440px){.pdfPicker .pageGrid{grid-template-columns:repeat(2,minmax(115px,1fr));gap:9px}.pdfPicker .pickerCount{min-width:52px;height:46px}.pdfPicker .pageThumb{padding:5px}.pdfPicker .pageCheck,.pdfPicker .pageNumber{top:6px}.pdfPicker .pageCheck{left:6px}.pdfPicker .pageNumber{right:6px}}
+
+.aiToggle{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line,#ddd);border-radius:12px;cursor:pointer}.aiToggle input{accent-color:currentColor}.aiToggle span{font-weight:700}
