@@ -380,3 +380,27 @@ main{max-width:1180px;padding-top:42px}
 .app.dark .categoryCard:hover,.app.dark .tool:hover{border-color:#8b3835!important;box-shadow:0 12px 30px rgba(229,57,53,.12)!important}
 .app.dark .categoryIcon,.app.dark .tool .icon{background:#351f20!important;border-color:#573132!important;color:#ff6b66!important}
 .app.dark .search,.app.dark .drop,.app.dark .secondary,.app.dark .renameBtn{background:#202124!important;border-color:#3a3c40!important;color:#f5f5f5}
+
+/* v1.7 - stronger card content hierarchy */
+.tool{min-height:245px!important;padding:0!important}
+.toolmain{padding:26px 24px 24px!important}
+.tooltop{margin-bottom:18px!important}
+.tool .icon{width:58px!important;height:58px!important;border-radius:16px!important}
+.tool .icon svg{width:30px!important;height:30px!important;stroke-width:2.2}
+.tool h3{font-size:21px!important;line-height:1.45!important;font-weight:800!important;margin:0 0 10px!important;color:#202124!important}
+.tool p{font-size:14px!important;line-height:1.9!important;margin:0!important;max-width:95%!important;color:#596575!important}
+.tool .openArrow{font-size:22px!important;font-weight:800}
+.tool .fav{width:38px!important;height:38px!important;font-size:22px!important}
+.categoryCard{min-height:145px!important;padding:24px!important}
+.categoryIcon{width:62px!important;height:62px!important;border-radius:17px!important;flex:0 0 62px}
+.categoryIcon svg{width:31px!important;height:31px!important}
+.categoryCard h3{font-size:20px!important;line-height:1.45!important;margin-bottom:7px!important}
+.categoryCard p{font-size:14px!important;line-height:1.8!important}
+.categoryCard small{font-size:12px!important}
+.grid{grid-template-columns:repeat(auto-fit,minmax(285px,1fr))!important}
+@media(max-width:700px){
+ .tool{min-height:215px!important}.toolmain{padding:22px 20px!important}.tool h3{font-size:19px!important}.tool p{font-size:13.5px!important}
+ .categoryCard{padding:20px!important}.categoryIcon{width:54px!important;height:54px!important;flex-basis:54px}.categoryCard h3{font-size:18px!important}
+}
+.app.dark .tool h3,.app.dark .categoryCard h3{color:#fff!important}
+.app.dark .tool p,.app.dark .categoryCard p{color:#aeb8c4!important}
