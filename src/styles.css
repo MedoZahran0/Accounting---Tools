@@ -495,3 +495,9 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
   .introBrand{font-size:34px!important}
 }
 .categoryCard small{display:none!important}
+
+/* v1.11 - intro contrast */
+.introBrand{
+  color:#fff!important;
+  text-shadow:0 3px 16px rgba(74,18,15,.72),0 0 2px rgba(74,18,15,.9)!important;
+}
