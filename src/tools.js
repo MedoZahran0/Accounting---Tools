@@ -181,25 +181,38 @@ const normalizeMergeOrder=(docs,order)=>{
 };
 const mergePreservingPdf=async(files,order,onProgress)=>{
  const out=await PDFDocument.create();
- const sources=await Promise.all(files.map(f=>f.arrayBuffer().then(b=>PDFDocument.load(b,{ignoreEncryption:true}))));
+ const sources=await Promise.all(files.map(async f=>{
+  const bytes=await pdfBytes(f);
+  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
+ }));
  const safeOrder=normalizeMergeOrder(sources,order);
+ if(!safeOrder.length)throw Error('لم يتم العثور على صفحات صالحة للدمج');
  for(let i=0;i<safeOrder.length;i++){
   const item=safeOrder[i],src=sources[item.fileIndex];
   if(!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
   const copied=await out.copyPages(src,[item.page-1]);
-  if(!copied.length)throw Error('الصفحة '+item.page+' غير موجودة');
+  if(copied.length!==1)throw Error('تعذر نسخ الصفحة '+item.page+' من الملف '+(item.fileIndex+1));
   out.addPage(copied[0]);
-  onProgress?.(Math.round((i+1)/Math.max(1,safeOrder.length)*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
+  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
  }
- if(!out.getPageCount())throw Error('لم يتم العثور على صفحات لدمجها');
- return out.save({useObjectStreams:false});
+ if(out.getPageCount()!==safeOrder.length)throw Error('فشل إنشاء صفحات ملف الدمج');
+ const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
+ const check=await PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
+ if(check.getPageCount()!==safeOrder.length)throw Error('تم إنشاء ملف دمج غير صالح');
+ return bytes;
 };
 export const mergePdfs=async(files,onProgress)=>{
- const docs=await Promise.all(files.map(f=>f.arrayBuffer().then(b=>PDFDocument.load(b,{ignoreEncryption:true}))));
+ const docs=await Promise.all(files.map(async f=>{
+  const bytes=await pdfBytes(f);
+  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
+ }));
  return mergePreservingPdf(files,buildSequentialOrder(docs),onProgress);
 };
 export const mergeOrderedPdfs=async(files,order,onProgress)=>{
- const docs=await Promise.all(files.map(f=>f.arrayBuffer().then(b=>PDFDocument.load(b,{ignoreEncryption:true}))));
+ const docs=await Promise.all(files.map(async f=>{
+  const bytes=await pdfBytes(f);
+  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
+ }));
  return mergePreservingPdf(files,normalizeMergeOrder(docs,order),onProgress);
 };
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
