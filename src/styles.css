@@ -965,3 +965,16 @@ header{background:#fff;border-bottom:1px solid #dfe7f0;box-shadow:0 2px 14px #18
 /* keep the tools workspace top bar visually consistent with the main header */
 .modalhead{background:#fff;border:1px solid #dfe6ef;border-radius:14px;padding:10px 12px;margin:-2px -2px 14px}
 .app.dark .modalhead{background:#151f2d;border-color:#29364a}
+
+/* v1.22 workspace visual match */
+.modal{background:transparent!important}
+.modalhead{background:#fff!important;border:1px solid #dfe7f0!important;box-shadow:0 3px 16px #18324d10!important;border-radius:12px!important;margin:0 0 10px!important;padding:8px 12px!important}
+.workspaceIntro{background:#fff!important;border:1px solid #dfe7f0!important;border-radius:12px!important;box-shadow:0 2px 12px #18324d08!important;padding:8px 12px!important;margin-bottom:10px!important}
+.workspaceEyebrow{font-size:9px!important}.modalhead h3{font-size:16px!important}.modalhead p{font-size:10px!important;margin:2px 0!important}
+.workspaceBack{font-size:10px!important;padding:7px 10px!important}
+.app.dark .modalhead,.app.dark .workspaceIntro{background:#151f2d!important;border-color:#29364a!important;color:#e8edf5}
+/* visible but very subtle page-space pattern */
+.modal{position:relative;overflow:hidden}
+.modal:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(circle at 12% 18%,#8db8dc 0 1px,transparent 1.4px),radial-gradient(circle at 84% 28%,#b5cee4 0 1px,transparent 1.4px),radial-gradient(circle at 28% 82%,#a9c6df 0 1px,transparent 1.4px);background-size:90px 90px,135px 135px,115px 115px}
+.modal>*{position:relative;z-index:1}
+.app.dark .modal:before{opacity:.22;background-image:radial-gradient(circle at 12% 18%,#6689ad 0 1px,transparent 1.4px),radial-gradient(circle at 84% 28%,#58738f 0 1px,transparent 1.4px)}
