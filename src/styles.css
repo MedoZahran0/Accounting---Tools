@@ -963,3 +963,20 @@ header{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:
 .app.dark .modal{background:#151f2d;border-color:#29364a}.app.dark .modal::before{background:radial-gradient(circle,rgba(76,145,210,.10),transparent 70%)}.app.dark .modal::after{background:radial-gradient(circle,rgba(70,105,150,.08),transparent 70%)}.app.dark .modalhead{background:#151f2d!important;color:#edf2f7!important;border-bottom-color:#29364a!important}.app.dark .modalhead h3{color:#edf2f7!important}.app.dark .modalhead p{color:#9eabbc!important}.app.dark .modalicon{background:#20364d!important;color:#8fc7ff!important;border-color:#31506c!important}.app.dark .workspaceBack{background:#202a38!important;border-color:#334257!important;color:#edf2f7!important}.app.dark .workspaceIntro{background:linear-gradient(135deg,#182435,#151f2d)!important;border-color:#2d3b4d!important}.app.dark .workspaceIntro::after{border-color:#30445b}.app.dark .workspaceIntro span{color:#9eabbc}.app.dark .workspaceStatus{color:#79b7ec!important}
 .modalactions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;position:sticky;bottom:-22px;background:inherit;padding-top:10px;z-index:3}
 @media(max-width:700px){header{padding:0 18px}.azLogo{width:36px;height:36px}.mzName{font-size:10px}.brand h1{font-size:16px}.brand p{font-size:10px}.modal{max-height:94vh;padding:16px}.modalhead{min-height:62px;padding-bottom:11px!important}.modalhead h3{font-size:16px!important}.modalicon{width:38px;height:38px;flex-basis:38px}.workspaceBack{min-height:36px;padding:0 9px}.workspaceIntro{padding:10px 11px!important}.workspaceStatus{font-size:10px}}
+
+/* v1.21 - larger workspace + main header visual match */
+header{
+  background:linear-gradient(135deg,#fff7f5 0%,#f9f2f1 48%,#f2e7e5 100%)!important;
+  border-bottom-color:#ead9d6!important;
+}
+.modal{
+  width:min(1100px,96vw)!important;
+  max-height:94vh!important;
+  padding:26px!important;
+}
+.modalhead{background:linear-gradient(135deg,#fff7f5,#f9f2f1)!important;border-bottom-color:#ead9d6!important}
+.workspaceIntro{background:linear-gradient(135deg,#fff7f5,#fff)!important;border-color:#ead9d6!important}
+.app.dark header{background:linear-gradient(135deg,#241d20,#1b2029)!important;border-bottom-color:#4a3538!important}
+.app.dark .modalhead{background:linear-gradient(135deg,#241d20,#151f2d)!important;border-bottom-color:#3b3034!important}
+.app.dark .workspaceIntro{background:linear-gradient(135deg,#251f22,#151f2d)!important;border-color:#44343a!important}
+@media(max-width:700px){.modal{width:96vw!important;padding:16px!important}}
