@@ -103,7 +103,7 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
   const max=Math.max(1,...data.map(r=>r.length)),a=data.map(r=>{const x=r.slice(0,max);while(x.length<max)x.push('');return x});
   const ws=XLSX.utils.aoa_to_sheet(a.length?a:[['لا توجد بيانات']]);
   ws['!cols']=Array.from({length:max},(_,c)=>({wch:Math.min(45,Math.max(12,...a.slice(0,150).map(r=>String(r[c]??'').length+2)))}));
-  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,sheet);return wb;
+  ws['!sheetViews']=[{rightToLeft:true}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,sheet);return wb;
 };
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
@@ -118,17 +118,24 @@ const AI_ENDPOINT=import.meta.env.VITE_AI_ENDPOINT||'/api/ai';
 
 const normalizeAiRows=(rows)=>rows.map(r=>Array.isArray(r)?r.map(v=>String(v??'').trim()):[]);
 
-export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='document_ocr'}={}){
+export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='document_ocr',file=null}={}){
   const cleaned=normalizeAiRows(rows).map(r=>r.map(v=>v.replace(/[\u200B\u200C\u200D\uFEFF]/g,'').replace(/[ \\t]+/g,' ').trim()));
   const local=cleaned.map(r=>r.map(v=>v.replace(/[|¦]/g,'I').replace(/[٠-٩]/g,d=>toEnglish(d))));
-  if(!endpoint) return {rows:local,source:'local',confidence:'محلي'};
+  if(!endpoint)return{rows:local,source:'local',confidence:'محلي'};
   try{
-    const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task,rows:local,language:'ar+en'}),signal});
-    if(!res.ok) throw Error('AI endpoint '+res.status);
-    const data=await res.json();
-    const refined=normalizeAiRows(data?.rows);
-    if(!Array.isArray(data?.rows)||refined.length!==local.length) throw Error('Invalid AI response');
-    const safe=refined.map((r,i)=>r.length===local[i].length?r:local[i]);
-    return {rows:safe,source:'ai',confidence:data?.confidence||'AI'};
-  }catch(e){return {rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
+    const body={task,rows:local,language:'ar+en'};
+    if(file){
+      const bytes=new Uint8Array(await file.arrayBuffer());
+      let binary='';const chunk=0x8000;
+      for(let p=0;p<bytes.length;p+=chunk)binary+=String.fromCharCode(...bytes.subarray(p,p+chunk));
+      body.pdfBase64=btoa(binary);body.mimeType=file.type||'application/pdf';
+    }
+    const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal});
+    if(!res.ok)throw Error('AI endpoint '+res.status);
+    const data=await res.json(),refined=normalizeAiRows(data?.rows);
+    if(!Array.isArray(data?.rows)||!refined.length)throw Error('Invalid AI response');
+    if(local.length&&refined.length!==local.length)throw Error('AI changed row count');
+    const safe=local.length?refined.map((r,i)=>r.length===local[i].length?r:local[i]):refined;
+    return{rows:safe,source:'ai',confidence:data?.confidence||'AI'};
+  }catch(e){return{rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
 }
