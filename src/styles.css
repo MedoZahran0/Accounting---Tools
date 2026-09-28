@@ -115,3 +115,47 @@ footer{padding:14px 0 40px}
 @media(max-width:900px){.pageGrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:680px){.pdfPicker{padding:12px}.pickerHeader{align-items:flex-start}.pickerCount{min-width:54px;height:42px}.pageGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.pickerTools{align-items:flex-start;flex-direction:column}.pickerTools>span{margin-right:0}}
 @media(max-width:430px){.pageGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.pickerHeader b{font-size:12px}.pickerHeader span{font-size:9px}}
+
+/* v1.0 real iLovePDF-style PDF page thumbnails */
+.pdfPicker{background:#f5f6f8;border:0;border-radius:14px;padding:18px;margin-top:18px}
+.pdfPicker .pickerHeader{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
+.pdfPicker .pickerHeader>div:first-child{display:flex;flex-direction:column;gap:4px}
+.pdfPicker .pickerHeader b{font-size:16px;color:#1d2b3a}
+.pdfPicker .pickerHeader span{font-size:10px;color:#7b8796}
+.pdfPicker .pickerCount{min-width:62px;height:54px;border-radius:10px;background:#fff;border:1px solid #e0e4e9;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 1px 4px #1522380d}
+.pdfPicker .pickerCount strong{font-size:20px;line-height:1;color:#3478b9}
+.pdfPicker .pickerCount small{font-size:9px;color:#8490a0;margin-top:4px}
+.pdfPicker .pickerToolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.pdfPicker .pickerActions{display:flex;gap:7px;flex-wrap:wrap}
+.pdfPicker .pickerToolbar button{border:1px solid #d8dee6;background:#fff;color:#34465b;border-radius:7px;padding:7px 11px;font:inherit;font-size:10px;cursor:pointer}
+.pdfPicker .pickerToolbar button:hover{border-color:#3478b9;color:#3478b9}
+.pdfPicker .pickerToolbar>span{font-size:9px;color:#7d8999}
+.pdfPicker .pageGrid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:16px;max-height:520px;overflow:auto;padding:5px 4px 12px}
+.pdfPicker .pageThumb{position:relative;border:0;border-radius:7px;padding:7px 7px 5px;background:#fff;cursor:pointer;box-shadow:0 2px 8px #1a2c420f;transition:transform .15s,box-shadow .15s,outline .15s,opacity .15s;touch-action:none}
+.pdfPicker .pageThumb:hover{transform:translateY(-2px);box-shadow:0 8px 20px #1a2c4218}
+.pdfPicker .pageThumb.selected{outline:3px solid #4fbe8a;background:#fff;box-shadow:0 7px 18px #4fbe8a2b}
+.pdfPicker .pageThumb.dragging{opacity:.42;transform:scale(.95);box-shadow:0 18px 35px #1a2c4233}
+.pdfPicker .pagePaper{position:relative;width:100%;aspect-ratio:210/297;background:#fff;border-radius:3px;overflow:hidden;box-shadow:0 1px 5px #1112}
+.pdfPicker .pagePaper img{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
+.pdfPicker .pageCheck{position:absolute;top:8px;left:8px;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #4fbe8a;color:#fff;font-size:15px;font-weight:900;box-shadow:0 2px 6px #0002}
+.pdfPicker .pageThumb.selected .pageCheck{background:#4fbe8a;border-color:#4fbe8a}
+.pdfPicker .pageNumber{position:absolute;top:8px;right:8px;min-width:27px;height:25px;padding:0 6px;border-radius:5px;background:#263444e8;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800}
+.pdfPicker .dragHandle{position:absolute;right:8px;bottom:8px;width:28px;height:25px;border-radius:6px;background:#fff;color:#67778a;display:grid;place-items:center;font-size:15px;letter-spacing:-3px;box-shadow:0 2px 7px #0002}
+.pdfPicker .pageLabel{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:7px 3px 2px}
+.pdfPicker .pageLabel b{font-size:10px;color:#4d5c6e;font-weight:700}
+.pdfPicker .pageLabel span{font-size:9px;color:#4fbe8a;font-weight:800}
+.pdfPicker .pickerLoading{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+.pdfPicker .pickerLoading b{font-size:13px;color:#536276}
+.pdfPicker .pickerLoading span{font-size:10px;color:#8793a4}
+.app.dark .pdfPicker{background:#101823}
+.app.dark .pdfPicker .pickerHeader b{color:#edf2f7}
+.app.dark .pdfPicker .pickerHeader span,.app.dark .pdfPicker .pickerToolbar>span{color:#aeb9c7}
+.app.dark .pdfPicker .pickerCount,.app.dark .pdfPicker .pickerToolbar button{background:#151f2d;border-color:#334257;color:#edf2f7}
+.app.dark .pdfPicker .pageThumb{background:#151f2d}
+.app.dark .pdfPicker .pagePaper{background:#0f1722}
+.app.dark .pdfPicker .pagePaper img{background:#fff}
+.app.dark .pdfPicker .pageLabel b{color:#c0cad6}
+.app.dark .pdfPicker .dragHandle{background:#1b2634;color:#aeb9c7}
+@media(max-width:1000px){.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(140px,1fr))}}
+@media(max-width:680px){.pdfPicker{padding:12px}.pdfPicker .pickerHeader{align-items:flex-start}.pdfPicker .pickerHeader b{font-size:13px}.pdfPicker .pageGrid{grid-template-columns:repeat(3,minmax(100px,1fr));gap:10px}.pdfPicker .pickerToolbar{align-items:flex-start;flex-direction:column}.pdfPicker .pickerToolbar>span{align-self:flex-start}}
+@media(max-width:440px){.pdfPicker .pageGrid{grid-template-columns:repeat(2,minmax(115px,1fr));gap:9px}.pdfPicker .pickerCount{min-width:52px;height:46px}.pdfPicker .pageThumb{padding:5px}.pdfPicker .pageCheck,.pdfPicker .pageNumber{top:6px}.pdfPicker .pageCheck{left:6px}.pdfPicker .pageNumber{right:6px}}
