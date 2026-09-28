@@ -1,9 +1,9 @@
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// PDF.js worker: Vite must be given the worker URL explicitly, otherwise
-// PDF rendering fails in the browser with GlobalWorkerOptions.workerSrc.
-pdfjsLib.GlobalWorkerOptions.workerSrc=new URL('pdfjs-dist/build/pdf.worker.min.mjs',import.meta.url).toString();
+// Let Vite emit PDF.js's worker as a real same-origin asset.
+pdfjsLib.GlobalWorkerOptions.workerSrc=pdfWorkerUrl;
 import {PDFDocument,degrees,StandardFonts,rgb} from 'pdf-lib';
 import {createWorker} from 'tesseract.js';
 
@@ -23,13 +23,13 @@ const pdfBytes=async f=>{
 export const loadPdf=async f=>{
   const data=await pdfBytes(f);
   const head=new TextDecoder('latin1').decode(data.slice(0,1024));
-  if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً (لم يتم العثور على ترويسة PDF). اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
+  if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً. اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
   try{
-    // Use the main thread for previews. This avoids browser/CDN worker startup failures.
-    return await pdfjsLib.getDocument({data,disableWorker:true,useWorkerFetch:false,isEvalSupported:false,disableAutoFetch:false}).promise;
+    return await pdfjsLib.getDocument({data,disableAutoFetch:false,useWorkerFetch:true,isEvalSupported:true}).promise;
   }catch(e){
     const m=String(e?.message||e);
     if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
+    if(/worker|fake worker|GlobalWorkerOptions/i.test(m))throw Error('تعذر تشغيل محرك معاينة PDF في المتصفح. أعد فتح الصفحة ثم جرّب مرة أخرى.');
     throw e;
   }
 };
