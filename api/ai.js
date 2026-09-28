@@ -7,7 +7,7 @@ export default async function handler(req,res){
     if(!Array.isArray(rows)||rows.length>1200) return res.status(400).json({error:'Invalid rows'});
     const rules={
       pdf_to_word_ocr_correction:'Correct OCR errors using surrounding context. Preserve every number, date, amount, name, code and punctuation unless strongly supported. Never invent missing text. Keep exactly the same row and cell counts.',
-      pdf_table_reconstruction:'Read the supplied PDF visually and reconstruct its tables accurately. Arabic text must remain correct Arabic Unicode in logical reading order. Preserve every date, amount, account number and balance exactly when readable. Do not reverse Arabic characters, do not transliterate Arabic, do not invent values. Return rows in normal table reading order.',
+      pdf_table_reconstruction:'Read the supplied PDF visually and reconstruct its tables accurately. Arabic text must remain correct Arabic Unicode in logical reading order. Preserve every date, amount, account number and balance exactly when readable. Do not reverse Arabic characters, do not transliterate Arabic, do not invent values. Preserve spaces between Arabic words exactly; never concatenate separate Arabic words into one string. Return rows in normal table reading order.',
       bank_statement_reconstruction:'Read the supplied bank statement PDF visually as an accounting document. Reconstruct the table accurately. Arabic text must remain correct Arabic Unicode in logical reading order. Preserve every date, description, debit, credit and balance exactly when readable. Never invent or silently change financial values.'
     };
     const instructions=rules[task]||rules.pdf_to_word_ocr_correction;
