@@ -779,3 +779,62 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
   .toolmain{padding:15px!important}
   .introBrand{font-size:32px!important}
 }
+
+
+/* v1.17 - fit entire page without vertical scroll */
+html,body,#root{
+  min-height:100%!important;
+}
+body{
+  overflow-y:hidden!important;
+}
+.app{
+  min-height:100vh!important;
+  height:100vh!important;
+  overflow:hidden!important;
+}
+main{
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+}
+.sectionTop{
+  min-height:48px!important;
+  padding:7px 14px!important;
+}
+.subcats{
+  margin:4px 0 8px!important;
+}
+.tool{
+  min-height:178px!important;
+}
+.toolmain{
+  padding:14px 15px 12px!important;
+}
+.tooltop{
+  margin-bottom:9px!important;
+}
+.tool .icon{
+  width:40px!important;
+  height:40px!important;
+  border-radius:11px!important;
+}
+.tool .icon svg{
+  width:21px!important;
+  height:21px!important;
+}
+.tool h3{
+  font-size:15px!important;
+  margin-bottom:4px!important;
+}
+.tool p{
+  font-size:11.5px!important;
+  line-height:1.45!important;
+}
+.grid{
+  gap:10px!important;
+}
+@media(max-width:800px){
+  body{overflow-y:auto!important}
+  .app{height:auto!important;min-height:100vh!important;overflow:visible!important}
+  .tool{min-height:170px!important}
+}
