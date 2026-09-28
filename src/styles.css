@@ -507,3 +507,32 @@ header{height:84px!important;background:linear-gradient(90deg,#fff 0%,#fff8f7 52
 .subcats>button{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
 .subcats>button small{margin-inline-start:auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:26px!important}
 .subcats>.backBtn{flex:0 0 auto!important;justify-content:center!important}
+
+/* v1.13 - home counts + full-screen section navigation */
+.categoryGrid .categoryCard small{
+  display:block!important;
+  margin-top:4px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  color:#b15a55!important;
+}
+.introBrand{
+  color:#35191a!important;
+  -webkit-text-fill-color:#35191a!important;
+  text-shadow:0 2px 0 rgba(255,255,255,.32),0 7px 22px rgba(70,18,18,.28)!important;
+}
+.app.dark .introBrand{
+  color:#fff5f3!important;
+  -webkit-text-fill-color:#fff5f3!important;
+  text-shadow:0 3px 18px rgba(35,8,8,.7)!important;
+}
+.subcats{
+  flex-wrap:nowrap!important;
+  overflow:visible!important;
+}
+.subcats>button{
+  min-width:0!important;
+}
+@media(max-width:800px){
+  .subcats{flex-wrap:wrap!important}
+}
