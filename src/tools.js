@@ -189,63 +189,45 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
 };
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
-const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++){const count=docs[fi]?.getPageCount?.()||docs[fi]?.numPages||0;for(let page=1;page<=count;page++)out.push({fileIndex:fi,page})}return out};
+const pageCount=doc=>Number(doc?.getPageCount?.()||doc?.numPages||0);
+const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++){for(let page=1;page<=pageCount(docs[fi]);page++)out.push({fileIndex:fi,page})}return out};
 const normalizeMergeOrder=(docs,order)=>{
  const all=buildSequentialOrder(docs);
  if(!Array.isArray(order)||order.length!==all.length)return all;
  const seen=new Set(),safe=[];
  for(const item of order){
-  const fi=Number(item?.fileIndex),page=Number(item?.page),count=docs[fi]?.getPageCount?.()||0;
+  const fi=Number(item?.fileIndex),page=Number(item?.page),count=pageCount(docs[fi]);
   if(!Number.isInteger(fi)||fi<0||fi>=docs.length||!Number.isInteger(page)||page<1||page>count)return all;
   const key=fi+':'+page;if(seen.has(key))return all;seen.add(key);safe.push({fileIndex:fi,page});
  }
  return safe.length===all.length?safe:all;
 };
+// Keep PDF pages as PDF objects (not canvas screenshots). This preserves selectable
+// text, vector artwork, Arabic fonts, links, and original page quality.
 const mergePreservingPdf=async(files,order,onProgress)=>{
- const sources=await Promise.all(files.map(f=>loadPdf(f)));
+ const sources=await Promise.all(files.map(async f=>PDFDocument.load(await pdfBytes(f),{ignoreEncryption:true,updateMetadata:false})));
  const safeOrder=normalizeMergeOrder(sources,order);
- if(!safeOrder.length)throw Error('لم يتم العثور على صفحات صالحة للدمج');
+ if(!safeOrder.length)throw Error('لم يتم العثور على صفحات صالحة للدمج. تأكد من اختيار ملفات PDF تحتوي على صفحات.');
  const out=await PDFDocument.create();
  for(let i=0;i<safeOrder.length;i++){
   const item=safeOrder[i],src=sources[item.fileIndex];
   if(!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const pdfPage=await src.getPage(item.page);
-  const base=pdfPage.getViewport({scale:1});
-  // Rasterize each source page before embedding: this avoids blank pages caused
-  // by malformed/unsupported resource references when copying PDF objects.
-  const canvas=await renderPage(pdfPage,1.7);
-  const imageBytes=await new Promise((resolve,reject)=>{
-   canvas.toBlob(async blob=>{
-    if(!blob)return reject(Error('تعذر تجهيز الصفحة '+(i+1)+' للدمج'));
-    try{resolve(await blob.arrayBuffer())}catch(e){reject(e)}
-   },'image/jpeg',.94);
-  });
-  const image=await out.embedJpg(imageBytes);
-  const page=out.addPage([base.width,base.height]);
-  page.drawImage(image,{x:0,y:0,width:base.width,height:base.height});
-  canvas.width=canvas.height=1;
-  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري تجهيز الصفحة '+(i+1)+' من '+safeOrder.length);
+  const [page]=await out.copyPages(src,[item.page-1]);
+  if(!page)throw Error('تعذر نسخ الصفحة '+item.page+' من الملف '+(item.fileIndex+1));
+  out.addPage(page);
+  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
  }
- if(out.getPageCount()!==safeOrder.length)throw Error('فشل إنشاء صفحات ملف الدمج');
+ if(out.getPageCount()!==safeOrder.length)throw Error('عدد صفحات الملف الناتج غير مطابق للصفحات المحددة');
  const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
  const check=await PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
- if(check.getPageCount()!==safeOrder.length)throw Error('تم إنشاء ملف دمج غير صالح');
+ if(check.getPageCount()!==safeOrder.length)throw Error('ملف الدمج الناتج غير مكتمل');
  return bytes;
 };
 export const mergePdfs=async(files,onProgress)=>{
- const docs=await Promise.all(files.map(async f=>{
-  const bytes=await pdfBytes(f);
-  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
- }));
+ const docs=await Promise.all(files.map(async f=>PDFDocument.load(await pdfBytes(f),{ignoreEncryption:true,updateMetadata:false})));
  return mergePreservingPdf(files,buildSequentialOrder(docs),onProgress);
 };
-export const mergeOrderedPdfs=async(files,order,onProgress)=>{
- const docs=await Promise.all(files.map(async f=>{
-  const bytes=await pdfBytes(f);
-  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
- }));
- return mergePreservingPdf(files,normalizeMergeOrder(docs,order),onProgress);
-};
+export const mergeOrderedPdfs=async(files,order,onProgress)=>mergePreservingPdf(files,order,onProgress);
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
