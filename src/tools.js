@@ -189,7 +189,7 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
 };
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
-const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++){const count=docs[fi]?.getPageCount?.()||0;for(let page=1;page<=count;page++)out.push({fileIndex:fi,page})}return out};
+const buildSequentialOrder=docs=>{const out=[];for(let fi=0;fi<docs.length;fi++){const count=docs[fi]?.getPageCount?.()||docs[fi]?.numPages||0;for(let page=1;page<=count;page++)out.push({fileIndex:fi,page})}return out};
 const normalizeMergeOrder=(docs,order)=>{
  const all=buildSequentialOrder(docs);
  if(!Array.isArray(order)||order.length!==all.length)return all;
