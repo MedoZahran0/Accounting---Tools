@@ -46,20 +46,12 @@ export const renderPage=async(page,scale=2)=>{
   const canvas=document.createElement('canvas');
   canvas.width=Math.max(1,Math.ceil(viewport.width));
   canvas.height=Math.max(1,Math.ceil(viewport.height));
-  const context=canvas.getContext('2d',{alpha:false,willReadFrequently:false});
+  const context=canvas.getContext('2d',{alpha:false});
   if(!context)throw Error('المتصفح لم يتمكن من إنشاء مساحة رسم لمعاينة PDF');
-  context.save();
   context.fillStyle='#fff';
   context.fillRect(0,0,canvas.width,canvas.height);
-  context.restore();
-  const task=page.render({
-    canvasContext:context,
-    viewport,
-    background:'rgb(255,255,255)',
-    intent:'display',
-    annotationMode:pdfjsLib.AnnotationMode.ENABLE
-  });
-  await task.promise;
+  // Avoid optional PDF.js annotation/canvas paths that fail in some browsers.
+  await page.render({canvasContext:context,viewport,background:'rgb(255,255,255)'}).promise;
   return canvas;
 };
 
@@ -210,20 +202,29 @@ const normalizeMergeOrder=(docs,order)=>{
  return safe.length===all.length?safe:all;
 };
 const mergePreservingPdf=async(files,order,onProgress)=>{
- const out=await PDFDocument.create();
- const sources=await Promise.all(files.map(async f=>{
-  const bytes=await pdfBytes(f);
-  return PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
- }));
+ const sources=await Promise.all(files.map(f=>loadPdf(f)));
  const safeOrder=normalizeMergeOrder(sources,order);
  if(!safeOrder.length)throw Error('لم يتم العثور على صفحات صالحة للدمج');
+ const out=await PDFDocument.create();
  for(let i=0;i<safeOrder.length;i++){
   const item=safeOrder[i],src=sources[item.fileIndex];
   if(!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const copied=await out.copyPages(src,[item.page-1]);
-  if(copied.length!==1)throw Error('تعذر نسخ الصفحة '+item.page+' من الملف '+(item.fileIndex+1));
-  out.addPage(copied[0]);
-  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
+  const pdfPage=await src.getPage(item.page);
+  const base=pdfPage.getViewport({scale:1});
+  // Rasterize each source page before embedding: this avoids blank pages caused
+  // by malformed/unsupported resource references when copying PDF objects.
+  const canvas=await renderPage(pdfPage,1.7);
+  const imageBytes=await new Promise((resolve,reject)=>{
+   canvas.toBlob(async blob=>{
+    if(!blob)return reject(Error('تعذر تجهيز الصفحة '+(i+1)+' للدمج'));
+    try{resolve(await blob.arrayBuffer())}catch(e){reject(e)}
+   },'image/jpeg',.94);
+  });
+  const image=await out.embedJpg(imageBytes);
+  const page=out.addPage([base.width,base.height]);
+  page.drawImage(image,{x:0,y:0,width:base.width,height:base.height});
+  canvas.width=canvas.height=1;
+  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري تجهيز الصفحة '+(i+1)+' من '+safeOrder.length);
  }
  if(out.getPageCount()!==safeOrder.length)throw Error('فشل إنشاء صفحات ملف الدمج');
  const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
