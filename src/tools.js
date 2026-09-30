@@ -202,32 +202,37 @@ const normalizeMergeOrder=(docs,order)=>{
  }
  return safe.length===all.length?safe:all;
 };
-// Keep PDF pages as PDF objects (not canvas screenshots). This preserves selectable
-// text, vector artwork, Arabic fonts, links, and original page quality.
-const mergePreservingPdf=async(files,order,onProgress)=>{
- const sources=await Promise.all(files.map(async f=>PDFDocument.load(await pdfBytes(f),{ignoreEncryption:true,updateMetadata:false})));
- const safeOrder=normalizeMergeOrder(sources,order);
+// Merge by rendering each selected PDF page to a fresh image-backed PDF.
+// This is deliberately used for the merge path because it avoids blank-page output
+// with PDFs whose embedded/inherited resources are not safely copied by pdf-lib.
+const mergeAsRenderedPdf=async(files,order,onProgress)=>{
+ const docs=await Promise.all(files.map(f=>loadPdf(f)));
+ const safeOrder=normalizeMergeOrder(docs,order);
  if(!safeOrder.length)throw Error('لم يتم العثور على صفحات صالحة للدمج. تأكد من اختيار ملفات PDF تحتوي على صفحات.');
  const out=await PDFDocument.create();
  for(let i=0;i<safeOrder.length;i++){
-  const item=safeOrder[i],src=sources[item.fileIndex];
-  if(!src)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
-  const [page]=await out.copyPages(src,[item.page-1]);
-  if(!page)throw Error('تعذر نسخ الصفحة '+item.page+' من الملف '+(item.fileIndex+1));
-  out.addPage(page);
-  onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
+   const item=safeOrder[i],doc=docs[item.fileIndex];
+   if(!doc)throw Error('ملف المصدر غير موجود للصفحة '+(i+1));
+   const page=await doc.getPage(item.page);
+   const canvas=await renderPage(page,2);
+   const jpg=await new Promise((resolve,reject)=>canvas.toBlob(async blob=>{
+     try{if(!blob)throw Error('تعذر تجهيز الصفحة '+item.page);resolve(await blob.arrayBuffer())}catch(e){reject(e)}
+   },'image/jpeg',.96));
+   const image=await out.embedJpg(jpg);
+   const vp=page.getViewport({scale:1});
+   const outPage=out.addPage([vp.width,vp.height]);
+   outPage.drawImage(image,{x:0,y:0,width:vp.width,height:vp.height});
+   canvas.width=canvas.height=1;
+   onProgress?.(Math.round((i+1)/safeOrder.length*100),'جاري دمج الصفحة '+(i+1)+' من '+safeOrder.length);
  }
  if(out.getPageCount()!==safeOrder.length)throw Error('عدد صفحات الملف الناتج غير مطابق للصفحات المحددة');
- const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
- const check=await PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false});
- if(check.getPageCount()!==safeOrder.length)throw Error('ملف الدمج الناتج غير مكتمل');
- return bytes;
+ return out.save({useObjectStreams:false,addDefaultPage:false});
 };
 export const mergePdfs=async(files,onProgress)=>{
- const docs=await Promise.all(files.map(async f=>PDFDocument.load(await pdfBytes(f),{ignoreEncryption:true,updateMetadata:false})));
- return mergePreservingPdf(files,buildSequentialOrder(docs),onProgress);
+ const docs=await Promise.all(files.map(f=>loadPdf(f)));
+ return mergeAsRenderedPdf(files,buildSequentialOrder(docs),onProgress);
 };
-export const mergeOrderedPdfs=async(files,order,onProgress)=>mergePreservingPdf(files,order,onProgress);
+export const mergeOrderedPdfs=async(files,order,onProgress)=>mergeAsRenderedPdf(files,order,onProgress);
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
