@@ -25,7 +25,15 @@ export const loadPdf=async f=>{
   const head=new TextDecoder('latin1').decode(data.slice(0,1024));
   if(!head.includes('%PDF-'))throw Error('الملف المحدد ليس PDF صالحاً. اختر ملف PDF حقيقياً ثم جرّب مرة أخرى.');
   try{
-    return await pdfjsLib.getDocument({data,disableAutoFetch:false,useWorkerFetch:true,isEvalSupported:true}).promise;
+    return await pdfjsLib.getDocument({
+      data,
+      disableAutoFetch:false,
+      useWorkerFetch:false,
+      isEvalSupported:false,
+      isImageDecoderSupported:false,
+      isOffscreenCanvasSupported:false,
+      useWasm:false
+    }).promise;
   }catch(e){
     const m=String(e?.message||e);
     if(/No PDF header found|Invalid PDF|InvalidPDFException/i.test(m))throw Error('تعذر قراءة هذا الملف كـPDF. قد يكون الملف تالفاً أو ليس PDF حقيقياً.');
@@ -33,7 +41,27 @@ export const loadPdf=async f=>{
     throw e;
   }
 };
-export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.max(1,Math.ceil(v.width));c.height=Math.max(1,Math.ceil(v.height));const ctx=c.getContext('2d',{willReadFrequently:true,alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);await page.render({canvasContext:ctx,viewport:v,background:'#fff'}).promise;return c};
+export const renderPage=async(page,scale=2)=>{
+  const viewport=page.getViewport({scale:Math.max(.1,Number(scale)||2)});
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.ceil(viewport.width));
+  canvas.height=Math.max(1,Math.ceil(viewport.height));
+  const context=canvas.getContext('2d',{alpha:false,willReadFrequently:false});
+  if(!context)throw Error('المتصفح لم يتمكن من إنشاء مساحة رسم لمعاينة PDF');
+  context.save();
+  context.fillStyle='#fff';
+  context.fillRect(0,0,canvas.width,canvas.height);
+  context.restore();
+  const task=page.render({
+    canvasContext:context,
+    viewport,
+    background:'rgb(255,255,255)',
+    intent:'display',
+    annotationMode:pdfjsLib.AnnotationMode.ENABLE
+  });
+  await task.promise;
+  return canvas;
+};
 
 const rowGroup=(items,tolerance=0.55)=>{
   const rows=[];
