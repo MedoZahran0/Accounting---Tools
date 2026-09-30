@@ -916,3 +916,22 @@ main{
 .app.dark .previewModalHead button{background:#303237!important;color:#fff!important}
 .app.dark .previewModalBody{background:#17181a!important}
 .app.dark .fullPreviewBtn{background:#25262a!important;border-color:#41434a!important;color:#e4e6ea!important}
+/* v1.19 - watermark preview button compact */
+.watermarkPreviewBtn{
+  width:auto!important;
+  min-height:42px!important;
+  height:42px!important;
+  padding:7px 16px!important;
+  margin-top:12px!important;
+  border:1px solid #d6dde5!important;
+  border-radius:9px!important;
+  background:#f7f9fb!important;
+  color:#34516d!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  cursor:pointer!important;
+}
+.watermarkPreviewBtn:hover{background:#eef5fb!important;border-color:#9fbdd7!important;color:#256bb1!important}
+.watermarkPreviewBtn:disabled{opacity:.6!important;cursor:not-allowed!important}
+.app.dark .watermarkPreviewBtn{background:#202b38!important;border-color:#3b4a5e!important;color:#d8e7f5!important}
+.app.dark .watermarkPreviewBtn:hover{background:#26374a!important}
