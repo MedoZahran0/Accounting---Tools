@@ -110,7 +110,7 @@ export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:
 export const mergePdfs=async fs=>{const out=await PDFDocument.create();for(const f of fs){const s=await PDFDocument.load(await f.arrayBuffer());(await out.copyPages(s,s.getPageIndices())).forEach(p=>out.addPage(p))}return out.save()};
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer()),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
-export const annotatePdf=async(f,kind,text,opts={})=>{const p=await PDFDocument.load(await f.arrayBuffer()),font=await p.embedFont(StandardFonts.Helvetica);p.getPages().forEach((x,i)=>{const{width,height}=x.getSize();if(kind==='number')x.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)});else{const size=Math.max(8,Math.min(180,Number(opts.size)||24)),opacity=Math.max(0,Math.min(1,Number(opts.opacity)??.22)),angle=Number(opts.angle)||35,txt=String(text||'ACCOUNTING TOOLS');const tw=font.widthOfTextAtSize(txt,size);x.drawText(txt,{x:(width-tw)/2,y:(height-size)/2,size,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle)})}});return p.save()};
+export const annotatePdf=async(f,kind,text,opts={})=>{const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),font=await p.embedFont(StandardFonts.Helvetica);p.getPages().forEach((x,i)=>{const{width,height}=x.getSize();if(kind==='number')x.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)});else{const size=Math.max(8,Math.min(180,Number(opts.size)||24)),opacity=Math.max(0,Math.min(1,Number(opts.opacity)??.22)),angle=Number(opts.angle)||35,txt=String(text||'ACCOUNTING TOOLS');const tw=font.widthOfTextAtSize(txt,size);x.drawText(txt,{x:(width-tw)/2,y:(height-size)/2,size,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle)})}});return p.save()};
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
 
@@ -139,4 +139,32 @@ export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='docum
     const safe=local.length?refined.map((r,i)=>r.length===local[i].length?r.map((v,j)=>{const ai=repairArabicText(v),src=repairArabicText(local[i][j]);const aiAr=(ai.match(/[\u0600-\u06FF]/g)||[]).length,srcAr=(src.match(/[\u0600-\u06FF]/g)||[]).length;const aiWords=(ai.match(/\s+/g)||[]).length,srcWords=(src.match(/\s+/g)||[]).length;if(aiAr>=4&&srcAr>=4&&srcWords>0&&aiWords===0&&src.length>ai.length*.8)return src;return ai;}):local[i]):refined;
     return{rows:safe,source:'ai',confidence:data?.confidence||'AI'};
   }catch(e){return{rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
+}
+
+// Live watermark preview: the preview button renders the current settings before execution.
+if(typeof window!=='undefined'){
+  window.addEventListener('click',async e=>{
+    const btn=e.target?.closest?.('.fullPreviewBtn');
+    if(!btn||!String(btn.textContent||'').includes('معاينة PDF قبل إضافة'))return;
+    setTimeout(async()=>{
+      try{
+        const iframe=document.querySelector('.previewModalBody iframe');
+        if(!iframe?.src)return;
+        const res=await fetch(iframe.src);
+        const blob=await res.blob();
+        const modal=btn.closest('.modal');
+        const inputs=[...(modal?.querySelectorAll('.options input')||[])];
+        const text=inputs[0]?.value||'ACCOUNTING TOOLS';
+        const size=inputs[1]?.value||24;
+        const opacity=inputs[2]?.value||.22;
+        const angle=inputs[3]?.value||35;
+        const bytes=await annotatePdf(new File([blob],'preview.pdf',{type:'application/pdf'}),'watermark',text,{size,opacity,angle});
+        const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+        iframe.src=url;
+        setTimeout(()=>URL.revokeObjectURL(url),60000);
+      }catch(err){
+        console.warn('Watermark preview failed',err);
+      }
+    },120);
+  });
 }
