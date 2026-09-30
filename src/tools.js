@@ -140,31 +140,3 @@ export async function aiRefineRows(rows,{endpoint=AI_ENDPOINT,signal,task='docum
     return{rows:safe,source:'ai',confidence:data?.confidence||'AI'};
   }catch(e){return{rows:local,source:'local-fallback',confidence:'محلي بعد تعذر AI'};}
 }
-
-// Live watermark preview: the preview button renders the current settings before execution.
-if(typeof window!=='undefined'){
-  window.addEventListener('click',async e=>{
-    const btn=e.target?.closest?.('.fullPreviewBtn');
-    if(!btn||!String(btn.textContent||'').includes('معاينة PDF قبل إضافة'))return;
-    setTimeout(async()=>{
-      try{
-        const iframe=document.querySelector('.previewModalBody iframe');
-        if(!iframe?.src)return;
-        const res=await fetch(iframe.src);
-        const blob=await res.blob();
-        const modal=btn.closest('.modal');
-        const inputs=[...(modal?.querySelectorAll('.options input')||[])];
-        const text=inputs[0]?.value||'ACCOUNTING TOOLS';
-        const size=inputs[1]?.value||24;
-        const opacity=inputs[2]?.value||.22;
-        const angle=inputs[3]?.value||35;
-        const bytes=await annotatePdf(new File([blob],'preview.pdf',{type:'application/pdf'}),'watermark',text,{size,opacity,angle});
-        const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
-        iframe.src=url;
-        setTimeout(()=>URL.revokeObjectURL(url),60000);
-      }catch(err){
-        console.warn('Watermark preview failed',err);
-      }
-    },120);
-  });
-}
