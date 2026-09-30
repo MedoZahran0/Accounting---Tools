@@ -42,11 +42,21 @@ function App() {
         </button>
       </header>
 
-      <main className="emptyHome">
-        <div className="emptyIcon">AZ</div>
-        <h1>أدوات المحاسب</h1>
-        <p>الموقع جاهز لبناء الأدوات من البداية.</p>
-        <span>لا توجد أدوات PDF أو أدوات قديمة في النسخة الجديدة.</span>
+      <main className="toolHome">
+        <section className="welcome">
+          <h1>أدوات المحاسب</h1>
+          <p>اختر الأداة التي تريد استخدامها</p>
+        </section>
+        <section className="toolCards">
+          <button className="toolCard" type="button">
+            <div className="toolCardIcon">▦</div>
+            <div><h2>كشف الحساب البنكي</h2><p>تحويل كشف الحساب إلى جدول Excel قابل للمراجعة والتعديل.</p></div>
+          </button>
+          <button className="toolCard" type="button">
+            <div className="toolCardIcon">▤</div>
+            <div><h2>الصور والنصوص</h2><p>استخراج النص من الصور وملفات PDF باستخدام OCR.</p></div>
+          </button>
+        </section>
       </main>
 
       <footer>
