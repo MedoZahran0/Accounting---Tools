@@ -110,7 +110,39 @@ export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:
 export const mergePdfs=async fs=>{const out=await PDFDocument.create();for(const f of fs){const s=await PDFDocument.load(await f.arrayBuffer());(await out.copyPages(s,s.getPageIndices())).forEach(p=>out.addPage(p))}return out.save()};
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer()),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
-export const annotatePdf=async(f,kind,text,opts={})=>{const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});if(kind==='number'){const font=await p.embedFont(StandardFonts.Helvetica);p.getPages().forEach((x,i)=>{const{width}=x.getSize();x.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)})});return new Uint8Array(await p.save({useObjectStreams:false,addDefaultPage:false}))}const rawSize=Number(opts.size),size=Math.max(8,Math.min(180,Number.isFinite(rawSize)&&rawSize>0?rawSize:24)),rawOpacity=Number(opts.opacity),opacity=Math.max(.05,Math.min(1,Number.isFinite(rawOpacity)?rawOpacity:.22)),rawAngle=Number(opts.angle),angle=Number.isFinite(rawAngle)?rawAngle:35,txt=String(text||'ACCOUNTING TOOLS');for(const page of p.getPages()){const{width,height}=page.getSize(),scale=3,canvas=document.createElement('canvas');canvas.width=Math.ceil(width*scale);canvas.height=Math.ceil(height*scale);const ctx=canvas.getContext('2d');if(!ctx)throw Error('تعذر تجهيز العلامة المائية');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.save();ctx.globalAlpha=opacity;ctx.fillStyle='#595959';ctx.font=(size*scale)+'px Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(angle*Math.PI/180);ctx.fillText(txt,0,0);ctx.restore();const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('تعذر إنشاء صورة العلامة المائية')),'image/png'));const overlay=await p.embedPng(await blob.arrayBuffer());page.drawImage(overlay,{x:0,y:0,width,height})}const bytes=await p.save({useObjectStreams:false,addDefaultPage:false}),verified=await PDFDocument.load(bytes,{ignoreEncryption:true});if(!verified.getPageCount())throw Error('تعذر إنشاء ملف PDF صالح');return new Uint8Array(bytes)};
+export const annotatePdf=async(f,kind,text,opts={})=>{
+  const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});
+  if(kind==='number'){
+    const font=await p.embedFont(StandardFonts.Helvetica);
+    p.getPages().forEach((page,i)=>{const{width}=page.getSize();page.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)})});
+    return new Uint8Array(await p.save({useObjectStreams:false,addDefaultPage:false}));
+  }
+  const rawSize=Number(opts.size),size=Math.max(8,Math.min(180,Number.isFinite(rawSize)&&rawSize>0?rawSize:24));
+  const rawOpacity=Number(opts.opacity),opacity=Math.max(.08,Math.min(1,Number.isFinite(rawOpacity)?rawOpacity:.22));
+  const rawAngle=Number(opts.angle),angle=Number.isFinite(rawAngle)?rawAngle:35;
+  const txt=String(text??'').trim()||'ACCOUNTING TOOLS';
+  const font=await p.embedFont(StandardFonts.Helvetica);
+  for(const page of p.getPages()){
+    const {width,height}=page.getSize();
+    const canvas=document.createElement('canvas');
+    const scale=2;
+    canvas.width=Math.max(1,Math.ceil(width*scale));canvas.height=Math.max(1,Math.ceil(height*scale));
+    const ctx=canvas.getContext('2d');
+    if(!ctx)throw Error('تعذر تجهيز العلامة المائية');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.save();ctx.globalAlpha=opacity;ctx.fillStyle='#555555';
+    ctx.font=`${size*scale}px Arial, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(angle*Math.PI/180);
+    ctx.fillText(txt,0,0,canvas.width*.9);ctx.restore();
+    const png=await new Promise((resolve,reject)=>canvas.toBlob(v=>v?resolve(v):reject(Error('تعذر إنشاء صورة العلامة المائية')),'image/png'));
+    const image=await p.embedPng(await png.arrayBuffer());
+    page.drawImage(image,{x:0,y:0,width,height});
+  }
+  const bytes=await p.save({useObjectStreams:false,addDefaultPage:false});
+  const check=await PDFDocument.load(bytes,{ignoreEncryption:true});
+  if(check.getPageCount()!==p.getPageCount())throw Error('فشل التحقق من صفحات PDF الناتج');
+  return new Uint8Array(bytes);
+};
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
 
