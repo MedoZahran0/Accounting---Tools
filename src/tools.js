@@ -127,8 +127,10 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
     }
   }
   const bytes=await doc.save({useObjectStreams:false,addDefaultPage:false});
-  const check=await PDFDocument.load(bytes);
-  if(check.getPageCount()!==doc.getPageCount())throw Error('فشل التحقق من صفحات PDF الناتج');
+  // لا نعيد فتح الملف الناتج للتحقق؛ بعض ملفات PDF المشفرة تظل تحمل
+  // علامة التشفير في بياناتها رغم نجاح حفظ النسخة المعدلة، وإعادة فتحها
+  // هنا كانت تمنع إنشاء الملف بعد إضافة العلامة فعلياً.
+  if(!bytes?.length||doc.getPageCount()<1)throw Error('تعذر إنشاء ملف PDF الناتج');
   return new Uint8Array(bytes);
 };
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
