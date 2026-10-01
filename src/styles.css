@@ -990,3 +990,18 @@ main{
 .mergePicker.mergeExpanded{position:fixed!important;z-index:10050!important;inset:4vh 4vw!important;width:auto!important;max-width:none!important;max-height:92vh!important;overflow:auto!important;padding:20px!important;border-radius:18px!important;box-shadow:0 24px 90px #07142666!important;background:#fff!important}
 .mergePicker.mergeExpanded .pageGrid{max-height:calc(92vh - 330px)!important;overflow:auto}
 @media(max-width:700px){.mergePicker.mergeExpanded{inset:2vh 2vw!important;padding:12px!important}.mergePicker.mergeExpanded .pageGrid{max-height:calc(96vh - 330px)!important}}
+
+
+/* Merge page arrangement window */
+.mergeArrangeLauncher{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin:12px 0;border:1px solid var(--line,#dce5ef);border-radius:12px;background:var(--surface,#f7f9fc)}
+.mergeArrangeLauncher span{font-size:13px;font-weight:700}
+.mergeArrangeLauncher button,.mergeArrangeHead button{border:0;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer;background:#1769aa;color:#fff}
+.mergeArrangeOverlay{position:fixed;inset:0;z-index:10000;background:#071426a8;display:flex;align-items:center;justify-content:center;padding:3vh 3vw}
+.mergeArrangeWindow{width:min(1180px,96vw);max-height:94vh;overflow:auto;background:var(--card,#fff);color:var(--text,#172334);border-radius:18px;box-shadow:0 24px 90px #07142666;padding:16px}
+.mergeArrangeHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;position:sticky;top:0;z-index:5;background:var(--card,#fff);padding:4px 0 12px;border-bottom:1px solid var(--line,#dce5ef)}
+.mergeArrangeHead div{display:flex;flex-direction:column;gap:4px}.mergeArrangeHead b{font-size:18px}.mergeArrangeHead span{font-size:12px;opacity:.75}
+.mergeArrangeWindow .mergePicker{border:0!important;padding:0!important;max-height:none!important;overflow:visible!important;inset:auto!important;width:100%!important;box-shadow:none!important}
+.mergeArrangeWindow .mergePicker .pageGrid{max-height:calc(94vh - 270px);overflow:auto}
+.mergeOrderBadge{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;background:#075fa8!important;color:#fff!important;padding:5px 9px!important;border-radius:8px!important;font-size:12px!important;font-weight:900!important}
+.mergeArrangeWindow .pageLabel{display:flex;flex-direction:column;gap:4px}.mergeArrangeWindow .pageLabel b{font-size:12px;overflow-wrap:anywhere}.mergeArrangeWindow .pageLabel span{font-size:11px;opacity:.8}
+@media(max-width:650px){.mergeArrangeOverlay{padding:1vh 1vw}.mergeArrangeWindow{width:98vw;max-height:98vh;padding:10px}.mergeArrangeHead{align-items:flex-start}.mergeArrangeHead button{white-space:nowrap;padding:8px}.mergeArrangeWindow .mergePicker .pageGrid{max-height:calc(98vh - 290px)}.mergeArrangeLauncher{align-items:stretch;flex-direction:column}}
