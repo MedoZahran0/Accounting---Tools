@@ -111,8 +111,8 @@ export const mergePdfs=async fs=>{const out=await PDFDocument.create();for(const
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer()),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
-  const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});
   if(kind==='number'){
+    const p=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});
     const font=await p.embedFont(StandardFonts.Helvetica);
     p.getPages().forEach((page,i)=>{const{width}=page.getSize();page.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)})});
     return new Uint8Array(await p.save({useObjectStreams:false,addDefaultPage:false}));
@@ -138,7 +138,7 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
     const page=out.addPage([width,height]);page.drawImage(image,{x:0,y:0,width,height});
   }
   const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
-  if((await PDFDocument.load(bytes)).getPageCount()!==source.numPages)throw Error('فشل التحقق من صفحات PDF الناتج');
+  if(out.getPageCount()!==source.numPages)throw Error('فشل التحقق من صفحات PDF الناتج');
   return new Uint8Array(bytes);
 };
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
