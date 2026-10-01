@@ -974,3 +974,6 @@ main{
 .mergeExpanded .pagePaper img{width:100%;height:auto;}
 .mergeExpanded .mergeExpandBtn{position:sticky;top:0;z-index:2;background:#fff;}
 @media(max-width:700px){.mergeExpanded{inset:1vh 1vw!important;padding:12px!important}.mergeExpanded .pageGrid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* Keep page thumbnails draggable by the app, not the browser's native image drag. */
+.mergePicker .pageThumb,.pdfPicker-reorder .pageThumb{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}.mergePicker .pageThumb:active,.pdfPicker-reorder .pageThumb:active{cursor:grabbing}.mergePicker .pageThumb img,.pdfPicker-reorder .pageThumb img{pointer-events:none;user-select:none;-webkit-user-drag:none}
