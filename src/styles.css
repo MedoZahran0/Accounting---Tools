@@ -963,3 +963,14 @@ main{
 .modal:has(.watermarkOptions) .modalhead p{display:none}
 .modal:has(.watermarkOptions) .modalactions{margin-top:10px}
 @media(max-width:680px){.watermarkOptions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Expanded merge preview/reorder workspace */
+.mergeExpandBtn{margin-top:9px;border:1px solid #b9c9e8;background:#edf4ff;color:#244b83;border-radius:9px;padding:8px 13px;font-weight:700;cursor:pointer}
+.mergeExpanded{position:fixed!important;inset:3vh 3vw!important;z-index:10020!important;background:var(--panel,#fff)!important;border:1px solid #b8c7da!important;border-radius:16px!important;box-shadow:0 20px 80px #0008!important;padding:20px!important;overflow:auto!important;max-height:94vh!important}
+.mergeExpanded .pageGrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;}
+.mergeExpanded .pageThumb{cursor:grab;touch-action:pan-y;}
+.mergeExpanded .pageThumb.dragging{opacity:.45;transform:scale(.96);outline:3px dashed #3978c8;}
+.mergeExpanded .pagePaper img{width:100%;height:auto;}
+.mergeExpanded .mergeExpandBtn{position:sticky;top:0;z-index:2;background:#fff;}
+@media(max-width:700px){.mergeExpanded{inset:1vh 1vw!important;padding:12px!important}.mergeExpanded .pageGrid{grid-template-columns:repeat(2,minmax(0,1fr));}}
