@@ -986,3 +986,7 @@ main{
 .mergeExpanded{border:1px solid #dfe6ee!important;background:#fff!important}
 .app.dark .mergePicker.mergeCollapsed,.app.dark .mergeExpanded{background:#111a27!important;border-color:#2b394d!important}
 .app.dark .mergeCompactBar>span{color:#aeb9c7}
+
+.mergePicker.mergeExpanded{position:fixed!important;z-index:10050!important;inset:4vh 4vw!important;width:auto!important;max-width:none!important;max-height:92vh!important;overflow:auto!important;padding:20px!important;border-radius:18px!important;box-shadow:0 24px 90px #07142666!important;background:#fff!important}
+.mergePicker.mergeExpanded .pageGrid{max-height:calc(92vh - 330px)!important;overflow:auto}
+@media(max-width:700px){.mergePicker.mergeExpanded{inset:2vh 2vw!important;padding:12px!important}.mergePicker.mergeExpanded .pageGrid{max-height:calc(96vh - 330px)!important}}
