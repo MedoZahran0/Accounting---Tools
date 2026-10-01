@@ -128,7 +128,7 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
       const rotatedHeight=Math.abs(textWidth*Math.sin(radians))+Math.abs(size*Math.cos(radians));
       const x=Math.max(4,(width-rotatedWidth)/2);
       const y=Math.max(4,(height-rotatedHeight)/2);
-      page.drawText(label,{x,y,size,font,color:rgb(.28,.28,.28),opacity,rotate:degrees(angle)});
+      page.drawText(label,{x:Math.max(4,(width-textWidth)/2),y:Math.max(4,(height-size)/2),size,font,color:rgb(.28,.28,.28),opacity,rotate:degrees(angle)});
     }
   }
   const bytes=await doc.save({useObjectStreams:false});
