@@ -10,9 +10,9 @@ const T=[
 function App(){
 const[dark,setDark]=useState(()=>localStorage.getItem('at-dark')==='1'),[q,setQ]=useState(''),[section,setSection]=useState(null),[sel,setSel]=useState(null),[fav,setFav]=useState(()=>JSON.parse(localStorage.getItem('at-fav')||'[]')),[boot,setBoot]=useState(true);useEffect(()=>{const t=setTimeout(()=>setBoot(false),1450);return()=>clearTimeout(t)},[]);
 const groups=[
+{id:'PDF',title:'أدوات PDF',desc:'دمج PDF والعلامة المائية مع المعاينة والتحكم الكامل',icon:FileText},
 {id:'BANK',title:'كشف الحساب البنكي',desc:'كشف البنك → جدول Excel قابل للمراجعة والتعديل',icon:FileSpreadsheet},
-{id:'OCR',title:'الصور والنصوص',desc:'حوّل الصور وملفات PDF إلى نص عربي وإنجليزي قابل للنسخ',icon:Img},
-{id:'PDF',title:'أدوات PDF',desc:'دمج PDF والعلامة المائية مع المعاينة والتحكم الكامل',icon:FileText}
+{id:'OCR',title:'الصور والنصوص',desc:'حوّل الصور وملفات PDF إلى نص عربي وإنجليزي قابل للنسخ',icon:Img}
 ];
 const toggleFav=id=>{const n=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id];setFav(n);localStorage.setItem('at-fav',JSON.stringify(n))};
 const openTool=t=>{setSel(t);window.scrollTo({top:0,behavior:"smooth"})};
