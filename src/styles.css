@@ -1005,3 +1005,5 @@ main{
 .mergeOrderBadge{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;background:#075fa8!important;color:#fff!important;padding:5px 9px!important;border-radius:8px!important;font-size:12px!important;font-weight:900!important}
 .mergeArrangeWindow .pageLabel{display:flex;flex-direction:column;gap:4px}.mergeArrangeWindow .pageLabel b{font-size:12px;overflow-wrap:anywhere}.mergeArrangeWindow .pageLabel span{font-size:11px;opacity:.8}
 @media(max-width:650px){.mergeArrangeOverlay{padding:1vh 1vw}.mergeArrangeWindow{width:98vw;max-height:98vh;padding:10px}.mergeArrangeHead{align-items:flex-start}.mergeArrangeHead button{white-space:nowrap;padding:8px}.mergeArrangeWindow .mergePicker .pageGrid{max-height:calc(98vh - 290px)}.mergeArrangeLauncher{align-items:stretch;flex-direction:column}}
+
+.mergeArrangeHidden{display:none!important}
