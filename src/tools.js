@@ -112,23 +112,27 @@ export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
   const doc=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});
-  const font=await doc.embedFont(StandardFonts.Helvetica);
   if(kind==='number'){
+    const font=await doc.embedFont(StandardFonts.Helvetica);
     doc.getPages().forEach((page,i)=>{const{width}=page.getSize();page.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)})});
   }else{
     const size=Math.max(8,Math.min(180,Number(opts.size)||24));
     const angle=Number.isFinite(Number(opts.angle))?Number(opts.angle):35;
-    const opacity=Math.max(.05,Math.min(.8,Number(opts.opacity??.22)));
+    const opacity=Math.max(0,Math.min(1,Number(opts.opacity??.22)));
     const label=String(text??'').trim()||'ACCOUNTING TOOLS';
     for(const page of doc.getPages()){
       const {width,height}=page.getSize();
-      const textWidth=font.widthOfTextAtSize(label,size);
-      const radians=angle*Math.PI/180;
-      const rotatedWidth=Math.abs(textWidth*Math.cos(radians))+Math.abs(size*Math.sin(radians));
-      const rotatedHeight=Math.abs(textWidth*Math.sin(radians))+Math.abs(size*Math.cos(radians));
-      const x=Math.max(4,(width-rotatedWidth)/2);
-      const y=Math.max(4,(height-rotatedHeight)/2);
-      page.drawText(label,{x:Math.max(4,(width-textWidth)/2),y:Math.max(4,(height-size)/2),size,font,color:rgb(.28,.28,.28),opacity,rotate:degrees(angle)});
+      // Render the mark as a transparent image so Arabic text and rotation are
+      // preserved consistently in the actual downloadable PDF.
+      const scale=3,canvas=document.createElement('canvas');
+      canvas.width=Math.ceil(width*scale);canvas.height=Math.ceil(height*scale);
+      const ctx=canvas.getContext('2d');
+      ctx.save();ctx.globalAlpha=opacity;ctx.fillStyle='#595959';
+      ctx.font=` ${size*scale}px Arial, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(-angle*Math.PI/180);
+      ctx.fillText(label,0,0,canvas.width*.92);ctx.restore();
+      const png=await doc.embedPng(canvas.toDataURL('image/png'));
+      page.drawImage(png,{x:0,y:0,width,height});
     }
   }
   const bytes=await doc.save({useObjectStreams:false});
