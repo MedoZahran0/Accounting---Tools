@@ -120,22 +120,20 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
     const angle=Number.isFinite(Number(opts.angle))?Number(opts.angle):35;
     const opacity=Math.max(.05,Math.min(.8,Number(opts.opacity??.22)));
     const label=String(text??'').trim()||'ACCOUNTING TOOLS';
-    // Use the center of the page as the rotation origin so the watermark cannot
-    // rotate outside the visible page. opacity is embedded in the actual PDF.
     for(const page of doc.getPages()){
       const {width,height}=page.getSize();
       const textWidth=font.widthOfTextAtSize(label,size);
-      page.drawText(label,{
-        x:(width-textWidth)/2,
-        y:(height-size)/2,
-        size,font,color:rgb(.35,.35,.35),opacity,
-        rotate:degrees(angle),
-      });
+      const radians=angle*Math.PI/180;
+      const rotatedWidth=Math.abs(textWidth*Math.cos(radians))+Math.abs(size*Math.sin(radians));
+      const rotatedHeight=Math.abs(textWidth*Math.sin(radians))+Math.abs(size*Math.cos(radians));
+      const x=Math.max(4,(width-rotatedWidth)/2);
+      const y=Math.max(4,(height-rotatedHeight)/2);
+      page.drawText(label,{x,y,size,font,color:rgb(.28,.28,.28),opacity,rotate:degrees(angle)});
     }
   }
   const bytes=await doc.save({useObjectStreams:false});
-  const check=await PDFDocument.load(bytes);
-  if(check.getPageCount()!==doc.getPageCount())throw Error('فشل التحقق من صفحات PDF الناتج');
+  const verified=await PDFDocument.load(bytes,{ignoreEncryption:true});
+  if(verified.getPageCount()!==doc.getPageCount())throw Error('فشل التحقق من صفحات PDF الناتج');
   return new Uint8Array(bytes);
 };
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
