@@ -117,13 +117,15 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
     doc.getPages().forEach((page,i)=>{const{width}=page.getSize();page.drawText(String(i+1),{x:width-45,y:18,size:10,font,color:rgb(.3,.3,.3)})});
   }else{
     const size=Math.max(8,Math.min(180,Number(opts.size)||24));
-    const opacity=Math.max(.05,Math.min(1,Number.isFinite(Number(opts.opacity))?Number(opts.opacity):.22));
     const angle=Number.isFinite(Number(opts.angle))?Number(opts.angle):35;
     const label=String(text??'').trim()||'ACCOUNTING TOOLS';
     for(const page of doc.getPages()){
       const {width,height}=page.getSize();
       const textWidth=font.widthOfTextAtSize(label,size);
-      page.drawText(label,{x:(width-textWidth)/2,y:(height-size)/2,size,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle),maxWidth:width*.9});
+      const x=Math.max(8,(width-textWidth)/2), y=Math.max(8,(height-size)/2);
+      // Draw at full opacity so the watermark is embedded in the exported PDF
+      // consistently across PDF viewers. Preview opacity is only a visual aid.
+      page.drawText(label,{x,y,size,font,color:rgb(.35,.35,.35),rotate:degrees(angle),maxWidth:width*.9});
     }
   }
   const bytes=await doc.save({useObjectStreams:false,addDefaultPage:false});
