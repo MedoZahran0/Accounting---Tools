@@ -1168,3 +1168,39 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark:before{border-color:rgba(255,112,106,.2)!important}
 .app.dark:after{border-color:rgba(107,166,226,.2)!important}
 @media(max-width:700px){.app:before{width:240px!important;height:240px!important;left:-155px!important;top:18%!important}.app:after{width:220px!important;height:220px!important;right:-155px!important;bottom:10%!important}.overlay:before{width:220px;height:220px;left:-135px}.overlay:after{width:200px;height:200px;right:-125px}}
+
+
+/* Calm, carefully placed decoration inside the tool workspace */
+.overlay{
+  background:
+    radial-gradient(ellipse at 8% 14%,rgba(229,50,45,.095),transparent 30%),
+    radial-gradient(ellipse at 94% 84%,rgba(74,132,190,.12),transparent 32%),
+    rgba(8,19,33,.76)!important;
+  backdrop-filter:blur(5px);
+}
+.overlay:before,.overlay:after{
+  border:1px solid rgba(255,255,255,.075)!important;
+  box-shadow:0 0 0 18px rgba(255,255,255,.012),0 0 0 38px rgba(255,255,255,.009)!important;
+}
+.overlay:before{
+  width:280px!important;height:280px!important;
+  left:-115px!important;top:7%!important;
+  border-radius:38% 62% 55% 45%!important;
+  transform:rotate(-18deg)!important;
+  background:radial-gradient(circle at 60% 45%,rgba(229,50,45,.075),transparent 72%)!important;
+}
+.overlay:after{
+  width:245px!important;height:245px!important;
+  right:-95px!important;bottom:5%!important;
+  border-radius:58% 42% 43% 57%!important;
+  transform:rotate(18deg)!important;
+  background:radial-gradient(circle at 40% 45%,rgba(74,132,190,.09),transparent 72%)!important;
+}
+/* Keep the work surface readable while letting the edge decorations breathe */
+.overlay>.modal{
+  box-shadow:0 24px 75px rgba(0,0,0,.28)!important;
+}
+@media(max-width:700px){
+  .overlay:before{width:190px!important;height:190px!important;left:-105px!important;top:9%!important}
+  .overlay:after{width:175px!important;height:175px!important;right:-100px!important;bottom:7%!important}
+}
