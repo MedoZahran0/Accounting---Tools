@@ -1364,3 +1364,59 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   .overlay>.modal>.modalhead{min-height:74px}
   .overlay>.modal>.modalhead:before{right:14px;left:14px}
 }
+
+
+/* Official visual identity: iLovePDF-inspired red, white and soft gray — no navy accents */
+:root{--brand-red:#e5322d;--brand-red-dark:#c92722;--brand-red-soft:#fff0ef;--brand-line:#f0d5d3;--brand-ink:#343434;--brand-muted:#6b7280}
+.logo{background:#e5322d!important;color:#fff!important}
+.icon{background:#fff0ef!important;color:#e5322d!important}
+.tooltop{color:#e5322d!important}
+.eyebrow{background:#fff0ef!important;color:#c92722!important}
+.hero h2 span{color:#e5322d!important}
+.cats button.active{background:#e5322d!important;border-color:#e5322d!important;color:#fff!important}
+.drop.drag{border-color:#e5322d!important;background:#fff5f4!important}
+.drop button,.previewhead button{background:#e5322d!important;color:#fff!important}
+.badge{color:#c92722!important;background:#fff0ef!important}
+.overlay>.modal>.modalhead{
+  background:linear-gradient(110deg,#fff 0%,#fffafa 70%,#fff4f3 100%)!important;
+  box-shadow:0 5px 18px rgba(229,50,45,.045)!important;
+  border-bottom-color:#f0e2e1!important;
+}
+.overlay>.modal>.modalhead:before{
+  background:linear-gradient(90deg,#e5322d 0%,#f15a50 55%,#ffb2aa 100%)!important;
+}
+.overlay>.modal .modalicon{
+  background:#fff0ef!important;color:#e5322d!important;
+  box-shadow:0 4px 12px rgba(229,50,45,.10)!important;
+}
+.overlay>.modal .filebox>svg,
+.overlay>.modal .previewhead svg,
+.overlay>.modal .modalactions svg,
+.overlay>.modal .notice svg,
+.overlay>.modal button svg{color:#e5322d}
+.overlay>.modal .modalhead h3{color:#343434!important}
+.overlay>.modal .workspaceEyebrow{color:#e5322d!important}
+.overlay>.modal .workspaceBack{
+  border-color:#f0d5d3!important;color:#c92722!important;
+}
+.overlay>.modal .workspaceBack:hover{
+  background:#fff0ef!important;border-color:#e5322d!important;
+}
+.overlay>.modal .modalactions .primary{background:#e5322d!important;color:#fff!important}
+.overlay>.modal .modalactions .secondary{background:#f5f5f5!important;color:#454545!important}
+.overlay>.modal .notice{background:#fff0ef!important;color:#9f2622!important}
+.app.dark .icon{background:rgba(229,50,45,.14)!important;color:#ff7771!important}
+.app.dark .eyebrow,.app.dark .badge{background:rgba(229,50,45,.15)!important;color:#ff8b85!important}
+.app.dark .cats button.active,.app.dark .drop button,.app.dark .previewhead button{background:#e5322d!important;color:#fff!important}
+.app.dark .overlay>.modal>.modalhead{
+  background:linear-gradient(110deg,#151f2d 0%,#211d25 72%,#2b1c20 100%)!important;
+  border-bottom-color:#443036!important;
+}
+.app.dark .overlay>.modal .modalicon{background:rgba(229,50,45,.15)!important;color:#ff7771!important}
+.app.dark .overlay>.modal .filebox>svg,
+.app.dark .overlay>.modal .previewhead svg,
+.app.dark .overlay>.modal .modalactions svg,
+.app.dark .overlay>.modal .notice svg,
+.app.dark .overlay>.modal button svg{color:#ff7771}
+.app.dark .overlay>.modal .workspaceBack{background:#211d25!important;color:#ff8b85!important;border-color:#543237!important}
+.app.dark .overlay>.modal .modalactions .secondary{background:#2b3039!important;color:#edf2f7!important}
