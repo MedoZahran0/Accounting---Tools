@@ -128,7 +128,7 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
    // Render the watermark through the browser canvas so Arabic and other Unicode
    // characters are shaped correctly; StandardFonts/WinAnsi cannot encode Arabic.
    const scale=2;
-   const s=Math.max(8,Math.min(size,Math.max(8,width*.16)));
+   const s=Math.max(8,Math.min(200,size));
    const canvas=document.createElement('canvas');
    const ctx=canvas.getContext('2d');
    ctx.font='700 '+(s*scale)+'px Tahoma, Arial, sans-serif';
