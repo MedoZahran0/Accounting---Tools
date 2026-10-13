@@ -3,7 +3,8 @@ import React,{useEffect,useMemo,useRef,useState}from'react';import{createRoot,cr
 const T=[
 ['bank-excel','BANK','كشف حساب البنك → Excel','حوّل كشف الحساب PDF أو الصور إلى جدول محاسبي قابل للتعديل مع مراجعة قبل التصدير.',FileSpreadsheet,'.pdf,image/*',1,'ai'],
 ['image-ocr','OCR','PDF / صورة → نص','استخرج النص من ملفات PDF والصور باستخدام OCR مع تحسين AI للعربي والإنجليزي.',FileText,'.pdf,image/*',1,'ai'],
-['merge-pdf','PDF','دمج PDF','ادمج عدة ملفات PDF مع معاينة وترتيب الصفحات قبل الدمج.',Merge,'.pdf',1],\n['split-pdf','PDF','تقسيم PDF واستخراج الصفحات','استخرج صفحات محددة أو قسّم الملف إلى صفحات منفصلة أو نطاقات متعددة.',Scissors,'.pdf',0],
+['merge-pdf','PDF','دمج PDF','ادمج عدة ملفات PDF مع معاينة وترتيب الصفحات قبل الدمج.',Merge,'.pdf',1],
+['split-pdf','PDF','تقسيم PDF واستخراج الصفحات','استخرج صفحات محددة أو قسّم الملف إلى صفحات منفصلة أو نطاقات متعددة.',Scissors,'.pdf',0],
 ['pdf-watermark','PDF','علامة مائية','أضف علامة مائية على PDF مع التحكم في الحجم والميل والشفافية ومعاينة قبل التنفيذ.',Stamp,'.pdf',1]
 ].map(x=>({id:x[0],cat:x[1],title:x[2],desc:x[3],icon:x[4],accept:x[5],featured:x[6],ai:x[7]}));
 
