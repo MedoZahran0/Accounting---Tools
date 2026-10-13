@@ -1420,3 +1420,159 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark .overlay>.modal button svg{color:#ff7771}
 .app.dark .overlay>.modal .workspaceBack{background:#211d25!important;color:#ff8b85!important;border-color:#543237!important}
 .app.dark .overlay>.modal .modalactions .secondary{background:#2b3039!important;color:#edf2f7!important}
+
+
+/* Clear, high-contrast tool controls in the iLovePDF red-and-white identity */
+.overlay>.modal .filebox,
+.overlay>.modal .option,
+.overlay>.modal .hintOption,
+.overlay>.modal .aiToggle,
+.overlay>.modal .pageNumberControl,
+.overlay>.modal .pdfPicker,
+.overlay>.modal .pickerToolbar,
+.overlay>.modal .resultItem,
+.overlay>.modal .preview,
+.overlay>.modal .tablewrap{
+  border:1px solid #e5c9c7!important;
+  background:#fff!important;
+  box-shadow:0 2px 8px rgba(229,50,45,.055);
+}
+.overlay>.modal .filebox{
+  border:2px dashed #e6aaa6!important;
+  background:#fffafa!important;
+  color:#343434!important;
+  border-radius:14px!important;
+  transition:border-color .18s,background .18s,box-shadow .18s;
+}
+.overlay>.modal .filebox:hover,
+.overlay>.modal .filebox:focus-within{
+  border-color:#e5322d!important;
+  background:#fff3f2!important;
+  box-shadow:0 0 0 3px rgba(229,50,45,.09);
+}
+.overlay>.modal .option,
+.overlay>.modal .hintOption{
+  border-radius:11px!important;
+  color:#343434!important;
+  border-color:#e8d5d4!important;
+}
+.overlay>.modal .option:focus-within,
+.overlay>.modal .option:hover,
+.overlay>.modal .hintOption:hover{
+  border-color:#e5322d!important;
+  background:#fff4f3!important;
+}
+.overlay>.modal input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.overlay>.modal select,
+.overlay>.modal textarea{
+  border:1px solid #d8dadd!important;
+  background:#fff!important;
+  color:#292929!important;
+  border-radius:9px!important;
+}
+.overlay>.modal input:focus,
+.overlay>.modal select:focus,
+.overlay>.modal textarea:focus{
+  outline:2px solid rgba(229,50,45,.16)!important;
+  border-color:#e5322d!important;
+}
+.overlay>.modal button:not(.primary):not(.workspaceBack){
+  border:1px solid #e6cecc;
+  border-radius:9px;
+  background:#fff;
+  color:#b92b26;
+  transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;
+}
+.overlay>.modal button:not(.primary):not(.workspaceBack):hover{
+  border-color:#e5322d;
+  background:#fff0ef;
+  box-shadow:0 2px 7px rgba(229,50,45,.09);
+}
+.overlay>.modal .pickerToolbar button,
+.overlay>.modal .pickerActions button,
+.overlay>.modal .miniAction,
+.overlay>.modal .renameBtn{
+  min-height:34px;
+  border:1px solid #e5c9c7!important;
+  background:#fff!important;
+  color:#c92722!important;
+}
+.overlay>.modal .pageThumb,
+.overlay>.modal .pagePaper{
+  border:1px solid #e0dedd!important;
+  border-radius:10px!important;
+  box-shadow:0 3px 10px rgba(35,35,35,.07);
+}
+.overlay>.modal .pageThumb.selected,
+.overlay>.modal .pageThumb:focus-within{
+  border:2px solid #e5322d!important;
+  box-shadow:0 0 0 3px rgba(229,50,45,.10)!important;
+}
+.overlay>.modal .pageCheck,
+.overlay>.modal input[type="checkbox"],
+.overlay>.modal input[type="radio"]{accent-color:#e5322d}
+.overlay>.modal .modalactions .primary,
+.overlay>.modal button.primary,
+.overlay>.modal .miniDownload{
+  background:#e5322d!important;
+  border:1px solid #e5322d!important;
+  color:#fff!important;
+  box-shadow:0 3px 9px rgba(229,50,45,.17);
+}
+.overlay>.modal .modalactions .primary:hover,
+.overlay>.modal button.primary:hover,
+.overlay>.modal .miniDownload:hover{
+  background:#c92722!important;
+  border-color:#c92722!important;
+}
+.overlay>.modal .modalactions .secondary{
+  border:1px solid #e2dedd!important;
+  background:#f7f7f7!important;
+  color:#454545!important;
+}
+.overlay>.modal .previewhead{
+  background:#fff3f2!important;
+  border-bottom:1px solid #f0d5d3!important;
+}
+.app.dark .overlay>.modal .filebox,
+.app.dark .overlay>.modal .option,
+.app.dark .overlay>.modal .hintOption,
+.app.dark .overlay>.modal .aiToggle,
+.app.dark .overlay>.modal .pageNumberControl,
+.app.dark .overlay>.modal .pdfPicker,
+.app.dark .overlay>.modal .pickerToolbar,
+.app.dark .overlay>.modal .resultItem,
+.app.dark .overlay>.modal .preview,
+.app.dark .overlay>.modal .tablewrap{
+  background:#211d20!important;
+  border-color:#684044!important;
+  color:#f4eeee!important;
+}
+.app.dark .overlay>.modal .filebox{background:#281e21!important;border-color:#b85b56!important}
+.app.dark .overlay>.modal .filebox:hover,
+.app.dark .overlay>.modal .filebox:focus-within,
+.app.dark .overlay>.modal .option:hover,
+.app.dark .overlay>.modal .hintOption:hover{background:#352124!important;border-color:#ff7771!important}
+.app.dark .overlay>.modal input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.app.dark .overlay>.modal select,
+.app.dark .overlay>.modal textarea{
+  background:#19191d!important;color:#f5f5f5!important;border-color:#55464a!important;
+}
+.app.dark .overlay>.modal button:not(.primary):not(.workspaceBack){
+  background:#292124;color:#ffaaa6;border-color:#684044;
+}
+.app.dark .overlay>.modal button:not(.primary):not(.workspaceBack):hover{
+  background:#392326;border-color:#ff7771;
+}
+.app.dark .overlay>.modal .pickerToolbar button,
+.app.dark .overlay>.modal .pickerActions button,
+.app.dark .overlay>.modal .miniAction,
+.app.dark .overlay>.modal .renameBtn{
+  background:#292124!important;color:#ffaaa6!important;border-color:#684044!important;
+}
+.app.dark .overlay>.modal .pageThumb,
+.app.dark .overlay>.modal .pagePaper{
+  border-color:#55464a!important;background:#19191d!important;
+}
+.app.dark .overlay>.modal .pageThumb.selected{border-color:#ff7771!important}
+.app.dark .overlay>.modal .previewhead{background:#2b1c20!important;border-bottom-color:#684044!important}
