@@ -125,9 +125,34 @@ export const annotatePdf=async(f,kind,text,opts={})=>{
    const n=String(i+1),s=Math.max(10,Math.min(72,size));
    page.drawText(n,{x:Math.max(8,width-font.widthOfTextAtSize(n,s)-24),y:18,size:s,font,color:rgb(.35,.35,.35),opacity:.9});
   }else{
+   // Render the watermark through the browser canvas so Arabic and other Unicode
+   // characters are shaped correctly; StandardFonts/WinAnsi cannot encode Arabic.
+   const scale=2;
    const s=Math.max(8,Math.min(size,Math.max(8,width*.16)));
-   const textWidth=font.widthOfTextAtSize(label,s);
-   page.drawText(label,{x:(width-textWidth)/2,y:height/2-s/3,size:s,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle)});
+   const canvas=document.createElement('canvas');
+   const ctx=canvas.getContext('2d');
+   ctx.font='700 '+(s*scale)+'px Tahoma, Arial, sans-serif';
+   const measured=ctx.measureText(label).width;
+   const textW=Math.max(1,Math.ceil(measured+40*scale));
+   const textH=Math.ceil(s*scale*3);
+   const rad=angle*Math.PI/180;
+   canvas.width=Math.ceil(Math.abs(textW*Math.cos(rad))+Math.abs(textH*Math.sin(rad))+8*scale);
+   canvas.height=Math.ceil(Math.abs(textW*Math.sin(rad))+Math.abs(textH*Math.cos(rad))+8*scale);
+   const c=canvas.getContext('2d');
+   c.clearRect(0,0,canvas.width,canvas.height);
+   c.translate(canvas.width/2,canvas.height/2);
+   c.rotate(rad);
+   c.font='700 '+(s*scale)+'px Tahoma, Arial, sans-serif';
+   c.textAlign='center';
+   c.textBaseline='middle';
+   c.direction='rtl';
+   c.fillStyle='rgba(89,89,89,'+opacity+')';
+   c.fillText(label,0,0,Math.max(1,textW-20*scale));
+   const png=await pdf.embedPng(canvas.toDataURL('image/png'));
+   let drawW=canvas.width/scale,drawH=canvas.height/scale;
+   const fit=Math.min(1,(width*.9)/drawW,(height*.75)/drawH);
+   drawW*=fit;drawH*=fit;
+   page.drawImage(png,{x:(width-drawW)/2,y:(height-drawH)/2,width:drawW,height:drawH});
   }
   opts.onProgress?.(Math.round((i+1)/pages.length*100),'جاري تطبيق العلامة المائية على الصفحة '+(i+1)+' من '+pages.length);
  }
