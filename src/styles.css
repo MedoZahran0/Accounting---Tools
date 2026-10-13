@@ -1080,3 +1080,50 @@ main{
 .app.dark .watermarkResult .miniAction{background:#26362f;border-color:#3d5b4d;color:#e0eee7}
 .app.dark .watermarkResult .miniDownload{background:#187653;border-color:#187653;color:#fff}
 @media(max-width:560px){.watermarkResult .resultItemCompact{align-items:stretch;flex-direction:column}.watermarkResult .resultActions{justify-content:flex-start}.watermarkResult .renameInput{flex:1}}
+
+
+/* Brand refresh: iLovePDF-inspired coral red with the existing navy/blue identity */
+:root{--brand-red:#e5322d;--brand-red-dark:#c92722;--brand-red-soft:#fff0ef;--brand-blue:#173b67;--brand-line:#e8eaf0}
+body{background-color:#f8f9fc;background-image:radial-gradient(ellipse at 8% 14%,rgba(229,50,45,.055) 0,rgba(229,50,45,0) 30%),radial-gradient(ellipse at 92% 34%,rgba(44,112,183,.065) 0,rgba(44,112,183,0) 32%),radial-gradient(ellipse at 48% 96%,rgba(229,50,45,.035) 0,rgba(229,50,45,0) 28%);background-attachment:fixed}
+.app{position:relative;isolation:isolate;background:transparent}
+.app:before,.app:after{content:"";position:fixed;pointer-events:none;z-index:-1;opacity:.44}
+.app:before{width:300px;height:300px;top:135px;left:-125px;border:1.5px solid rgba(229,50,45,.14);border-radius:42% 58% 65% 35% / 42% 38% 62% 58%;box-shadow:0 0 0 24px rgba(229,50,45,.025),0 0 0 48px rgba(229,50,45,.018);transform:rotate(-22deg)}
+.app:after{width:260px;height:260px;right:-105px;bottom:8%;border:1.5px solid rgba(36,101,168,.15);border-radius:50% 42% 58% 44%;box-shadow:0 0 0 22px rgba(36,101,168,.025),0 0 0 44px rgba(36,101,168,.018);transform:rotate(28deg)}
+/* Quiet translucent geometry keeps the page from feeling flat without competing with content */
+main{position:relative}
+header{background:rgba(255,255,255,.91);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.eyebrow{background:#fff0ef;color:#c92d28}
+.hero h2 span{color:var(--brand-red)}
+.cats button.active,.drop button,.previewhead button,.modalactions .primary{background:var(--brand-red);border-color:var(--brand-red)}
+.cats button.active:hover,.drop button:hover,.previewhead button:hover,.modalactions .primary:hover{background:var(--brand-red-dark);border-color:var(--brand-red-dark)}
+.icon,.modalicon{background:#fff0ef;color:var(--brand-red)}
+.badge{color:#c92d28;background:#fff0ef}
+.drop.drag{border-color:var(--brand-red);background:#fff5f4}
+.drop:hover{border-color:var(--brand-red)}
+.tool:hover{border-color:#f1c9c7;box-shadow:0 14px 32px rgba(38,54,79,.075)}
+.toolmain:focus{outline-color:var(--brand-red)}
+.progress em{background:var(--brand-red)}
+.previewhead{background:#fff7f6}
+.app.dark{background:transparent}
+.app.dark header{background:rgba(21,31,45,.91);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.app.dark .eyebrow,.app.dark .badge{background:rgba(229,50,45,.16);color:#ffaaa6}
+.app.dark .hero h2 span{color:#ff716b}
+.app.dark .icon,.app.dark .modalicon{background:rgba(229,50,45,.15);color:#ff7771}
+.app.dark .cats button.active,.app.dark .drop button,.app.dark .previewhead button,.app.dark .modalactions .primary{background:#d9342f;border-color:#d9342f;color:#fff}
+.app.dark .previewhead{background:#1b2635}
+.app.dark .drop.drag{background:rgba(229,50,45,.08);border-color:#e45b56}
+.app.dark .tool:hover{border-color:#75403f}
+.app.dark .progress em{background:#ef514b}
+/* Keep watermark result colors in the same brand family */
+.watermarkResult{border-color:#f2cfcd;background:linear-gradient(135deg,#fffafa,#fff1f0);box-shadow:0 5px 18px rgba(130,35,31,.055)}
+.watermarkResultTitle{color:#c92d28}
+.watermarkResult .resultItemCompact{border-color:#f0d8d6}
+.watermarkResult .miniAction{border-color:#ead2d0;background:#fff8f7;color:#7d3431}
+.watermarkResult .miniDownload{background:var(--brand-red);border-color:var(--brand-red);color:#fff}
+.watermarkResult .miniDownload:hover{background:var(--brand-red-dark);border-color:var(--brand-red-dark)}
+.app.dark .watermarkResult{background:linear-gradient(135deg,#2b2025,#241c25);border-color:#654044}
+.app.dark .watermarkResultTitle{color:#ff9b96}
+.app.dark .watermarkResult .resultItemCompact{border-color:#56363c}
+.app.dark .watermarkResult .miniAction{background:#34262c;border-color:#634047;color:#ffe3e1}
+.app.dark .watermarkResult .miniDownload{background:#d9342f;border-color:#d9342f;color:#fff}
+@media(prefers-reduced-motion:reduce){.tool:hover{transform:none}}
