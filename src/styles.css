@@ -1151,3 +1151,20 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark:before{border-color:rgba(255,112,106,.12);box-shadow:inset 0 0 0 22px rgba(255,112,106,.014),0 0 0 22px rgba(255,112,106,.014),0 0 0 45px rgba(255,112,106,.009)}
 .app.dark:after{border-color:rgba(107,166,226,.13);box-shadow:inset 0 0 0 20px rgba(107,166,226,.014),0 0 0 22px rgba(107,166,226,.014),0 0 0 44px rgba(107,166,226,.009)}
 @media(max-width:700px){.app:before{width:230px;height:230px;left:-145px;top:20%;opacity:.8}.app:after{width:210px;height:210px;right:-145px;bottom:12%;opacity:.8}}
+
+
+/* Visibility fix: keep decorative geometry in the visible page layer, not behind the app stacking context. */
+.app{isolation:isolate!important;overflow:visible!important}
+.app>header,.app>main,.app>footer{position:relative;z-index:1}
+.app:before,.app:after{z-index:0!important;opacity:1!important;pointer-events:none!important}
+.app:before{width:360px!important;height:360px!important;top:120px!important;left:-165px!important;border:2px solid rgba(229,50,45,.19)!important;background:radial-gradient(circle at 55% 45%,rgba(229,50,45,.055),transparent 67%)!important;box-shadow:inset 0 0 0 24px rgba(229,50,45,.025),0 0 0 25px rgba(229,50,45,.025),0 0 0 52px rgba(229,50,45,.018)!important}
+.app:after{width:320px!important;height:320px!important;right:-145px!important;bottom:5%!important;border:2px solid rgba(36,101,168,.2)!important;background:radial-gradient(circle at 45% 45%,rgba(36,101,168,.06),transparent 68%)!important;box-shadow:inset 0 0 0 22px rgba(36,101,168,.025),0 0 0 25px rgba(36,101,168,.025),0 0 0 50px rgba(36,101,168,.018)!important}
+/* The tool workspace is a dark full-screen overlay, so give it its own visible decoration. */
+.overlay{position:fixed!important;isolation:isolate;background:radial-gradient(ellipse at 2% 18%,rgba(229,50,45,.20),transparent 34%),radial-gradient(ellipse at 98% 82%,rgba(61,139,211,.20),transparent 36%),rgba(8,19,33,.78)!important;overflow:hidden}
+.overlay:before,.overlay:after{content:"";position:absolute;display:block;pointer-events:none;z-index:0;border-radius:45% 55% 60% 40%;border:2px solid rgba(255,255,255,.16);box-shadow:0 0 0 22px rgba(255,255,255,.025),0 0 0 46px rgba(255,255,255,.018)}
+.overlay:before{width:320px;height:320px;left:-100px;top:8%;transform:rotate(-25deg);background:radial-gradient(circle,rgba(229,50,45,.14),transparent 70%)}
+.overlay:after{width:280px;height:280px;right:-80px;bottom:4%;transform:rotate(24deg);background:radial-gradient(circle,rgba(61,139,211,.16),transparent 70%)}
+.overlay>.modal{position:relative;z-index:1}
+.app.dark:before{border-color:rgba(255,112,106,.2)!important}
+.app.dark:after{border-color:rgba(107,166,226,.2)!important}
+@media(max-width:700px){.app:before{width:240px!important;height:240px!important;left:-155px!important;top:18%!important}.app:after{width:220px!important;height:220px!important;right:-155px!important;bottom:10%!important}.overlay:before{width:220px;height:220px;left:-135px}.overlay:after{width:200px;height:200px;right:-125px}}
