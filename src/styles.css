@@ -1127,3 +1127,27 @@ header{background:rgba(255,255,255,.91);backdrop-filter:blur(14px);-webkit-backd
 .app.dark .watermarkResult .miniAction{background:#34262c;border-color:#634047;color:#ffe3e1}
 .app.dark .watermarkResult .miniDownload{background:#d9342f;border-color:#d9342f;color:#fff}
 @media(prefers-reduced-motion:reduce){.tool:hover{transform:none}}
+
+
+/* Site-wide subtle decorative background on every route and tool page */
+html{min-height:100%;background:#f8f9fc}
+body{min-height:100vh;background-color:#f8f9fc!important;background-image:
+ radial-gradient(circle at 12% 18%,rgba(229,50,45,.045) 0 2px,transparent 3px),
+ radial-gradient(circle at 86% 72%,rgba(36,101,168,.05) 0 2px,transparent 3px),
+ radial-gradient(ellipse at 0% 12%,rgba(229,50,45,.055),transparent 34%),
+ radial-gradient(ellipse at 100% 58%,rgba(36,101,168,.06),transparent 35%),
+ radial-gradient(ellipse at 48% 100%,rgba(229,50,45,.035),transparent 32%)!important;background-attachment:fixed!important}
+#root{min-height:100vh}
+.app{min-height:100vh;position:relative;isolation:isolate;background:transparent!important;overflow:clip}
+.app:before,.app:after{content:"";position:fixed;display:block;pointer-events:none;z-index:-1;opacity:1}
+.app:before{width:330px;height:330px;top:16%;left:-155px;border:1px solid rgba(229,50,45,.11);border-radius:43% 57% 62% 38% / 41% 39% 61% 59%;box-shadow:inset 0 0 0 22px rgba(229,50,45,.018),0 0 0 22px rgba(229,50,45,.018),0 0 0 45px rgba(229,50,45,.012);transform:rotate(-24deg)}
+.app:after{width:290px;height:290px;right:-130px;bottom:7%;border:1px solid rgba(36,101,168,.12);border-radius:56% 44% 37% 63% / 47% 58% 42% 53%;box-shadow:inset 0 0 0 20px rgba(36,101,168,.018),0 0 0 22px rgba(36,101,168,.018),0 0 0 44px rgba(36,101,168,.012);transform:rotate(25deg)}
+/* Repeat the decoration on full-screen tool workspaces, whose own backgrounds may cover the app shell */
+.toolPage,.tool-page,.page,.workspace,.toolWorkspace,.pdfToolPage{position:relative;isolation:isolate}
+.toolPage:before,.tool-page:before,.page:before,.workspace:before,.toolWorkspace:before,.pdfToolPage:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+ radial-gradient(ellipse at 4% 28%,rgba(229,50,45,.035),transparent 25%),
+ radial-gradient(ellipse at 96% 78%,rgba(36,101,168,.04),transparent 27%)}
+.app.dark, .app.dark body{background:transparent!important}
+.app.dark:before{border-color:rgba(255,112,106,.12);box-shadow:inset 0 0 0 22px rgba(255,112,106,.014),0 0 0 22px rgba(255,112,106,.014),0 0 0 45px rgba(255,112,106,.009)}
+.app.dark:after{border-color:rgba(107,166,226,.13);box-shadow:inset 0 0 0 20px rgba(107,166,226,.014),0 0 0 22px rgba(107,166,226,.014),0 0 0 44px rgba(107,166,226,.009)}
+@media(max-width:700px){.app:before{width:230px;height:230px;left:-145px;top:20%;opacity:.8}.app:after{width:210px;height:210px;right:-145px;bottom:12%;opacity:.8}}
