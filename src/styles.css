@@ -1647,3 +1647,33 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   .overlay>.modal .splitOptions{grid-template-columns:minmax(0,1fr) minmax(112px,.72fr);gap:8px}
   .overlay>.modal .splitOptions .openPagesWindow{padding:8px 6px;font-size:11px}
 }
+
+/* Allow scrolling through many generated PDFs in the result list */
+.overlay>.modal .resultPreview{
+  max-height:min(42vh,390px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+}
+.overlay>.modal .resultPreview .previewhead{
+  position:sticky;
+  top:-12px;
+  z-index:2;
+  padding:8px 0;
+  background:#f8fafc;
+}
+.overlay>.modal .resultPreview .resultItemCompact{
+  min-width:0;
+  flex-wrap:wrap;
+}
+.overlay>.modal .resultPreview .resultActions{
+  max-width:100%;
+  flex-wrap:wrap;
+}
+.overlay>.modal .resultPreview::-webkit-scrollbar{width:9px}
+.overlay>.modal .resultPreview::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+.app.dark .overlay>.modal .resultPreview .previewhead{background:#101823}
+@media(max-width:520px){
+  .overlay>.modal .resultPreview{max-height:45vh;padding:8px}
+  .overlay>.modal .resultPreview .resultItemCompact{align-items:flex-start}
+}
