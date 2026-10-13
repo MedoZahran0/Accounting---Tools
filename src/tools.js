@@ -111,35 +111,27 @@ export const mergePdfs=async fs=>{const out=await PDFDocument.create();for(const
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
- const pdf=await loadPdf(f),out=await PDFDocument.create();
+ const bytes=new Uint8Array(await f.arrayBuffer());
+ const pdf=await PDFDocument.load(bytes,{ignoreEncryption:true});
+ const font=await pdf.embedFont(StandardFonts.HelveticaBold);
  const size=Math.max(8,Math.min(180,Number(opts.size)||24));
  const opacity=Math.max(0,Math.min(1,Number(opts.opacity)??.22));
  const angle=Number(opts.angle)||35;
  const label=String(text||'ACCOUNTING TOOLS').trim()||'ACCOUNTING TOOLS';
- for(let i=1;i<=pdf.numPages;i++){
-  const srcPage=await pdf.getPage(i),vp=srcPage.getViewport({scale:3.2});
-  const canvas=document.createElement('canvas');canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
-  const ctx=canvas.getContext('2d',{willReadFrequently:true});
-  await srcPage.render({canvasContext:ctx,viewport:vp}).promise;
-  ctx.save();
+ const pages=pdf.getPages();
+ for(let i=0;i<pages.length;i++){
+  const page=pages[i],{width,height}=page.getSize();
   if(kind==='number'){
-   const px=Math.max(24,Math.round(size*3.2));
-   ctx.fillStyle='rgba(90,90,90,.9)';ctx.font=px+'px Arial';ctx.textAlign='right';ctx.textBaseline='bottom';
-   ctx.fillText(String(i),vp.width-58,vp.height-34);
+   const n=String(i+1),s=Math.max(10,Math.min(72,size));
+   page.drawText(n,{x:Math.max(8,width-font.widthOfTextAtSize(n,s)-24),y:18,size:s,font,color:rgb(.35,.35,.35),opacity:.9});
   }else{
-   const px=Math.max(24,Math.round(size*3.2));
-   ctx.translate(vp.width/2,vp.height/2);ctx.rotate(angle*Math.PI/180);
-   ctx.globalAlpha=opacity;ctx.fillStyle='rgb(90,90,90)';ctx.font='bold '+px+'px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
-   ctx.fillText(label,0,0);
+   const s=Math.max(8,Math.min(size,Math.max(8,width*.16)));
+   const textWidth=font.widthOfTextAtSize(label,s);
+   page.drawText(label,{x:(width-textWidth)/2,y:height/2-s/3,size:s,font,color:rgb(.35,.35,.35),opacity,rotate:degrees(angle)});
   }
-  ctx.restore();
-  const png=await new Promise((resolve,reject)=>canvas.toBlob(async b=>b?resolve(await b.arrayBuffer()):reject(Error('تعذر تجهيز الصفحة '+i)),'image/png'));
-  const img=await out.embedPng(png),page=out.addPage([vp.width/3.2,vp.height/3.2]);
-  page.drawImage(img,{x:0,y:0,width:page.getWidth(),height:page.getHeight()});
-  canvas.width=canvas.height=1;
-  opts.onProgress?.(Math.round(i/pdf.numPages*100),'جاري تجهيز الصفحة '+i+' من '+pdf.numPages);
+  opts.onProgress?.(Math.round((i+1)/pages.length*100),'جاري تطبيق العلامة المائية على الصفحة '+(i+1)+' من '+pages.length);
  }
- return out.save({useObjectStreams:false});
+ return pdf.save({useObjectStreams:false});
 };
 export const rasterCompress=async(f,quality,onProgress)=>{const p=await loadPdf(f),o=await PDFDocument.create();for(let i=1;i<=p.numPages;i++){const c=await renderPage(await p.getPage(i),quality<.55?1.15:quality<.8?1.55:2),b=await new Promise(r=>c.toBlob(r,'image/jpeg',quality)),img=await o.embedJpg(await b.arrayBuffer()),pg=o.addPage([img.width,img.height]);pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});onProgress?.(Math.round(i/p.numPages*100))}return o.save()};
 export const imagesPdf=async fs=>{const o=await PDFDocument.create();for(const f of fs){const b=await f.arrayBuffer(),img=f.type.includes('png')?await o.embedPng(b):await o.embedJpg(b),p=o.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}return o.save()};
