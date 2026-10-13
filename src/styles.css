@@ -1302,3 +1302,65 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   .overlay>.modal .modalhead p{font-size:10px}
   .overlay>.modal .workspaceBack{padding:7px 9px;font-size:11px}
 }
+
+
+/* Polished brand header and consistent brand-colored icons in tool workspace */
+.overlay>.modal>.modalhead{
+  position:relative;
+  min-height:82px;
+  margin:-22px -22px 22px;
+  padding:15px 22px;
+  background:linear-gradient(110deg,#fff 0%,#f8fbff 72%,#fff8f7 100%);
+  border-bottom:1px solid #e5ebf3;
+  box-shadow:0 5px 18px rgba(23,59,103,.045);
+}
+.overlay>.modal>.modalhead:before{
+  content:"";
+  position:absolute;top:0;right:22px;left:22px;height:3px;
+  border-radius:0 0 4px 4px;
+  background:linear-gradient(90deg,#173b67 0%,#3478b9 62%,#e5322d 100%);
+}
+.overlay>.modal .modalicon{
+  background:linear-gradient(145deg,#173b67,#256bb1)!important;
+  color:#fff!important;
+  box-shadow:0 5px 12px rgba(23,59,103,.18);
+}
+.overlay>.modal .filebox>svg,
+.overlay>.modal .previewhead svg,
+.overlay>.modal .modalactions svg,
+.overlay>.modal .notice svg,
+.overlay>.modal button svg{
+  color:#256bb1;
+}
+.overlay>.modal .filebox>svg{width:27px;height:27px;stroke-width:1.9}
+.overlay>.modal .previewhead button svg,
+.overlay>.modal .modalactions .primary svg,
+.overlay>.modal .workspaceBack svg{color:inherit}
+.overlay>.modal .workspaceBack{
+  background:#fff!important;
+  border-color:#d7e2ef!important;
+  color:#173b67!important;
+  box-shadow:0 2px 6px rgba(23,59,103,.045);
+  transition:background .18s,border-color .18s,transform .18s;
+}
+.overlay>.modal .workspaceBack:hover{
+  background:#edf5ff!important;border-color:#b8cee5!important;transform:translateY(-1px);
+}
+.overlay>.modal .modalhead h3{color:#172033;font-weight:800;letter-spacing:-.2px}
+.overlay>.modal .workspaceEyebrow{color:#256bb1}
+.app.dark .overlay>.modal>.modalhead{
+  background:linear-gradient(110deg,#151f2d 0%,#17263a 72%,#251d25 100%);
+  border-bottom-color:#29364a;
+}
+.app.dark .overlay>.modal .modalhead h3{color:#edf2f7}
+.app.dark .overlay>.modal .modalicon{
+  background:linear-gradient(145deg,#24517f,#3478b9)!important;
+}
+.app.dark .overlay>.modal .filebox>svg,
+.app.dark .overlay>.modal .previewhead svg,
+.app.dark .overlay>.modal .modalactions svg,
+.app.dark .overlay>.modal .notice svg{color:#76b5f0}
+@media(max-width:600px){
+  .overlay>.modal>.modalhead{min-height:74px}
+  .overlay>.modal>.modalhead:before{right:14px;left:14px}
+}
