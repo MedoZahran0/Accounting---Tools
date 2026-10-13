@@ -1576,3 +1576,40 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 }
 .app.dark .overlay>.modal .pageThumb.selected{border-color:#ff7771!important}
 .app.dark .overlay>.modal .previewhead{background:#2b1c20!important;border-bottom-color:#684044!important}
+
+
+/* PDF split/extract workspace controls */
+.overlay>.modal .splitChoice{
+  display:flex;flex-direction:column;gap:9px;
+  padding:14px;border:1px solid #e5c9c7;border-radius:13px;
+  background:#fffafa;color:#343434;
+}
+.overlay>.modal .splitChoice>span,
+.overlay>.modal .splitRangesOption>span{font-size:13px;font-weight:800;color:#343434}
+.overlay>.modal .splitChoice select{
+  width:100%;min-height:42px;padding:9px 12px;
+  border:1px solid #e5c9c7;border-radius:9px;
+  background:#fff;color:#343434;font:inherit;
+}
+.overlay>.modal .splitRangesOption textarea{
+  width:100%;resize:vertical;min-height:78px;padding:11px 12px;
+  border:1px solid #e5c9c7;border-radius:10px;
+  background:#fff;color:#343434;font:inherit;
+}
+.overlay>.modal .splitRangesOption small{
+  display:block;margin-top:7px;color:#777;font-size:11px;line-height:1.7;
+}
+.overlay>.modal .splitChoice:focus-within,
+.overlay>.modal .splitRangesOption:focus-within{
+  border-color:#e5322d;box-shadow:0 0 0 3px rgba(229,50,45,.07);
+}
+.app.dark .overlay>.modal .splitChoice{
+  background:#281e21!important;border-color:#684044!important;color:#f4eeee!important;
+}
+.app.dark .overlay>.modal .splitChoice>span,
+.app.dark .overlay>.modal .splitRangesOption>span{color:#f4eeee!important}
+.app.dark .overlay>.modal .splitChoice select,
+.app.dark .overlay>.modal .splitRangesOption textarea{
+  background:#19191d!important;color:#f5f5f5!important;border-color:#684044!important;
+}
+.app.dark .overlay>.modal .splitRangesOption small{color:#c0b3b4}
