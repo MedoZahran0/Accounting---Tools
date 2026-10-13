@@ -918,11 +918,13 @@ main{
 .app.dark .fullPreviewBtn{background:#25262a!important;border-color:#41434a!important;color:#e4e6ea!important}
 /* v1.19 - watermark preview button compact */
 .watermarkPreviewBtn{
-  width:auto!important;
+  display:flex!important;
+  width:max-content!important;
+  min-width:190px!important;
   min-height:42px!important;
   height:42px!important;
-  padding:7px 16px!important;
-  margin-top:12px!important;
+  margin:14px auto 0!important;
+  padding:7px 20px!important;
   border:1px solid #d6dde5!important;
   border-radius:9px!important;
   background:#f7f9fb!important;
