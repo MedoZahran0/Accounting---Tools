@@ -1044,3 +1044,11 @@ main{
  .mergeArrangeWindow .mergePicker .pageGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
 }
 .app.dark .mergeArrangeWindow>.mergeArrangeHead{background:#151f2d!important;color:#edf2f7!important;border-color:#334257!important}
+/* Reliable multi-page PDF preview rendered by PDF.js instead of Chrome's embedded PDF viewer. */
+.previewModalBody:has(.pdfPreviewPages){display:block!important;overflow:auto!important;padding:18px!important;}
+.pdfPreviewPages{width:100%;min-height:100%;display:flex;flex-direction:column;align-items:center;gap:18px;}
+.pdfPreviewPages .pickerLoading{margin:36px auto;}
+.pdfPreviewPage{width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;margin:0;}
+.pdfPreviewPage img{display:block;max-width:min(100%,1000px)!important;max-height:none!important;width:auto!important;height:auto!important;object-fit:contain!important;}
+.pdfPreviewPage figcaption{font-size:12px;color:#6b7280;padding:2px 0 8px;}
+.pdfPreviewPages .notice{width:min(100%,900px);}
