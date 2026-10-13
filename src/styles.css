@@ -1613,3 +1613,37 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   background:#19191d!important;color:#f5f5f5!important;border-color:#684044!important;
 }
 .app.dark .overlay>.modal .splitRangesOption small{color:#c0b3b4}
+
+/* PDF split controls: keep the preview button beside the method selector */
+.overlay>.modal .splitOptions{
+  grid-template-columns:minmax(0,1fr) minmax(150px,.72fr);
+  align-items:end;
+  gap:10px;
+}
+.overlay>.modal .splitOptions .splitChoice{grid-column:1;min-width:0;margin:0}
+.overlay>.modal .splitOptions .openPagesWindow{
+  grid-column:2;
+  align-self:end;
+  justify-self:stretch;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:42px;
+  margin:0;
+  padding:9px 12px;
+  border:1px solid #e5c9c7;
+  border-radius:9px;
+  background:#fff;
+  color:#343434;
+  font:inherit;
+  font-weight:800;
+  white-space:normal;
+}
+.overlay>.modal .splitOptions .hintOption{grid-column:1/-1;margin-top:0}
+.app.dark .overlay>.modal .splitOptions .openPagesWindow{
+  background:#19191d;color:#f5f5f5;border-color:#684044;
+}
+@media(max-width:520px){
+  .overlay>.modal .splitOptions{grid-template-columns:minmax(0,1fr) minmax(112px,.72fr);gap:8px}
+  .overlay>.modal .splitOptions .openPagesWindow{padding:8px 6px;font-size:11px}
+}
