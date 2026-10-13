@@ -1062,3 +1062,21 @@ main{
 .watermarkSizeControls small{white-space:nowrap;color:#64748b;font-size:11px}
 .watermarkSizeOption{align-items:center}
 .app.dark .watermarkSizeControls .watermarkSizeNumber{background:#202b38;color:#e4edf8;border-color:#3b4a5e}
+
+/* Watermark tool: clean output actions without the generic preview panel */
+.watermarkResult{margin:20px auto 4px;padding:15px 18px;max-width:640px;border:1px solid #dce7e2;border-radius:14px;background:linear-gradient(135deg,#f8fcfa,#f0f7f4);box-shadow:0 5px 18px rgba(22,75,55,.06)}
+.watermarkResultTitle{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 12px;color:#18704f;font-size:14px;font-weight:800}
+.watermarkResultTitle svg{width:18px;height:18px}
+.watermarkResult .resultItemCompact{padding:11px 12px;border:1px solid #dfe8e4;border-radius:10px;background:#fff;gap:12px}
+.watermarkResult .resultName{font-size:14px;font-weight:700;color:#263b34;overflow-wrap:anywhere}
+.watermarkResult .resultActions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.watermarkResult .miniAction{min-height:36px;padding:8px 12px;border-radius:8px;border:1px solid #d8e2de;background:#f8faf9;color:#31453d;font-size:12px;font-weight:700}
+.watermarkResult .miniDownload{background:#187653;border-color:#187653;color:#fff}
+.watermarkResult .renameInput{width:190px;max-width:100%;min-width:110px;padding:8px;border:1px solid #b7cfc4;border-radius:8px}
+.app.dark .watermarkResult{background:#172a23;border-color:#315343;box-shadow:none}
+.app.dark .watermarkResultTitle{color:#8ce0b7}
+.app.dark .watermarkResult .resultItemCompact{background:#202b27;border-color:#385247}
+.app.dark .watermarkResult .resultName{color:#e0eee7}
+.app.dark .watermarkResult .miniAction{background:#26362f;border-color:#3d5b4d;color:#e0eee7}
+.app.dark .watermarkResult .miniDownload{background:#187653;border-color:#187653;color:#fff}
+@media(max-width:560px){.watermarkResult .resultItemCompact{align-items:stretch;flex-direction:column}.watermarkResult .resultActions{justify-content:flex-start}.watermarkResult .renameInput{flex:1}}
