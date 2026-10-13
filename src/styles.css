@@ -1054,3 +1054,11 @@ main{
 .pdfPreviewPage img{display:block;max-width:min(100%,1000px)!important;max-height:none!important;width:auto!important;height:auto!important;object-fit:contain!important;}
 .pdfPreviewPage figcaption{font-size:12px;color:#6b7280;padding:2px 0 8px;}
 .pdfPreviewPages .notice{width:min(100%,900px);}
+
+/* Manual watermark size input keeps the range slider compact */
+.watermarkSizeControls{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.watermarkSizeControls .watermarkSizeRange{flex:1;min-width:60px;width:100%;margin:0}
+.watermarkSizeControls .watermarkSizeNumber{width:76px!important;min-width:76px!important;max-width:76px!important;padding:7px 6px!important;text-align:center;direction:ltr;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033}
+.watermarkSizeControls small{white-space:nowrap;color:#64748b;font-size:11px}
+.watermarkSizeOption{align-items:center}
+.app.dark .watermarkSizeControls .watermarkSizeNumber{background:#202b38;color:#e4edf8;border-color:#3b4a5e}
