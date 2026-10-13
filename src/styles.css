@@ -1245,3 +1245,60 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   .overlay>.modal:before{width:150px;height:150px;left:-100px;top:105px}
   .overlay>.modal:after{width:135px;height:135px;right:-85px;bottom:25px}
 }
+
+
+/* Match the tool workspace title bar to the site's main header */
+.overlay>.modal>.modalhead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:76px;
+  margin:-22px -22px 20px;
+  padding:14px 22px;
+  background:rgba(255,255,255,.96);
+  border-bottom:1px solid #e8edf3;
+  border-radius:20px 20px 0 0;
+}
+.overlay>.modal>.modalhead>div{align-items:center;gap:11px}
+.overlay>.modal .workspaceEyebrow{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-bottom:2px;
+  color:#2465a8;
+  font-size:11px;
+  font-weight:700;
+}
+.overlay>.modal .modalhead h3{font-size:18px;line-height:1.4;margin:0 0 2px}
+.overlay>.modal .modalhead p{font-size:11px;line-height:1.6;color:#738095}
+.overlay>.modal .modalicon{
+  width:40px;height:40px;flex:0 0 40px;
+  border-radius:12px;background:#173b67;color:#fff;
+}
+.overlay>.modal .workspaceBack{
+  flex:0 0 auto;
+  border:1px solid #dfe5ed;
+  background:#fff;
+  color:#173b67;
+  border-radius:11px;
+  min-height:40px;
+  padding:8px 13px;
+  font:inherit;font-size:12px;font-weight:700;
+}
+.app.dark .overlay>.modal>.modalhead{
+  background:rgba(21,31,45,.97);
+  border-bottom-color:#29364a;
+}
+.app.dark .overlay>.modal .modalhead p{color:#9eabbc}
+.app.dark .overlay>.modal .workspaceBack{
+  background:#151f2d;color:#edf2f7;border-color:#35445a;
+}
+@media(max-width:600px){
+  .overlay>.modal>.modalhead{min-height:68px;padding:12px 14px;margin:-22px -22px 18px;gap:8px}
+  .overlay>.modal>.modalhead>div{gap:8px}
+  .overlay>.modal .modalicon{width:36px;height:36px;flex-basis:36px}
+  .overlay>.modal .modalhead h3{font-size:16px}
+  .overlay>.modal .modalhead p{font-size:10px}
+  .overlay>.modal .workspaceBack{padding:7px 9px;font-size:11px}
+}
