@@ -1699,3 +1699,12 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark .homeToolCard .homeToolIcon,.app.dark .homeToolCard .homeToolOpen{background:rgba(229,50,45,.15);border-color:#543237;color:#ff8b85}
 .app.dark .homeToolCard .fav{background:#211d20!important;border-color:#49383a!important;color:#c0b5b6!important}
 @media(max-width:620px){.homeToolCard{min-height:148px}.homeToolCard .toolmain{grid-template-columns:42px minmax(0,1fr) 20px;gap:11px!important;padding:18px 14px!important}.homeToolCard .homeToolIcon{width:42px;height:42px;border-radius:12px}.homeToolCard .homeToolIcon svg{width:21px;height:21px}.homeToolCard .homeToolCopy h3{font-size:14px!important;margin-bottom:5px!important}.homeToolCard .homeToolCopy p{font-size:11px!important;line-height:1.75!important}}
+
+
+/* PDF tool cards: concise, fully visible Arabic titles and consistent heights */
+.homeToolCard{min-height:174px!important}
+.homeToolCard .toolmain{min-height:154px!important;grid-template-columns:46px minmax(0,1fr) 24px!important;gap:11px!important;padding:19px 16px 18px!important}
+.homeToolCard .homeToolCopy h3{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;min-height:3em;margin:0 0 5px!important;font-size:15px!important;line-height:1.5!important}
+.homeToolCard .homeToolCopy p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:11px!important;line-height:1.7!important}
+.homeToolCard .homeToolIcon{width:46px;height:46px}
+@media(max-width:620px){.homeToolCard{min-height:146px!important}.homeToolCard .toolmain{min-height:128px!important;grid-template-columns:38px minmax(0,1fr) 18px!important;gap:8px!important;padding:15px 11px!important}.homeToolCard .homeToolIcon{width:38px;height:38px}.homeToolCard .homeToolCopy h3{font-size:12px!important;line-height:1.55!important;min-height:2.9em}.homeToolCard .homeToolCopy p{font-size:10px!important;line-height:1.65!important}}
