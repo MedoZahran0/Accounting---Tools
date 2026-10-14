@@ -1820,3 +1820,11 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStudioRun:disabled{opacity:.65;cursor:wait}
 .dark .mergeStudioOverlay{background:#101827!important}.dark .mergeStudioBody{background:#101827}.dark .mergeStudioToolbar,.dark .mergeStudioFooter,.dark .mergeStudioWorkspace{background:#182334;border-color:#344256}.dark .mergeStudioToolbarActions button{background:#202e40;border-color:#344256}.dark .mergeStudioAddFiles{background:#4a2028;color:#ffb6bc;border-color:#6b303a}
 @media(max-width:650px){.mergeStudioModal>.modalhead{padding:10px 12px!important}.mergeStudioModal>.mergeStudioFilebox{margin:8px!important;flex-wrap:wrap!important}.mergeStudioModal>.mergeStudioFilebox span{display:none}.mergeStudioWorkspace{margin:0 8px 8px}.mergeStudioToolbar{padding:9px;align-items:flex-start;flex-direction:column}.mergeStudioToolbarActions{width:100%}.mergeStudioToolbarActions>*{flex:1}.mergeStudioBody{padding:6px}.mergeStudioBody .pageGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.mergeStudioBody .pagePaper{height:190px!important}.mergeStudioFooter{padding:9px;align-items:stretch;flex-direction:column}.mergeStudioRun{width:100%}}
+
+/* Keep the merge tool as a single viewport workspace, without duplicate controls below it */
+.mergeStudioModal{display:flex!important;flex-direction:column!important}
+.mergeStudioModal>.options,.mergeStudioModal>.modalactions{display:none!important}
+.mergeStudioModal>.mergeStudioWorkspace{flex:1 1 0!important;min-height:180px!important}
+.mergeStudioModal>.progress,.mergeStudioModal>.notice,.mergeStudioModal>.resultPreview{flex:0 0 auto!important;max-height:22vh!important;overflow:auto!important;margin:0 18px 8px!important}
+.mergeStudioModal>.mergeStudioWorkspace .mergeStudioBody .pageNumberControl{position:relative}
+.mergeStudioModal>.mergeStudioWorkspace .mergeStudioBody .pageGrid{padding-bottom:12px}
