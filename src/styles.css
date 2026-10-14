@@ -995,9 +995,9 @@ main{
 
 
 /* Merge page arrangement window */
-.mergeArrangeLauncher{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin:12px 0;border:1px solid var(--line,#dce5ef);border-radius:12px;background:var(--surface,#f7f9fc)}
-.mergeArrangeLauncher span{font-size:13px;font-weight:700}
-.mergeArrangeLauncher button,.mergeArrangeHead button{border:0;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer;background:#1769aa;color:#fff}
+.mergeArrangeLauncher{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;margin:8px 0;border:1px solid var(--line,#dce5ef);border-radius:10px;background:var(--surface,#f7f9fc);min-height:0;box-sizing:border-box}
+.mergeArrangeLauncher span{font-size:12px;font-weight:700;line-height:1.4}
+.mergeArrangeLauncher button,.mergeArrangeHead button{border:0;border-radius:8px;padding:7px 10px;font-size:12px;line-height:1.35;font-weight:800;cursor:pointer;background:#1769aa;color:#fff;white-space:nowrap}
 .mergeArrangeOverlay{position:fixed;inset:0;z-index:10000;background:#071426a8;display:flex;align-items:center;justify-content:center;padding:3vh 3vw}
 .mergeArrangeWindow{width:min(1180px,96vw);max-height:94vh;overflow:auto;background:var(--card,#fff);color:var(--text,#172334);border-radius:18px;box-shadow:0 24px 90px #07142666;padding:16px}
 .mergeArrangeHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;position:sticky;top:0;z-index:5;background:var(--card,#fff);padding:4px 0 12px;border-bottom:1px solid var(--line,#dce5ef)}
