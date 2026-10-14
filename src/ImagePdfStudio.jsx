@@ -24,6 +24,24 @@ export default function ImagePdfStudio({close}){
  const downloadPdf=()=>{if(!output)return;const a=document.createElement('a');a.href=output.url;a.download=output.name;document.body.appendChild(a);a.click();a.remove()};
  const openPdf=()=>{if(!output)return;const w=window.open(output.url+'#toolbar=1&navpanes=1&zoom=page-fit','_blank');if(!w)setError('المتصفح منع فتح المعاينة في تبويب جديد. اسمح بالنوافذ المنبثقة ثم حاول مرة أخرى.')};
  const visibleZoom=fit?100:zoom;
+ if(items.length===0) return <div className="ips-shell ips-start-shell" dir="rtl">
+  <header className="ips-topbar ips-start-topbar"><div className="ips-brand"><button className="ips-icon-btn" onClick={close} title="العودة للأدوات"><ArrowRight size={19}/></button><span className="ips-brand-icon"><FileImage size={22}/></span><div><b>الصور إلى PDF</b><small>حوّل صورك إلى ملف PDF بسهولة</small></div></div></header>
+  <main className="ips-start-main">
+   <section className="ips-start-card">
+    <div className="ips-start-hero-icon"><FileImage size={38}/></div>
+    <span className="ips-start-eyebrow">IMAGE TO PDF</span>
+    <h1>حوّل صورك إلى PDF</h1>
+    <p>اختار الصور اللي عايز تجمعها في ملف PDF. بعد الاختيار هتفتح مساحة العمل تلقائيًا عشان ترتّب الصور وتراجعها قبل التصدير.</p>
+    <button className="ips-primary ips-start-choose" onClick={()=>inputRef.current?.click()}><Upload size={19}/> اختيار الصور</button>
+    <div className="ips-start-drop" onDragOver={e=>{e.preventDefault();e.currentTarget.classList.add('is-over')}} onDragLeave={e=>e.currentTarget.classList.remove('is-over')} onDrop={e=>{e.preventDefault();e.currentTarget.classList.remove('is-over');addFiles(e.dataTransfer.files)}}>
+     <div className="ips-start-drop-icon"><ImageIcon size={23}/></div><b>أو اسحب الصور وأسقطها هنا</b><small>JPG · PNG · WEBP · GIF · BMP</small>
+    </div>
+    <div className="ips-start-benefits"><span><Check size={15}/> ترتيب الصفحات</span><span><Check size={15}/> تدوير ومعاينة</span><span><Check size={15}/> إعدادات PDF</span></div>
+    {error&&<div className="ips-error">{error}</div>}
+   </section>
+  </main>
+  <input ref={inputRef} hidden multiple type="file" accept="image/*" onChange={e=>{addFiles(e.target.files);e.target.value=''}}/>
+ </div>;
  return <div className="ips-shell" dir="rtl">
   <header className="ips-topbar"><div className="ips-brand"><button className="ips-icon-btn" onClick={close} title="العودة للأدوات"><ArrowRight size={19}/></button><span className="ips-brand-icon"><FileImage size={22}/></span><div><b>الصور إلى PDF</b><small>PDF Studio · مساحة عمل الصور</small></div></div><div className="ips-top-actions"><span className="ips-page-count">{items.length} صورة · {items.length} صفحة</span><button className="ips-secondary" onClick={()=>inputRef.current?.click()} disabled={busy}><FilePlus2 size={17}/> إضافة صور</button><button className="ips-primary" onClick={buildPdf} disabled={busy||!items.length}>{busy?<LoaderCircle className="ips-spin" size={17}/>:<Check size={17}/>} {busy?'جاري التنفيذ':'إنشاء PDF'}</button>{output&&<button className="ips-download" onClick={downloadPdf}><Download size={17}/> تحميل PDF</button>}</div></header>
   <div className="ips-workarea">
