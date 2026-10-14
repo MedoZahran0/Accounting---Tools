@@ -4,3 +4,9 @@
 /* PDF Studio: fit the entire page in the available canvas and keep thumbnails in a single reorderable column */
 .ps-canvas-area{min-height:0}.ps-canvas-toolbar{height:36px;min-height:36px}.ps-status{min-height:27px}.ps-ribbon{min-height:52px;padding:4px 8px}.ps-tool{min-width:68px;padding:4px 7px}.ps-pages-head{height:39px}.ps-page-actions{padding:5px 7px}.ps-thumb-canvas img{max-width:100%;max-height:100%;object-fit:contain}.ps-paper-wrap{width:100%;height:100%;max-height:100%;overflow:visible}.ps-main-canvas{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}.ps-canvas-scroll{padding:5px}
 @media(max-width:760px){.ps-ribbon{min-height:48px}.ps-workspace{grid-template-columns:96px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto}.ps-thumb-canvas{height:82px}.ps-canvas-toolbar{height:32px;min-height:32px}.ps-canvas-scroll{padding:4px}.ps-pages-head{height:34px}}
+
+
+/* Reliable browser-style PDF page fit and zoom */
+.ps-canvas-scroll{display:block;overflow:auto;padding:6px}
+.ps-paper-wrap{display:block;flex:none;margin:0 auto;max-width:none;max-height:none;height:auto;overflow:visible}
+.ps-main-canvas{display:block;width:auto;height:auto;max-width:none;max-height:none;object-fit:fill;background:#fff;box-shadow:0 3px 14px #1e293b1a}
