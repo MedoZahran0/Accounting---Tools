@@ -1794,3 +1794,29 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStartDrop svg{color:#e53945}.mergeStartDrop b{color:var(--text,#182230)}.mergeStartDrop span{font-size:12px}.mergeStartDrop.is-over{border-color:#e53945;background:#fff5f5}
 .mergeStartBack{margin-top:18px;border:0;background:transparent;color:var(--muted,#667085);cursor:pointer;padding:8px 14px}
 @media(max-width:600px){.mergeStartOverlay{padding:0}.mergeStartModal{width:100vw;height:100dvh;min-height:0;border-radius:0}.mergeStartMain{padding:14px}.mergeStartCard{padding:25px 17px}.mergeStartCard h2{font-size:21px}.mergeStartHeader{padding:14px}.mergeStartHeader b{font-size:16px}}
+
+/* Full-screen PDF Studio style workspace for PDF merge */
+.mergeStudioOverlay{z-index:99995!important;position:fixed!important;inset:0!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;background:#e9edf3!important;backdrop-filter:none!important}
+.mergeStudioModal{width:100%!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;background:var(--panel,#fff)!important}
+.mergeStudioModal>.modalhead{flex:0 0 auto!important;padding:12px 20px!important;min-height:70px!important}
+.mergeStudioModal>.mergeStudioFilebox{flex:0 0 auto!important;margin:10px 18px!important;padding:9px 13px!important;min-height:55px!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important}
+.mergeStudioModal>.mergeStudioFilebox b{max-width:240px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.mergeStudioModal>.mergeStudioFilebox span{margin-inline-start:auto!important}
+.mergeStudioWorkspace{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin:0 18px 16px;border:1px solid var(--line,#dbe3ed);border-radius:14px;overflow:hidden;background:var(--panel,#fff);color:var(--text,#172033)}
+.mergeStudioToolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line,#dbe3ed);background:var(--panel,#fff);flex:0 0 auto}
+.mergeStudioFileSummary,.mergeStudioToolbarActions{display:flex;align-items:center;gap:10px;min-width:0}.mergeStudioFileSummary>div{display:flex;flex-direction:column;gap:3px}.mergeStudioFileSummary b{font-size:15px}.mergeStudioFileSummary span:not(.mergeStartIcon){font-size:12px;color:var(--muted,#667085)}
+.mergeStudioToolbarActions button,.mergeStudioAddFiles{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line,#dbe3ed);border-radius:9px;background:var(--panel,#fff);color:inherit;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer}
+.mergeStudioAddFiles{position:relative;overflow:hidden;background:#fff0f0;border-color:#ffd2d5;color:#d92d3a}.mergeStudioAddFiles input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.mergeStudioBody{flex:1 1 auto;min-height:0;overflow:auto;padding:12px;background:var(--page,#f4f6fa)}
+.mergeStudioBody .pdfPicker.mergePicker{margin:0;min-height:100%;border:0;border-radius:0;box-shadow:none;background:transparent;padding:6px}
+.mergeStudioBody .pickerHeader{position:sticky;top:0;z-index:2;background:var(--panel,#fff);border-radius:10px;padding:12px;margin-bottom:12px}
+.mergeStudioBody .pageGrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.mergeStudioBody .pageThumb{padding:9px;border-radius:11px;background:var(--panel,#fff);box-shadow:0 2px 8px #1720330b}
+.mergeStudioBody .pagePaper{height:210px!important}
+.mergeStudioBody .pageLabel span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.mergeStudioFooter{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;border-top:1px solid var(--line,#dbe3ed);background:var(--panel,#fff);flex:0 0 auto}
+.mergeStudioFooter>span{font-size:12px;color:var(--muted,#667085);line-height:1.6}
+.mergeStudioRun{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border:0;border-radius:10px;background:#e53945;color:white;padding:11px 18px;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 4px 12px #e5394525}
+.mergeStudioRun:disabled{opacity:.65;cursor:wait}
+.dark .mergeStudioOverlay{background:#101827!important}.dark .mergeStudioBody{background:#101827}.dark .mergeStudioToolbar,.dark .mergeStudioFooter,.dark .mergeStudioWorkspace{background:#182334;border-color:#344256}.dark .mergeStudioToolbarActions button{background:#202e40;border-color:#344256}.dark .mergeStudioAddFiles{background:#4a2028;color:#ffb6bc;border-color:#6b303a}
+@media(max-width:650px){.mergeStudioModal>.modalhead{padding:10px 12px!important}.mergeStudioModal>.mergeStudioFilebox{margin:8px!important;flex-wrap:wrap!important}.mergeStudioModal>.mergeStudioFilebox span{display:none}.mergeStudioWorkspace{margin:0 8px 8px}.mergeStudioToolbar{padding:9px;align-items:flex-start;flex-direction:column}.mergeStudioToolbarActions{width:100%}.mergeStudioToolbarActions>*{flex:1}.mergeStudioBody{padding:6px}.mergeStudioBody .pageGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.mergeStudioBody .pagePaper{height:190px!important}.mergeStudioFooter{padding:9px;align-items:stretch;flex-direction:column}.mergeStudioRun{width:100%}}
