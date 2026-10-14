@@ -1677,3 +1677,25 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
   .overlay>.modal .resultPreview{max-height:45vh;padding:8px}
   .overlay>.modal .resultPreview .resultItemCompact{align-items:flex-start}
 }
+
+
+/* Professional, consistent tool cards without status badges */
+.homeToolCard{position:relative!important;display:flex!important;align-items:stretch!important;min-height:180px;overflow:hidden;border:1px solid #ece6e5!important;border-radius:18px!important;background:linear-gradient(145deg,#fff 0%,#fffafa 100%)!important;box-shadow:0 5px 18px rgba(48,32,32,.045)!important;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.homeToolCard:hover{transform:translateY(-3px);border-color:#f0c6c3!important;box-shadow:0 12px 28px rgba(74,35,33,.09)!important}
+.homeToolCard .toolmain{display:grid!important;grid-template-columns:52px minmax(0,1fr) 24px;align-items:center!important;gap:14px!important;width:100%!important;min-width:0;padding:22px 20px!important;text-align:right!important;background:transparent!important;border:0!important}
+.homeToolCard .homeToolIcon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:15px;background:#fff0ef;color:#e5322d;border:1px solid #f8d9d7}
+.homeToolCard .homeToolIcon svg{width:25px;height:25px;stroke-width:1.9}
+.homeToolCard .homeToolCopy{display:block;min-width:0}
+.homeToolCard .homeToolCopy h3{margin:0 0 8px!important;color:#303030!important;font-size:16px!important;font-weight:800!important;line-height:1.55!important}
+.homeToolCard .homeToolCopy p{margin:0!important;color:#707070!important;font-size:12px!important;font-weight:400!important;line-height:1.9!important}
+.homeToolCard .homeToolOpen{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fff0ef;color:#e5322d;font-size:18px;transition:transform .18s ease}
+.homeToolCard:hover .homeToolOpen{transform:translateX(-3px)}
+.homeToolCard .fav{position:absolute!important;top:10px!important;left:10px!important;z-index:2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid #f0e3e2!important;border-radius:9px!important;background:#fff!important;color:#888!important}
+.homeToolCard .fav.on{color:#e5322d!important;background:#fff0ef!important}
+.homeToolCard .badge,.homeToolCard .aiBadge{display:none!important}
+.app.dark .homeToolCard{background:linear-gradient(145deg,#211d20 0%,#251d20 100%)!important;border-color:#49383a!important;box-shadow:0 5px 18px rgba(0,0,0,.16)!important}
+.app.dark .homeToolCard .homeToolCopy h3{color:#f5eeee!important}
+.app.dark .homeToolCard .homeToolCopy p{color:#c0b5b6!important}
+.app.dark .homeToolCard .homeToolIcon,.app.dark .homeToolCard .homeToolOpen{background:rgba(229,50,45,.15);border-color:#543237;color:#ff8b85}
+.app.dark .homeToolCard .fav{background:#211d20!important;border-color:#49383a!important;color:#c0b5b6!important}
+@media(max-width:620px){.homeToolCard{min-height:148px}.homeToolCard .toolmain{grid-template-columns:42px minmax(0,1fr) 20px;gap:11px!important;padding:18px 14px!important}.homeToolCard .homeToolIcon{width:42px;height:42px;border-radius:12px}.homeToolCard .homeToolIcon svg{width:21px;height:21px}.homeToolCard .homeToolCopy h3{font-size:14px!important;margin-bottom:5px!important}.homeToolCard .homeToolCopy p{font-size:11px!important;line-height:1.75!important}}
