@@ -2,7 +2,7 @@ import React,{useEffect,useMemo,useRef,useState}from'react';import{createRoot,cr
 
 const T=[
 ['bank-excel','BANK','كشف حساب البنك → Excel','حوّل كشف الحساب PDF أو الصور إلى جدول محاسبي قابل للتعديل مع مراجعة قبل التصدير.',FileSpreadsheet,'.pdf,image/*',1,'ai'],
-['image-ocr','OCR','PDF / صورة → نص','استخرج النص من ملفات PDF والصور باستخدام OCR مع تحسين AI للعربي والإنجليزي.',FileText,'.pdf,image/*',1,'ai'],
+['image-ocr','PDF','تحويل PDF والصور إلى نص','استخرج النص من ملفات PDF والصور باستخدام OCR مع تحسين AI للعربي والإنجليزي، ثم انسخه من المعاينة.',FileText,'.pdf,image/*',1,'ai'],
 ['merge-pdf','PDF','دمج PDF','ادمج عدة ملفات PDF مع معاينة وترتيب الصفحات قبل الدمج.',Merge,'.pdf',1],
 ['split-pdf','PDF','تقسيم PDF واستخراج الصفحات','استخرج صفحات محددة أو قسّم الملف إلى صفحات منفصلة أو نطاقات متعددة.',Scissors,'.pdf',0],
 ['pdf-watermark','PDF','علامة مائية','أضف علامة مائية على PDF مع التحكم في الحجم والميل والشفافية ومعاينة قبل التنفيذ.',Stamp,'.pdf',1]
@@ -11,9 +11,8 @@ const T=[
 function App(){
 const[dark,setDark]=useState(()=>localStorage.getItem('at-dark')==='1'),[q,setQ]=useState(''),[section,setSection]=useState(null),[sel,setSel]=useState(null),[fav,setFav]=useState(()=>JSON.parse(localStorage.getItem('at-fav')||'[]')),[boot,setBoot]=useState(true);useEffect(()=>{const t=setTimeout(()=>setBoot(false),1450);return()=>clearTimeout(t)},[]);
 const groups=[
-{id:'PDF',title:'أدوات PDF',desc:'دمج PDF والعلامة المائية مع المعاينة والتحكم الكامل',icon:FileText},
-{id:'BANK',title:'كشف الحساب البنكي',desc:'كشف البنك → جدول Excel قابل للمراجعة والتعديل',icon:FileSpreadsheet},
-{id:'OCR',title:'الصور والنصوص',desc:'حوّل الصور وملفات PDF إلى نص عربي وإنجليزي قابل للنسخ',icon:Img}
+{id:'PDF',title:'أدوات PDF',desc:'دمج وتقسيم PDF والعلامة المائية وتحويل ملفات PDF والصور إلى نص',icon:FileText},
+{id:'BANK',title:'كشف الحساب البنكي',desc:'كشف البنك → جدول Excel قابل للمراجعة والتعديل',icon:FileSpreadsheet}
 ];
 const toggleFav=id=>{const n=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id];setFav(n);localStorage.setItem('at-fav',JSON.stringify(n))};
 const openTool=t=>{setSel(t);window.scrollTo({top:0,behavior:"smooth"})};
