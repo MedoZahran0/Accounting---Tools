@@ -1962,5 +1962,5 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 
 /* Fit the complete PDF page in the merge studio at 100% zoom. */
 .mergeStudioPreviewStage{align-items:center!important;justify-content:center!important;overflow:auto!important}
-.mergeStudioLargePreview.is-fit{width:auto!important;height:auto!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+.mergeStudioPreviewStage{box-sizing:border-box!important;min-width:0!important;min-height:0!important}.mergeStudioLargePreview.is-fit{display:block!important;flex:0 0 auto!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center center!important;box-sizing:border-box!important;margin:auto!important}.mergeStudioLargePreview.is-zoomed{flex:0 0 auto!important;height:auto!important;max-width:none!important;max-height:none!important;object-fit:contain!important}
 .mergeStudioLargePreview.is-zoomed{height:auto!important;max-width:none!important;max-height:none!important}
