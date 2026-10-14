@@ -57,3 +57,12 @@
 /* Keep the continuous pages clean; the active page is tracked without a red frame. */
 .ps-continuous-page,.ps-continuous-page.ps-active-preview{border-color:transparent!important;background:transparent!important;}
 .ps-active-page .ps-mark-surface{outline:none!important;outline-offset:0!important;}
+
+/* Active one-click page selection mode and paired direction controls */
+.ps-tool.ps-tool-active{background:#e5322d!important;border-color:#c92a25!important;color:#fff!important;box-shadow:0 0 0 2px #e5322d22}
+.ps-tool.ps-tool-active svg{color:#fff}
+.ps-direction-stack{display:flex;flex-direction:column;gap:3px;min-width:0;width:100%}
+.ps-direction-stack .ps-tool{min-width:0;width:100%;min-height:39px;padding:4px 3px}
+.ps-direction-stack .ps-tool span{font-size:10px}
+.ps-thumb.selected{border:2px solid #e5322d!important;box-shadow:inset 0 0 0 2px #e5322d22;background:#fff0ef!important;position:relative}
+.ps-thumb.selected .ps-thumb-label{color:#c52b27;font-weight:800}
