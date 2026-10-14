@@ -1708,3 +1708,34 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .homeToolCard .homeToolCopy p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:11px!important;line-height:1.7!important}
 .homeToolCard .homeToolIcon{width:46px;height:46px}
 @media(max-width:620px){.homeToolCard{min-height:146px!important}.homeToolCard .toolmain{min-height:128px!important;grid-template-columns:38px minmax(0,1fr) 18px!important;gap:8px!important;padding:15px 11px!important}.homeToolCard .homeToolIcon{width:38px;height:38px}.homeToolCard .homeToolCopy h3{font-size:12px!important;line-height:1.55!important;min-height:2.9em}.homeToolCard .homeToolCopy p{font-size:10px!important;line-height:1.65!important}}
+
+
+/* Animated homepage hero */
+.homeHero{position:relative;isolation:isolate;overflow:hidden;min-height:245px;padding:30px 38px;border:1px solid #dce8f7;border-radius:24px;background:linear-gradient(115deg,#f8fbff 0%,#eef6ff 52%,#f7f4ff 100%);box-shadow:0 12px 34px rgba(36,91,150,.07)}
+.homeHero:before{content:"";position:absolute;z-index:-1;width:360px;height:360px;left:8%;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(89,157,239,.2),rgba(89,157,239,0) 70%);animation:heroGlow 7s ease-in-out infinite alternate}
+.homeHero>div:first-child{flex:1;min-width:0;text-align:right}
+.homeHeroCopy .homeHeroKicker{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid #dce9fa;color:#2b6db3;font-size:12px;font-weight:800}
+.homeHeroCopy h2{font-size:clamp(34px,4vw,49px);font-weight:850;letter-spacing:-1.2px;line-height:1.2;margin:16px 0 12px;color:#172f4d}
+.homeHeroCopy h2 span{display:inline-block;color:#2476c6;animation:heroTextIn .8s ease-out both}
+.homeHeroCopy p{margin:0!important;max-width:560px;color:#5c6d82;font-size:16px;line-height:1.9}
+.homeHeroPills{display:flex;gap:8px;margin-top:18px;direction:ltr;justify-content:flex-end}
+.homeHeroPills span{padding:6px 12px;border:1px solid #d9e6f6;border-radius:9px;background:rgba(255,255,255,.8);color:#42627f;font-size:11px;font-weight:800;box-shadow:0 3px 9px rgba(32,79,125,.04)}
+.homeHeroArt{position:relative;flex:0 0 240px;height:180px;display:grid;place-items:center;direction:ltr}
+.heroOrbit{position:absolute;border:1px solid rgba(65,132,204,.2);border-radius:50%;width:170px;height:170px;animation:heroOrbit 18s linear infinite}
+.heroOrbitTwo{width:125px;height:125px;border-style:dashed;animation-direction:reverse;animation-duration:24s}
+.heroFile{position:absolute;width:62px;height:78px;border-radius:12px;display:grid;place-items:center;font-size:20px;font-weight:900;box-shadow:0 12px 25px rgba(38,80,130,.14);border:1px solid rgba(255,255,255,.8);animation:heroFloat 4s ease-in-out infinite}
+.heroFilePdf{background:linear-gradient(145deg,#fff,#ffe9e9);color:#d64b52;transform:rotate(-12deg) translate(-44px,5px)}
+.heroFileWord{background:linear-gradient(145deg,#fff,#e5f1ff);color:#2874c8;transform:translate(0,-15px);animation-delay:-1.3s;z-index:1}
+.heroFileExcel{background:linear-gradient(145deg,#fff,#e3f7ec);color:#16865a;transform:rotate(12deg) translate(44px,7px);animation-delay:-2.4s}
+.heroSpark{position:absolute;top:20px;right:22px;color:#e9a83c;font-size:27px;animation:heroSpark 3s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{margin-top:0}50%{margin-top:-9px}}
+@keyframes heroOrbit{to{transform:rotate(360deg)}}
+@keyframes heroGlow{from{transform:translateX(-20px);opacity:.6}to{transform:translateX(40px);opacity:1}}
+@keyframes heroTextIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes heroSpark{0%,100%{transform:scale(.85) rotate(0);opacity:.65}50%{transform:scale(1.12) rotate(14deg);opacity:1}}
+.app.dark .homeHero{background:linear-gradient(115deg,#121f30 0%,#17283d 55%,#211f38 100%);border-color:#2c4058;box-shadow:0 12px 34px rgba(0,0,0,.12)}
+.app.dark .homeHeroCopy h2{color:#edf5ff}
+.app.dark .homeHeroCopy p{color:#b1c0d2}
+.app.dark .homeHeroCopy .homeHeroKicker,.app.dark .homeHeroPills span{background:rgba(20,33,49,.85);border-color:#304760;color:#a9d3ff}
+@media(max-width:680px){.homeHero{padding:24px 20px;gap:6px;min-height:0}.homeHeroArt{flex-basis:145px;height:130px;transform:scale(.78);transform-origin:center}.homeHeroCopy h2{font-size:34px}.homeHeroCopy p{font-size:14px;line-height:1.8}.homeHeroPills{margin-top:13px}.homeHeroPills span{padding:5px 10px}}
+@media(prefers-reduced-motion:reduce){.homeHero:before,.heroOrbit,.heroFile,.heroSpark,.homeHeroCopy h2 span{animation:none!important}}
