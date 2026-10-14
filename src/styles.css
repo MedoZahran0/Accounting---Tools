@@ -1971,7 +1971,7 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStudioPreviewPane{min-width:0!important;min-height:0!important;height:100%!important}
 .mergeStudioPreviewStage{position:relative!important;display:flex!important;flex:1 1 0!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;overflow:auto!important;padding:12px!important;direction:ltr!important}
 .mergeStudioLargePreview.is-fit{display:block!important;flex:0 1 auto!important;width:auto!important;height:auto!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;margin:auto!important}
-.mergeStudioLargePreview.is-zoomed{display:block!important;flex:0 0 auto!important;width:var(--merge-zoom-width,auto)!important;height:auto!important;max-width:none!important;max-height:none!important;object-fit:contain!important}
+.mergeStudioLargePreview.is-zoomed{display:block!important;flex:0 0 auto!important;height:auto!important;max-width:none!important;max-height:none!important;object-fit:contain!important}
 .mergeStudioOrderbar{direction:rtl!important;justify-content:flex-start!important;min-height:46px!important;padding:6px 12px!important}
 .mergeStudioOrderbar label{display:none!important}
 .mergeStudioCount{margin-inline-start:auto!important}
