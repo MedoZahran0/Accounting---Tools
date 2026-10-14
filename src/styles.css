@@ -1958,3 +1958,9 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStudioModal>.options,.mergeStudioModal>.modalactions{display:none!important}
 @media(max-width:760px){.mergeStudioCanvas.mergeStudioFresh{grid-template-columns:minmax(0,1fr) 126px!important}.mergeStudioToolbar{padding:0 8px!important;height:56px!important;min-height:56px!important;flex-basis:56px!important}.mergeStudioFileSummary b{font-size:12px!important}.mergeStudioFileSummary span:not(.mergeStartIcon){font-size:9px!important}.mergeStudioToolbarActions button,.mergeStudioAddFiles{padding:0 7px!important;font-size:10px!important}.mergeStudioOrderbar{gap:6px!important;padding:6px!important}.mergeStudioOrderbar label{gap:5px!important}.mergeStudioOrderbar input{width:145px!important}.mergeStudioThumbList{padding:5px!important;gap:6px!important}.mergeStudioThumb img{height:72px!important}.mergeStudioPreviewStage{padding:8px!important}.mergeStudioFooter{padding:8px!important}.mergeStudioFooter>span{display:none!important}}
 @media(max-width:430px){.mergeStudioCanvas.mergeStudioFresh{grid-template-columns:minmax(0,1fr) 98px!important}.mergeStudioThumb img{height:58px!important}.mergeStudioOrderbar label>span{font-size:10px!important}.mergeStudioOrderbar input{width:125px!important}.mergeStudioReset{display:none!important}.mergeStudioZoom button:last-child{display:none!important}.mergeStudioPreviewHead{padding:6px!important}.mergeStudioFooter{min-height:54px!important}.mergeStudioRun{flex:1!important}}
+
+
+/* Fit the complete PDF page in the merge studio at 100% zoom. */
+.mergeStudioPreviewStage{align-items:center!important;justify-content:center!important;overflow:auto!important}
+.mergeStudioLargePreview.is-fit{width:auto!important;height:auto!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+.mergeStudioLargePreview.is-zoomed{height:auto!important;max-width:none!important;max-height:none!important}
