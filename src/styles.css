@@ -1739,3 +1739,14 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark .homeHeroCopy .homeHeroKicker,.app.dark .homeHeroPills span{background:rgba(20,33,49,.85);border-color:#304760;color:#a9d3ff}
 @media(max-width:680px){.homeHero{padding:24px 20px;gap:6px;min-height:0}.homeHeroArt{flex-basis:145px;height:130px;transform:scale(.78);transform-origin:center}.homeHeroCopy h2{font-size:34px}.homeHeroCopy p{font-size:14px;line-height:1.8}.homeHeroPills{margin-top:13px}.homeHeroPills span{padding:5px 10px}}
 @media(prefers-reduced-motion:reduce){.homeHero:before,.heroOrbit,.heroFile,.heroSpark,.homeHeroCopy h2 span{animation:none!important}}
+
+
+/* Fix file-type chips: use aligned icon + label, no stray glyphs */
+.homeHeroPills{direction:ltr!important;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+.homeHeroPills span{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:76px;direction:ltr;unicode-bidi:isolate;line-height:1.2}
+.homeHeroPills .heroPillPdf svg{color:#d64b52;flex:none}
+.homeHeroPills .heroPillWord svg{color:#2874c8;flex:none}
+.homeHeroPills .heroPillExcel svg{color:#16865a;flex:none}
+.homeHeroArt{direction:ltr;unicode-bidi:isolate}
+.heroFile{font-family:Arial,sans-serif;unicode-bidi:isolate}
+@media(max-width:680px){.homeHeroPills{justify-content:flex-start}.homeHeroPills span{min-width:68px}}
