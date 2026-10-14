@@ -1851,7 +1851,7 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStudioOrderField button,.mergeStudioReset{border:1px solid #d5dce6;border-radius:8px;padding:8px 12px;background:#fff;color:#344054;font:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
 .mergeStudioOrderField button{background:#e53945;color:white;border-color:#e53945}
 .mergeStudioPageCount{margin-inline-start:auto;font-size:12px;color:#667085;padding:8px}
-.mergeStudioCanvas{display:grid;grid-template-columns:minmax(0,1fr) 230px;direction:rtl;gap:0;flex:1 1 0;min-height:0;overflow:hidden}
+.mergeStudioCanvas{display:grid;grid-template-columns:minmax(0,1fr) 230px;direction:ltr;gap:0;flex:1 1 0;min-height:0;overflow:hidden}
 .mergeStudioPreviewPane{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:#e9edf3}
 .mergeStudioPreviewHead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:10px 18px;border-bottom:1px solid #d8e0e9;background:#f7f8fb}
 .mergeStudioPreviewHead>div{display:flex;flex-direction:column;gap:3px;min-width:0}
@@ -1860,7 +1860,7 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStudioPreviewBadge{border-radius:20px;padding:5px 9px;background:#e7f6ed;color:#137547!important;white-space:nowrap}
 .mergeStudioPreviewStage{display:flex;align-items:center;justify-content:center;flex:1 1 0;min-height:0;overflow:auto;padding:18px;background:#e9edf3}
 .mergeStudioLargePreview{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;background:#fff;box-shadow:0 3px 18px #17203324;border:1px solid #d5dbe4}
-.mergeStudioThumbRail{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-left:1px solid #d5dce6;background:#f8fafc}
+.mergeStudioThumbRail{direction:rtl;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-left:1px solid #d5dce6;background:#f8fafc}
 .mergeStudioRailHead{display:flex;flex-direction:column;gap:4px;flex:0 0 auto;padding:12px 12px 10px;border-bottom:1px solid #e0e5ec;background:#fff}
 .mergeStudioRailHead b{font-size:14px}.mergeStudioRailHead span{font-size:11px;line-height:1.5;color:#667085}
 .mergeStudioThumbList{display:flex;flex:1 1 0;flex-direction:column;gap:8px;overflow:auto;padding:10px}
