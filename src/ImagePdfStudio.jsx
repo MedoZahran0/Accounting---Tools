@@ -9,7 +9,8 @@ const fmtSize=n=>n<1024*1024?(n/1024).toFixed(0)+' KB':(n/1024/1024).toFixed(1)+
 export default function ImagePdfStudio({close}){
  const [items,setItems]=useState([]),[active,setActive]=useState(0),[zoom,setZoom]=useState(100),[fit,setFit]=useState(true),[busy,setBusy]=useState(false),[status,setStatus]=useState('أضف الصور لبدء تجهيز ملف PDF'),[pageSize,setPageSize]=useState('a4'),[orientation,setOrientation]=useState('auto'),[margin,setMargin]=useState(24),[quality,setQuality]=useState(90),[drag,setDrag]=useState(null),[orderText,setOrderText]=useState(''),[error,setError]=useState(''),[output,setOutput]=useState(null);
  const inputRef=useRef(null),viewportRef=useRef(null),itemUrls=useRef({});
- useEffect(()=>()=>{Object.values(itemUrls.current).forEach(u=>URL.revokeObjectURL(u))},[]);\n useEffect(()=>()=>{if(output?.url)URL.revokeObjectURL(output.url)},[output?.url]);
+ useEffect(()=>()=>{Object.values(itemUrls.current).forEach(u=>URL.revokeObjectURL(u))},[]);
+ useEffect(()=>()=>{if(output?.url)URL.revokeObjectURL(output.url)},[output?.url]);
  const current=items[active];
  useEffect(()=>{setOrderText(items.map((_,i)=>i+1).join('-'))},[items]);
  const updateItems=fn=>setItems(old=>{const next=typeof fn==='function'?fn(old):fn;return next});
