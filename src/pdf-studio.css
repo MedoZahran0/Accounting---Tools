@@ -22,3 +22,18 @@
  .ps-ribbon{position:static;width:auto;height:auto;bottom:auto;right:auto;display:flex;flex-direction:row;align-items:stretch;overflow-x:auto;overflow-y:hidden}
  .ps-workspace{margin-right:0}
 }
+
+
+/* Continuous PDF document view with direct mouse placement for text and marker tools */
+.ps-continuous-scroll{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:22px;padding:20px 16px 40px;overflow:auto}
+.ps-continuous-page{position:relative;flex:0 0 auto;width:min(100%,900px);padding:22px 10px 10px;background:transparent;border:1px solid transparent;border-radius:8px}
+.ps-continuous-page.ps-active-preview{border-color:#e5322d;background:#e5322d0a}
+.ps-preview-page-label{position:absolute;top:2px;right:12px;color:#737b86;font-size:10px;line-height:16px}
+.ps-mark-surface{position:relative;width:100%;line-height:0;touch-action:pan-y;user-select:none}
+.ps-mark-surface img{display:block;width:100%;height:auto;background:#fff;box-shadow:0 2px 12px #1e293b22;pointer-events:none}
+.ps-mark-surface:has(img){cursor:default}
+.pdfStudio:has(.ps-properties) .ps-mark-surface{cursor:crosshair}
+.ps-selection-rect{position:absolute;display:block;border:2px solid #e5322d;background:#e5322d25;pointer-events:none;z-index:2}
+.ps-page-placeholder{height:450px;display:grid;place-items:center;background:#fff;color:#7b828d;font-size:12px}
+.ps-prop-section input[type=color]{width:100%;height:36px;padding:3px;border:1px solid #dfe3e8;border-radius:7px;background:#fff;cursor:pointer}
+@media(max-width:760px){.ps-continuous-scroll{padding:10px 5px 24px;gap:12px}.ps-continuous-page{padding:20px 4px 5px;width:100%}}
