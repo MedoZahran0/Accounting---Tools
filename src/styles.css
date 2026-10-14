@@ -2035,3 +2035,21 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .dark .mergeStudioZoomDock span{color:#f0f4fa!important}
 @media(max-width:760px){.mergeStudioCanvas.mergeStudioContinuousAll{grid-template-columns:minmax(0,1fr) 145px!important}.mergeStudioContinuousScroll{padding:10px 42px 20px 8px!important;gap:12px!important}.mergeStudioZoomDock{left:5px!important;padding:5px 4px!important;gap:5px!important}.mergeStudioZoomDock button{width:28px!important;height:28px!important}.mergeStudioThumb img{height:72px!important}}
 @media(max-width:430px){.mergeStudioCanvas.mergeStudioContinuousAll{grid-template-columns:minmax(0,1fr) 112px!important}.mergeStudioContinuousScroll{padding:8px 38px 16px 7px!important}.mergeStudioThumb img{height:57px!important}}
+
+/* Integrated iLovePDF-like file selection instead of a floating dialog */
+.mergeStartOverlay{z-index:99995!important;position:fixed!important;inset:0!important;padding:0!important;background:#f4f6f9!important;backdrop-filter:none!important}
+.mergeStartModal{width:100%!important;height:100dvh!important;min-height:0!important;max-height:none!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;background:#f4f6f9!important}
+.mergeStartHeader{flex:0 0 auto!important;min-height:68px!important;padding:12px 24px!important;background:#fff!important;border-bottom:1px solid #e1e6ed!important}
+.mergeStartMain{flex:1 1 0!important;min-height:0!important;overflow:auto!important;padding:28px!important;background:#f4f6f9!important}
+.mergeStartCard{width:min(760px,100%)!important;padding:42px 38px!important;border:1px solid #e2e7ee!important;border-radius:18px!important;background:#fff!important;box-shadow:0 8px 28px #24354a0a!important}
+.mergeStartIllustration{width:68px!important;height:68px!important;margin-bottom:14px!important;border-radius:18px!important}
+.mergeStartCard h2{font-size:25px!important;color:#202b3a!important}
+.mergeStartCard p{max-width:500px!important;font-size:14px!important;line-height:1.8!important}
+.mergeStartChoose{min-height:48px!important;padding:0 28px!important;border-radius:9px!important;background:#e5322d!important;box-shadow:none!important}
+.mergeStartDrop{margin-top:22px!important;padding:24px 14px!important;border:2px dashed #cbd4e0!important;border-radius:12px!important;background:#fafbfd!important}
+.mergeStartDrop.is-over{border-color:#e5322d!important;background:#fff4f3!important}
+.dark .mergeStartOverlay,.dark .mergeStartModal,.dark .mergeStartMain{background:#111b29!important}
+.dark .mergeStartHeader,.dark .mergeStartCard{background:#1b2839!important;border-color:#354459!important}
+.dark .mergeStartCard h2{color:#eef3fa!important}
+.dark .mergeStartDrop{background:#172334!important;border-color:#46566d!important}
+@media(max-width:600px){.mergeStartHeader{padding:12px!important}.mergeStartMain{padding:14px!important}.mergeStartCard{padding:26px 16px!important}.mergeStartCard h2{font-size:21px!important}}
