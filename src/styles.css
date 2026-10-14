@@ -1751,3 +1751,29 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .heroFile{font-family:Arial,sans-serif;unicode-bidi:isolate}
 @media(max-width:680px){.homeHeroPills{justify-content:flex-start}.homeHeroPills span{min-width:68px}}
 
+
+
+/* Image to PDF: ordered image thumbnails and controls */
+.imagePdfOrder{margin:14px 0 18px;padding:16px;border:1px solid var(--line,#dce4ed);border-radius:16px;background:var(--panel,#fff);color:var(--text,#1d2939);display:flex;flex-direction:column;gap:14px}
+.imagePdfOrderHead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.imagePdfOrderHead b{font-size:15px}.imagePdfOrderHead span,.imagePdfOrderHint,.imagePdfOrderInput small{font-size:12px;color:var(--muted,#64748b)}
+.imagePdfOrderInput{display:flex;flex-direction:column;gap:7px}
+.imagePdfOrderInput label{font-size:13px;font-weight:700}
+.imagePdfOrderInput>div{display:flex;gap:8px}
+.imagePdfOrderInput input{min-width:0;flex:1;padding:10px 12px;border:1px solid var(--line,#dce4ed);border-radius:9px;background:var(--surface,#fff);color:inherit;font:inherit;direction:ltr;text-align:left}
+.imagePdfOrderInput button,.imagePdfThumbActions button{border:1px solid var(--line,#dce4ed);border-radius:9px;background:var(--surface,#fff);color:inherit;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer}
+.imagePdfOrderInput button{background:var(--primary,#176b55);color:#fff;border-color:transparent;white-space:nowrap}
+.imagePdfThumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.imagePdfThumb{min-width:0;padding:8px;border:1px solid var(--line,#dce4ed);border-radius:12px;background:var(--surface,#f8fafc);display:flex;flex-direction:column;gap:7px;cursor:grab}
+.imagePdfThumb:active{cursor:grabbing}
+.imagePdfThumbImage{height:132px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:8px;background:#e9eef5}
+.imagePdfThumbImage img{width:100%;height:100%;object-fit:contain}
+.imagePdfThumbImage span{position:absolute;top:6px;right:6px;min-width:24px;height:24px;padding:0 6px;border-radius:7px;display:grid;place-items:center;background:#172033e8;color:white;font-size:12px;font-weight:800}
+.imagePdfThumb>b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.imagePdfThumbActions{display:flex;gap:6px}
+.imagePdfThumbActions button{flex:1;padding:5px 8px}
+.imagePdfThumbActions button:disabled{opacity:.35;cursor:not-allowed}
+.imagePdfOrderHint{margin:0;line-height:1.7}
+.dark .imagePdfOrder{--line:#344256;--panel:#182334;--text:#e7edf5;--muted:#aab7c8;--surface:#202e40;--primary:#168567}
+.dark .imagePdfThumbImage{background:#111b29}
+@media(max-width:520px){.imagePdfOrder{padding:11px}.imagePdfOrderInput>div{flex-direction:column}.imagePdfOrderInput button{width:100%}.imagePdfThumbs{grid-template-columns:repeat(2,minmax(0,1fr))}.imagePdfThumbImage{height:118px}}
