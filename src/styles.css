@@ -2055,3 +2055,39 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 @media(max-width:600px){.mergeStartHeader{padding:12px!important}.mergeStartMain{padding:14px!important}.mergeStartCard{padding:26px 16px!important}.mergeStartCard h2{font-size:21px!important}}
 
 .mergeStudioThumbImageWrap{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:116px!important;overflow:hidden!important;background:#eef1f5!important;border-radius:5px!important}.mergeStudioThumbImageWrap img{display:block!important;max-width:100%!important;max-height:100%!important;width:auto!important;height:auto!important;object-fit:contain!important;transition:transform .16s ease!important}.mergeStudioThumbActions button{display:grid!important;place-items:center!important}@media(max-width:760px){.mergeStudioThumbImageWrap{height:72px!important}}@media(max-width:430px){.mergeStudioThumbImageWrap{height:57px!important}}
+
+
+/* Merge preview refinement: fit whole page, reclaim empty side space, keep controls in the header. */
+.mergeStudioCanvas.mergeStudioContinuousAll{grid-template-columns:minmax(0,1fr) 228px!important}
+.mergeStudioContinuousAll .mergeStudioPreviewPane{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;overflow:hidden!important}
+.mergeStudioContinuousAll .mergeStudioPreviewHead{flex:0 0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;min-height:52px!important;height:auto!important;padding:7px 12px!important;background:#fff!important;border-bottom:1px solid #dfe4eb!important}
+.mergeStudioContinuousAll .mergeStudioPreviewHead>div:first-child{min-width:0!important;flex:1 1 auto!important}
+.mergeStudioContinuousAll .mergeStudioZoomDock{position:static!important;inset:auto!important;transform:none!important;z-index:auto!important;flex:0 0 auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:6px!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.mergeStudioContinuousAll .mergeStudioZoomDock button{width:auto!important;min-width:34px!important;height:30px!important;padding:0 8px!important;border:1px solid #d9e0e8!important;border-radius:7px!important;background:#f8fafc!important;color:#344054!important}
+.mergeStudioContinuousAll .mergeStudioZoomDock button:last-child{font-size:11px!important}
+.mergeStudioContinuousAll .mergeStudioZoomDock span{min-width:42px!important;text-align:center!important;font-size:11px!important}
+.mergeStudioContinuousScroll{flex:1 1 0!important;min-height:0!important;height:auto!important;overflow:auto!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;padding:8px 12px 14px!important;box-sizing:border-box!important}
+.mergeStudioContinuousPage{width:100%!important;max-width:none!important;min-width:0!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;gap:0!important;overflow:visible!important}
+.mergeStudioPageBadge{display:none!important}
+.mergeStudioContinuousImage{display:block!important;flex:0 0 auto!important;width:auto!important;height:auto!important;max-width:100%!important;max-height:calc(100dvh - 210px)!important;object-fit:contain!important;object-position:center!important;margin:0 auto!important;border:0!important;box-shadow:0 2px 12px #18243825!important;background:#fff!important}
+.mergeStudioContinuousPage.is-current .mergeStudioContinuousImage{outline:0!important}
+.mergeStudioPageLoading{min-height:240px!important}
+.dark .mergeStudioContinuousAll .mergeStudioPreviewHead{background:#182334!important;border-color:#344256!important}
+.dark .mergeStudioContinuousAll .mergeStudioZoomDock button{background:#202e40!important;color:#e7edf5!important;border-color:#344256!important}
+@media(max-width:760px){
+ .mergeStudioCanvas.mergeStudioContinuousAll{grid-template-columns:minmax(0,1fr) 145px!important}
+ .mergeStudioContinuousAll .mergeStudioPreviewHead{gap:6px!important;padding:6px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock{gap:3px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock button{min-width:26px!important;height:27px!important;padding:0 5px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock button:last-child{font-size:10px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock span{min-width:30px!important;font-size:10px!important}
+ .mergeStudioContinuousScroll{padding:6px!important}
+ .mergeStudioContinuousImage{max-height:calc(100dvh - 190px)!important}
+}
+@media(max-width:430px){
+ .mergeStudioCanvas.mergeStudioContinuousAll{grid-template-columns:minmax(0,1fr) 112px!important}
+ .mergeStudioContinuousAll .mergeStudioPreviewHead>div:first-child span{display:none!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock button{min-width:23px!important;padding:0 3px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock button:last-child{font-size:9px!important}
+ .mergeStudioContinuousAll .mergeStudioZoomDock span{min-width:26px!important}
+}
