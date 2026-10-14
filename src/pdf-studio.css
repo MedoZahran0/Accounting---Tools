@@ -52,3 +52,8 @@
 .ps-reorder-stack .ps-tool{min-height:39px;min-width:78px;padding:4px 6px}
 .ps-reorder-stack .ps-tool span{font-size:11px}
 .ps-properties input[type=color]{width:48px;height:32px;padding:2px;cursor:pointer}
+
+
+/* Keep the continuous pages clean; the active page is tracked without a red frame. */
+.ps-continuous-page,.ps-continuous-page.ps-active-preview{border-color:transparent!important;background:transparent!important;}
+.ps-active-page .ps-mark-surface{outline:none!important;outline-offset:0!important;}
