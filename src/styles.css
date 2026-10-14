@@ -1752,10 +1752,10 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 @media(max-width:680px){.homeHeroPills{justify-content:flex-start}.homeHeroPills span{min-width:68px}}
 
 
-/* Keep all three animated document cards fully visible without overlap */
+/* Keep PDF centered and all three animated document cards fully visible */
 .homeHeroArt{overflow:visible;min-width:220px}
 .homeHeroArt .heroFile{left:50%;top:50%;margin-left:-31px;margin-top:-39px}
-.homeHeroArt .heroFilePdf{left:calc(50% - 67px);top:calc(50% + 3px);transform:rotate(-12deg)}
-.homeHeroArt .heroFileWord{left:50%;top:calc(50% - 12px);transform:translateY(-15px);z-index:2}
-.homeHeroArt .heroFileExcel{left:calc(50% + 67px);top:calc(50% + 3px);transform:rotate(12deg)}
-@media(max-width:680px){.homeHeroArt{min-width:0;overflow:visible}.homeHeroArt .heroFile{margin-left:-31px;margin-top:-39px}.homeHeroArt .heroFilePdf{left:calc(50% - 55px)}.homeHeroArt .heroFileWord{left:50%}.homeHeroArt .heroFileExcel{left:calc(50% + 55px)}}
+.homeHeroArt .heroFilePdf{left:50%;top:calc(50% - 12px);transform:translateY(-15px);z-index:2}
+.homeHeroArt .heroFileWord{left:calc(50% - 67px);top:calc(50% + 3px);transform:rotate(-12deg);z-index:1}
+.homeHeroArt .heroFileExcel{left:calc(50% + 67px);top:calc(50% + 3px);transform:rotate(12deg);z-index:1}
+@media(max-width:680px){.homeHeroArt{min-width:0;overflow:visible}.homeHeroArt .heroFile{margin-left:-31px;margin-top:-39px}.homeHeroArt .heroFilePdf{left:50%}.homeHeroArt .heroFileWord{left:calc(50% - 55px)}.homeHeroArt .heroFileExcel{left:calc(50% + 55px)}}
