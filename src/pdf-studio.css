@@ -71,3 +71,8 @@
 .ps-direction-pair .ps-direction-stack{min-width:0;width:100%;display:flex;flex-direction:column;gap:4px}
 .ps-direction-pair .ps-tool{min-width:0;width:100%;min-height:42px;padding:4px 2px;font-size:10px}
 .ps-direction-pair .ps-tool span{font-size:10px}
+
+/* Natural highlighter stroke: translucent, soft, rounded ends instead of a sharp box */
+.ps-selection-rect{border-radius:10px!important;box-shadow:0 0 1px currentColor;}
+.ps-mark-surface .ps-selection-rect{border-width:1px!important;opacity:.72;mix-blend-mode:multiply;border-radius:12px!important}
+.ps-continuous-image{image-rendering:auto;}
