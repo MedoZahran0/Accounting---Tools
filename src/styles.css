@@ -2091,3 +2091,36 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeStudioContinuousAll .mergeStudioZoomDock button:last-child{font-size:9px!important}
  .mergeStudioContinuousAll .mergeStudioZoomDock span{min-width:26px!important}
 }
+
+
+/* Keep merge output actions visible in the same viewport; never rely on page scrolling. */
+.mergeStudioWorkspace{flex:1 1 0!important;min-height:0!important;overflow:hidden!important}
+.mergeStudioResultBar{flex:0 0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;padding:10px 14px!important;margin:0!important;border-top:1px solid #d5e0eb!important;background:#f7fbff!important;min-height:68px!important;box-sizing:border-box!important}
+.mergeStudioResultFile{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;color:#13795b!important}
+.mergeStudioResultFile>div{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+.mergeStudioResultFile b{font-size:13px!important;color:#1c3448!important}
+.mergeStudioResultFile span{font-size:11px!important;color:#5b6c7c!important;direction:ltr!important;text-align:left!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;max-width:36vw!important}
+.mergeStudioResultActions{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important}
+.mergeStudioResultActions button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-height:38px!important;padding:8px 13px!important;border:0!important;border-radius:9px!important;font:700 12px Cairo,Arial,sans-serif!important;white-space:nowrap!important;cursor:pointer!important}
+.mergeStudioPreviewButton{background:#e7eef8!important;color:#1b4e83!important;border:1px solid #cbd9eb!important}
+.mergeStudioDownloadButton{background:#13845e!important;color:#fff!important}
+.mergeStudioResultBar~*{min-height:0}
+.dark .mergeStudioResultBar{background:#172a28!important;border-color:#344c4a!important}
+.dark .mergeStudioResultFile b{color:#e5f6ef!important}
+.dark .mergeStudioResultFile span{color:#b0c7c0!important}
+@media(max-height:760px){
+ .mergeStudioModal>.modalhead{min-height:54px!important;padding:7px 14px!important}
+ .mergeStudioModal>.modalhead .modalicon{width:34px!important;height:34px!important}
+ .mergeStudioModal>.mergeStudioFilebox{margin:5px 10px!important;min-height:42px!important;padding:5px 10px!important}
+ .mergeStudioToolbar{padding:7px 10px!important}
+ .mergeStudioFooter{padding:7px 10px!important}
+ .mergeStudioResultBar{min-height:58px!important;padding:6px 10px!important}
+ .mergeStudioResultActions button{min-height:34px!important;padding:6px 10px!important}
+}
+@media(max-width:600px){
+ .mergeStudioResultBar{gap:8px!important;padding:8px!important}
+ .mergeStudioResultFile b{font-size:11px!important}
+ .mergeStudioResultFile span{max-width:25vw!important;font-size:10px!important}
+ .mergeStudioResultActions{gap:5px!important}
+ .mergeStudioResultActions button{padding:7px!important;font-size:10px!important}
+}
