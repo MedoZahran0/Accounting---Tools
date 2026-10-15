@@ -2184,3 +2184,36 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeStudioContinuousScroll{padding:8px!important;padding-bottom:62px!important}
  .mergeStudioContinuousImage{max-height:calc(100dvh - 175px)!important;max-width:100%!important}
 }
+
+
+/* Guided six-step workflow shared by the document tools. */
+.toolWorkflowSteps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:0 0 18px;padding:12px;border:1px solid #e3e9f1;border-radius:13px;background:linear-gradient(180deg,#fbfcfe,#f4f7fb)}
+.toolWorkflowStep{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;padding:7px 5px;color:#8995a5;opacity:.9}
+.toolWorkflowStep>span{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:50%;border:1px solid #d8e0ea;background:#fff;color:#64748b;font-size:11px;font-weight:900}
+.toolWorkflowStep b{font-size:11px;white-space:nowrap;font-weight:700}
+.toolWorkflowStep.is-active{color:#b91f24;opacity:1}
+.toolWorkflowStep.is-active>span{background:#e5322d;border-color:#e5322d;color:#fff;box-shadow:0 3px 8px #e5322d35}
+.toolWorkflowStep.is-active b{font-weight:900}
+.toolWorkflowStep.is-done{color:#16845e;opacity:1}
+.toolWorkflowStep.is-done>span{background:#e8f8f0;border-color:#a8e0c7;color:#16845e}
+.toolSourcePreviewRow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 15px;padding:11px 13px;border:1px solid #dfe6ef;border-radius:10px;background:#f8fafc}
+.toolSourcePreviewBtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:8px 14px;border:1px solid #c9d8e9;border-radius:9px;background:#edf4fc;color:#214f82;font:800 12px Cairo,Arial,sans-serif;cursor:pointer}
+.toolSourcePreviewBtn:hover{background:#e1edfb;border-color:#9eb9d9}
+.toolSourcePreviewBtn:disabled{opacity:.55;cursor:wait}
+.toolSourcePreviewRow>span{font-size:11px;color:#738198}
+.dark .toolWorkflowSteps{background:#172334;border-color:#344357}
+.dark .toolWorkflowStep{color:#93a2b6}
+.dark .toolWorkflowStep>span{background:#202e40;border-color:#40516a;color:#bac7d8}
+.dark .toolWorkflowStep.is-active{color:#ff9a96}
+.dark .toolWorkflowStep.is-active>span{background:#e5322d;border-color:#e5322d;color:#fff}
+.dark .toolWorkflowStep.is-done{color:#6ed9ac}
+.dark .toolWorkflowStep.is-done>span{background:#153d31;border-color:#286b52;color:#6ed9ac}
+.dark .toolSourcePreviewRow{background:#172334;border-color:#344357}
+.dark .toolSourcePreviewBtn{background:#203650;border-color:#405c7b;color:#d9eaff}
+.dark .toolSourcePreviewRow>span{color:#aab7c8}
+@media(max-width:760px){
+ .toolWorkflowSteps{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px}
+ .toolWorkflowStep{flex-direction:column;gap:4px;padding:5px 2px}
+ .toolWorkflowStep b{font-size:10px}
+ .toolSourcePreviewRow{align-items:flex-start;flex-direction:column;gap:7px}
+}
