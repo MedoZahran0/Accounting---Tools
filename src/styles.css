@@ -2532,3 +2532,10 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 /* Prevent any stray punctuation pseudo-element from rendering as a box in the merge toolbar. */
 .mergeStudioToolbarActions:before,.mergeStudioToolbarActions:after{content:none!important;display:none!important}
 @media(max-width:600px){.mergeStudioToolbar{align-items:flex-start!important;flex-wrap:wrap!important}.mergeStudioToolbarActions{width:100%!important}.mergeStudioToolbarActions button{flex:1 1 120px!important}}
+
+
+/* Full-size verification control on each PDF page thumbnail card. */
+.mergeFileCardPreview{position:relative!important}
+.mergeFileCardExpand{position:absolute!important;top:10px!important;left:10px!important;z-index:6!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;min-height:34px!important;padding:0 10px!important;border:1px solid rgba(255,255,255,.7)!important;border-radius:9px!important;background:rgba(20,31,48,.88)!important;color:#fff!important;font:700 12px Cairo,Arial,sans-serif!important;box-shadow:0 3px 12px rgba(0,0,0,.2)!important;cursor:pointer!important;opacity:.96!important}
+.mergeFileCardExpand:hover{background:#e5322d!important;border-color:#e5322d!important}
+.mergeFileCardExpand:disabled{opacity:.7!important;cursor:wait!important}
