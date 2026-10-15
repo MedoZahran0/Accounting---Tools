@@ -2326,3 +2326,7 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .pdfWorkflowResultActions button{flex:1;white-space:normal}
  .pdfWorkflowQuality{grid-template-columns:1fr 100px 40px;gap:8px}
 }
+
+.pdfWorkflowFileList>div>button{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border:1px solid #dce4ee;border-radius:7px;background:#f7f9fc;color:#344b66;font:900 13px Cairo,Arial,sans-serif;cursor:pointer}
+.pdfWorkflowFileList>div>button:disabled{opacity:.3;cursor:not-allowed}
+.dark .pdfWorkflowFileList>div>button{background:#26364a;border-color:#40516a;color:#d9e3ef}
