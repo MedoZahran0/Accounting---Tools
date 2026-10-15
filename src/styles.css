@@ -2449,3 +2449,15 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeStudioPageCounter strong{font-size:24px!important}
  .mergeDropEmpty{padding:20px 12px!important}
 }
+
+/* Select and delete individual or multiple merge-page cards. */
+.mergeFileCard{position:relative;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.mergeFileCard.is-selected{border:2px solid #e5322d!important;box-shadow:0 0 0 3px rgba(229,50,45,.13)!important;background:#fffafa!important}
+.mergeFileCard.is-selected:after{content:"✓";position:absolute;top:10px;left:10px;z-index:4;width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e5322d;color:#fff;font-weight:900;box-shadow:0 2px 6px #0002}
+.mergeFileCardDelete{display:inline-flex!important;align-items:center;justify-content:center;min-width:32px!important;height:30px!important;padding:0 7px!important;border:1px solid #f3c8c6!important;border-radius:8px!important;background:#fff1f0!important;color:#c52b26!important;cursor:pointer!important}
+.mergeFileCardDelete:hover{background:#e5322d!important;color:#fff!important;border-color:#e5322d!important}
+.mergeDeleteSelected{display:inline-flex!important;align-items:center;justify-content:center;gap:6px!important;background:#fff1f0!important;border:1px solid #f1c4c2!important;color:#bd2924!important;font-weight:800!important}
+.mergeDeleteSelected:disabled{opacity:.45!important;cursor:not-allowed!important}
+.mergeFileCardsTop{gap:14px!important;align-items:center!important}
+.mergeFileSortActions{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+.mergeFileCardControls{flex-wrap:wrap!important}
