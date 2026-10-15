@@ -83,3 +83,45 @@
 .mergeStudioSideActions .mergeStudioPreviewBefore:disabled{opacity:.55!important;cursor:not-allowed!important}
 .mergeStudioSideActions .mergeStudioSideRun{min-height:48px!important}
 @media(max-width:899px){.mergeStudioSideActions .mergeStudioPreviewBefore,.mergeStudioSideActions .mergeStudioSideRun{min-height:42px!important}}
+
+
+/* iLovePDF-inspired merge workspace: document cards, visible ordering, and a clear preflight step. */
+.mergeStudioBody{overflow:auto!important;padding:22px!important;background:#f5f7fb!important}
+.mergeStudioEditor{height:auto!important;min-height:100%!important}
+.mergeFileCardsArea{width:100%;max-width:1440px;margin:0 auto;padding:4px 2px 22px;color:#27364a}
+.mergeFileCardsTop{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 22px;padding:0 0 16px;border-bottom:1px solid #e1e7ef}
+.mergeFileCardsTop>div:first-child{display:flex;flex-direction:column;gap:5px}
+.mergeFileCardsTop b{font-size:18px;font-weight:850;color:#202d40}
+.mergeFileCardsTop span{font-size:12px;color:#718096}
+.mergeFileSortActions{display:flex;gap:7px}
+.mergeFileSortActions button{border:1px solid #d8e0eb;border-radius:8px;padding:8px 12px;background:#fff;color:#30445c;font-weight:800;font-size:12px;cursor:pointer}
+.mergeFileSortActions button:disabled{opacity:.45;cursor:not-allowed}
+.mergeFileCardsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;align-items:stretch}
+.mergeFileCard{position:relative;min-width:0;overflow:hidden;background:#fff;border:1px solid #dfe5ed;border-radius:12px;box-shadow:0 3px 12px #1e293b0a;cursor:grab;transition:border-color .15s,box-shadow .15s,transform .15s}
+.mergeFileCard:hover{border-color:#e5322d;box-shadow:0 8px 22px #1e293b12;transform:translateY(-2px)}
+.mergeFileCard.is-dragging{opacity:.45;border:2px dashed #e5322d;transform:scale(.98)}
+.mergeFileCardNumber{position:absolute;z-index:2;top:9px;right:9px;display:grid;place-items:center;min-width:27px;height:27px;padding:0 6px;border-radius:8px;background:#e5322d;color:#fff;font-size:12px;font-weight:900;box-shadow:0 2px 7px #b91f2430}
+.mergeFileCardPreview{position:relative;display:flex;align-items:center;justify-content:center;height:190px;padding:15px 18px 27px;background:#eef2f7;border-bottom:1px solid #e4e9f0;overflow:hidden}
+.mergeFileCardPreview img{display:block;max-width:100%;max-height:100%;object-fit:contain;background:white;box-shadow:0 3px 10px #1e293b22}
+.mergeFileCardPreview>span{position:absolute;bottom:7px;left:9px;padding:3px 7px;border-radius:5px;background:#fff;color:#56677e;font-size:10px;font-weight:800;border:1px solid #e0e6ef}
+.mergeFileCardInfo{display:flex;flex-direction:column;gap:5px;padding:12px 12px 9px;text-align:right}
+.mergeFileCardInfo b{font-size:12px;color:#253247;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mergeFileCardInfo small{font-size:11px;color:#8290a2}
+.mergeFileCardControls{display:flex;align-items:center;gap:6px;padding:0 10px 11px}
+.mergeFileCardControls button{width:28px;height:28px;border:1px solid #dce4ee;border-radius:7px;background:#f7f9fc;color:#344b66;font-size:15px;font-weight:900;cursor:pointer}
+.mergeFileCardControls button:disabled{opacity:.35;cursor:not-allowed}
+.mergeFileCardControls span{margin-inline-start:auto;font-size:10px;color:#8a96a7;white-space:nowrap}
+.mergeFileCardsSummary{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:20px;padding:13px 15px;border:1px solid #e0e6ef;border-radius:10px;background:#fff;font-size:12px;font-weight:800;color:#42536b}
+.mergeFileCardsSummary i{font-style:normal;color:#b4bfcd}
+.mergeFileCardsHint{margin-inline-start:auto;font-size:11px;font-weight:500;color:#738198}
+.mergeFileCardsLoading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:240px;color:#6d7d92}
+.mergeFileCardsLoading b{font-size:13px}
+.mergeStudioSideActions .mergeStudioPreviewBefore{margin-top:2px}
+@media(max-width:899px){
+ .mergeStudioBody{padding:12px 10px 78px!important}
+ .mergeFileCardsTop{align-items:flex-start;flex-direction:column}
+ .mergeFileCardsTop b{font-size:16px}
+ .mergeFileCardsGrid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+ .mergeFileCardPreview{height:150px;padding:12px 12px 25px}
+ .mergeFileCardsHint{width:100%;margin:0}
+}
