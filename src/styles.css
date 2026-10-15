@@ -2419,3 +2419,33 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeFileCardsGrid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr))!important;gap:10px!important}
  .mergeFileCardPreview{height:165px!important}
 }
+
+
+/* Merge workspace: maximize page-card canvas, put live page count and larger actions in sidebar. */
+.mergeStudioWorkspace{grid-template-columns:minmax(0,1fr) 286px!important}
+.mergeStudioSideActions{padding:24px 18px!important;gap:14px!important}
+.mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{min-height:56px!important;font-size:15px!important;border-radius:12px!important}
+.mergeStudioSideBrand{padding-bottom:20px!important}
+.mergeStudioPageCounter{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;margin:8px 0!important;padding:18px 10px!important;border:1px solid #e1e7ef!important;border-radius:14px!important;background:#f7f9fc!important;text-align:center!important}
+.mergeStudioPageCounter span{font-size:13px!important;font-weight:800!important;color:#5e6d80!important}
+.mergeStudioPageCounter strong{font-size:38px!important;line-height:1.15!important;font-weight:900!important;color:#e5322d!important;font-variant-numeric:tabular-nums!important}
+.mergeStudioPageCounter small{font-size:11px!important;color:#7d8999!important}
+.mergeStudioBody{position:relative!important;padding:20px!important}
+.mergeFileCardsArea{max-width:none!important;width:100%!important;margin:0!important;padding:0!important;min-height:100%!important}
+.mergeFileCardsTop{margin-bottom:16px!important}
+.mergeFileCardsSummary{display:none!important}
+.mergeFileCardsGrid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))!important;align-content:start!important}
+.mergeDropEmpty{min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin:12px;padding:34px;border:2px dashed #cbd5e1;border-radius:18px;background:#fff;color:#66758a;text-align:center}
+.mergeDropEmpty>svg{color:#e5322d}
+.mergeDropEmpty>b{font-size:18px;color:#26364b}
+.mergeDropEmpty>span{font-size:13px}
+.mergeEmptyPick{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:10px;background:#e5322d;color:white;font-weight:800;cursor:pointer;overflow:hidden}
+.mergeEmptyPick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+@media(max-width:760px){
+ .mergeStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr) auto!important}
+ .mergeStudioSideActions{padding:10px!important}
+ .mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{min-height:44px!important;font-size:12px!important}
+ .mergeStudioPageCounter{grid-column:1/-1!important;flex-direction:row!important;justify-content:center!important;gap:10px!important;margin:0!important;padding:8px!important}
+ .mergeStudioPageCounter strong{font-size:24px!important}
+ .mergeDropEmpty{padding:20px 12px!important}
+}
