@@ -2461,3 +2461,27 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeFileCardsTop{gap:14px!important;align-items:center!important}
 .mergeFileSortActions{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
 .mergeFileCardControls{flex-wrap:wrap!important}
+
+/* Desktop: full-width bottom action dock; workspace uses the full canvas above it. */
+.mergeStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr) auto!important}
+.mergeStudioToolbar{grid-column:1!important;grid-row:1!important}
+.mergeStudioBody{grid-column:1!important;grid-row:2!important;min-height:0!important;overflow:auto!important;padding:18px 22px 22px!important}
+.mergeStudioSideActions{grid-column:1!important;grid-row:3!important;width:100%!important;height:auto!important;min-height:0!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;padding:12px 20px!important;border-left:0!important;border-top:1px solid #dce3ec!important;background:#fff!important;box-shadow:0 -5px 18px rgba(24,39,75,.06)!important;overflow:visible!important}
+.mergeStudioSideBrand{display:flex!important;flex-direction:row!important;align-items:center!important;gap:9px!important;padding:0 12px 0 0!important;margin:0!important;min-width:180px!important}
+.mergeStudioSideLogo{width:38px!important;height:38px!important;flex:0 0 auto!important}
+.mergeStudioSideBrand b,.mergeStudioSideBrand small{white-space:nowrap!important}
+.mergeStudioSideBrand b{font-size:13px!important}.mergeStudioSideBrand small{font-size:10px!important}
+.mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{width:auto!important;min-width:145px!important;min-height:48px!important;padding:0 20px!important}
+.mergeStudioPageCounter{flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:10px!important;margin:0 0 0 auto!important;padding:8px 16px!important;min-width:190px!important}
+.mergeStudioPageCounter strong{font-size:27px!important}.mergeStudioSideSuccess{margin:0!important;padding:10px 14px!important}
+.mergeFileCard{user-select:none!important;-webkit-user-select:none!important;cursor:grab!important}.mergeFileCard:active{cursor:grabbing!important}
+.mergeFileCardPreview img{pointer-events:none!important;-webkit-user-drag:none!important}
+@media(max-width:760px){
+ .mergeStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr) auto!important}
+ .mergeStudioBody{grid-column:1!important;grid-row:2!important;padding:10px!important}
+ .mergeStudioSideActions{grid-column:1!important;grid-row:3!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;justify-content:center!important;padding:10px!important;gap:8px!important}
+ .mergeStudioSideBrand{width:100%!important;min-width:0!important;justify-content:flex-start!important;padding:0 0 4px!important}
+ .mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{flex:1 1 135px!important;min-width:0!important;min-height:42px!important;padding:0 10px!important}
+ .mergeStudioPageCounter{flex:1 1 100%!important;min-width:0!important;margin:0!important}
+ .mergeStudioSideSuccess{flex:1 1 100%!important}
+}
