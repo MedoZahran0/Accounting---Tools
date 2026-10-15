@@ -2127,3 +2127,21 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeStudioResultActions{gap:5px!important}
  .mergeStudioResultActions button{padding:7px!important;font-size:10px!important}
 }
+
+
+/* Keep merge result actions in the empty preview-side margin on desktop */
+@media(min-width:900px){
+ .mergeStudioWorkspace:has(.mergeStudioResultBar) .mergeStudioResultBar{
+  position:fixed!important;left:14px!important;right:auto!important;top:50%!important;bottom:auto!important;
+  transform:translateY(-50%)!important;width:156px!important;min-height:0!important;
+  padding:12px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  justify-content:center!important;gap:10px!important;border:1px solid #c8d6e7!important;border-radius:14px!important;
+  box-shadow:0 8px 26px #14243a24!important;background:#fff!important;z-index:100000!important
+ }
+ .mergeStudioResultFile{display:none!important}
+ .mergeStudioResultActions{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;width:100%!important}
+ .mergeStudioResultActions button{width:100%!important;min-height:46px!important;font-size:13px!important;padding:10px 8px!important}
+}
+@media(max-width:899px){
+ .mergeStudioWorkspace:has(.mergeStudioResultBar) .mergeStudioResultBar{position:fixed!important;left:8px!important;right:8px!important;bottom:8px!important;width:auto!important;border-radius:12px!important}
+}
