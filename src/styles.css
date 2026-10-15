@@ -2625,3 +2625,9 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .app.dark .toolFilePicker,.app.dark .splitFilePicker{background:linear-gradient(135deg,#191f29,#202630)!important;border-color:#46566b!important;color:#f1f5fa!important}
 .app.dark .toolFilePicker>span,.app.dark .splitFilePicker>span{color:#b4c0d0!important}
 
+
+
+/* PDF page-picker: card click selects; only the dedicated expand icon opens the large preview. */
+.pdfPageExpandButton{position:absolute!important;top:8px!important;left:8px!important;z-index:5!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border:1px solid rgba(255,255,255,.8)!important;border-radius:9px!important;background:rgba(20,31,48,.88)!important;color:#fff!important;cursor:zoom-in!important;box-shadow:0 3px 10px rgba(0,0,0,.18)!important}
+.pdfPageExpandButton:hover{background:#e5322d!important}
+.pagePaper{position:relative}
