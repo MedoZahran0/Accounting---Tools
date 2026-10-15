@@ -76,3 +76,10 @@
 .ps-selection-rect{border-radius:10px!important;box-shadow:0 0 1px currentColor;}
 .ps-mark-surface .ps-selection-rect{border-width:1px!important;opacity:.72;mix-blend-mode:multiply;border-radius:12px!important}
 .ps-continuous-image{image-rendering:auto;}
+
+/* Pre-merge review action: clearly separate reviewing the ordered output from final merge. */
+.mergeStudioSideActions .mergeStudioPreviewBefore{border:1px solid #d7a6a4!important;background:#fff5f4!important;color:#b4232a!important;min-height:48px!important;font-weight:800!important;box-shadow:0 3px 9px #b4232a12!important}
+.mergeStudioSideActions .mergeStudioPreviewBefore:hover{background:#ffe8e6!important;border-color:#e5322d!important}
+.mergeStudioSideActions .mergeStudioPreviewBefore:disabled{opacity:.55!important;cursor:not-allowed!important}
+.mergeStudioSideActions .mergeStudioSideRun{min-height:48px!important}
+@media(max-width:899px){.mergeStudioSideActions .mergeStudioPreviewBefore,.mergeStudioSideActions .mergeStudioSideRun{min-height:42px!important}}
