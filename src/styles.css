@@ -2598,3 +2598,30 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .workspaceChangeFile:hover{background:#eaf0f7!important;border-color:#b9c8da!important}
 .app.dark .workspaceChangeFile{background:#172231!important;color:#e2e8f0!important;border-color:#3a4b61!important}
 @media(max-width:760px){.splitStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) auto!important;height:auto!important;min-height:calc(100vh - 150px)!important}.splitStudioWorkspace .splitStudioBody{grid-column:1!important;grid-row:1!important;padding:12px!important}.splitStudioWorkspace .splitStudioSideActions{grid-column:1!important;grid-row:2!important;height:auto!important}.splitStudioPageGrid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))!important;gap:10px!important}.splitStudioPageCard{min-height:210px!important;padding:7px!important}.splitStudioPageCard img{height:175px!important}.workspaceHeaderActions{gap:5px!important}.workspaceChangeFile{padding:0 8px!important;font-size:11px!important}.workspaceBack{white-space:nowrap!important}}
+
+
+/* Consistent file-selection landing and workspace handoff for every tool. */
+.toolFilePicker,.splitFilePicker{
+  width:min(100%,1100px)!important;min-height:clamp(220px,34vh,360px)!important;
+  margin:22px auto!important;padding:32px!important;gap:14px!important;
+  border:2px dashed #b9cbe0!important;border-radius:20px!important;
+  background:linear-gradient(135deg,rgba(242,247,253,.98),rgba(255,255,255,.94))!important;
+  box-shadow:0 12px 34px rgba(29,55,88,.07)!important;color:#20334b!important;
+  transition:border-color .18s,background .18s,transform .18s!important;
+}
+.toolFilePicker:hover,.toolFilePicker:focus-within,.splitFilePicker:hover,.splitFilePicker:focus-within{
+  border-color:#e5322d!important;background:#fff!important;transform:translateY(-1px)!important;
+}
+.toolFilePicker>b,.splitFilePicker>b{font-size:19px!important;font-weight:800!important;color:inherit!important}
+.toolFilePicker>span,.splitFilePicker>span{font-size:13px!important;color:#718198!important;max-width:650px!important;line-height:1.8!important}
+.toolFilePicker>svg,.splitFilePicker>svg{color:#e5322d!important;width:38px!important;height:38px!important}
+.workspaceChangeFile{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-height:36px!important;padding:0 13px!important;border:1px solid #d8e2ee!important;border-radius:10px!important;background:#fff!important;color:#24364d!important;font-weight:800!important;cursor:pointer!important}
+.workspaceChangeFile:hover{border-color:#e5322d!important;color:#d82c27!important}
+.splitStudioImageOpen{display:block!important;position:relative!important;width:100%!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;cursor:zoom-in!important}
+.splitStudioImageOpen>img{display:block!important;width:100%!important;object-fit:contain!important;pointer-events:none!important}
+.splitStudioImageOpen .splitStudioExpand{pointer-events:none!important}
+.splitStudioImageOpen:hover .splitStudioExpand{background:#e5322d!important}
+@media(max-width:700px){.toolFilePicker,.splitFilePicker{min-height:210px!important;padding:22px!important}.toolFilePicker>b,.splitFilePicker>b{font-size:16px!important}}
+.app.dark .toolFilePicker,.app.dark .splitFilePicker{background:linear-gradient(135deg,#191f29,#202630)!important;border-color:#46566b!important;color:#f1f5fa!important}
+.app.dark .toolFilePicker>span,.app.dark .splitFilePicker>span{color:#b4c0d0!important}
+
