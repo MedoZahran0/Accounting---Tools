@@ -2217,3 +2217,112 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .toolWorkflowStep b{font-size:10px}
  .toolSourcePreviewRow{align-items:flex-start;flex-direction:column;gap:7px}
 }
+
+
+/* Workflow launch card and multi-operation PDF pipeline. */
+.workflowLaunch{display:flex;align-items:center;gap:15px;margin:20px 0;padding:19px 22px;border:1px solid #f0c9c7;border-radius:16px;background:linear-gradient(110deg,#fff7f6,#fff 70%);box-shadow:0 6px 22px #1f29370a}
+.workflowLaunchIcon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border-radius:14px;background:#e5322d;color:#fff}
+.workflowLaunchCopy{display:flex;flex:1;flex-direction:column;gap:5px;min-width:0}
+.workflowLaunchCopy b{font-size:16px;font-weight:900;color:#27364a}
+.workflowLaunchCopy span{font-size:12px;line-height:1.7;color:#6d7b8f}
+.workflowLaunch>button{display:flex;align-items:center;gap:10px;justify-content:center;min-height:43px;padding:10px 16px;border:0;border-radius:10px;background:#e5322d;color:#fff;font:800 12px Cairo,Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.workflowLaunch>button:hover{background:#c92329}
+.pdfWorkflowOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;background:#0d1728b8;backdrop-filter:blur(5px);overflow:auto}
+.pdfWorkflowPanel{display:flex;flex-direction:column;width:min(980px,100%);max-height:94vh;overflow:hidden;border:1px solid #dfe5ed;border-radius:18px;background:#fff;color:#27364a;box-shadow:0 24px 90px #07101f55}
+.pdfWorkflowHeader{display:flex;align-items:center;gap:12px;padding:17px 21px;border-bottom:1px solid #e7ebf1}
+.pdfWorkflowHeader>div:nth-child(2){display:flex;flex:1;flex-direction:column;gap:3px}
+.pdfWorkflowHeader b{font-size:17px;font-weight:900}
+.pdfWorkflowHeader span{font-size:11px;color:#7a8798}
+.pdfWorkflowHeader>button{width:35px;height:35px;border:1px solid #dfe5ed;border-radius:9px;background:#f7f9fc;color:#53647a;cursor:pointer}
+.pdfWorkflowSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:13px 20px;background:#f7f9fc;border-bottom:1px solid #e7ebf1}
+.pdfWorkflowSteps>div{display:flex;align-items:center;gap:8px;color:#8995a5}
+.pdfWorkflowSteps>div>span{display:grid;place-items:center;width:25px;height:25px;border:1px solid #d7e0ea;border-radius:50%;background:#fff;font-size:11px;font-weight:900}
+.pdfWorkflowSteps>div b{font-size:11px}
+.pdfWorkflowSteps>div.active{color:#b91f24}
+.pdfWorkflowSteps>div.active>span{background:#e5322d;border-color:#e5322d;color:#fff}
+.pdfWorkflowBody{overflow:auto;padding:20px 22px;min-height:0}
+.pdfWorkflowDrop{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:150px;padding:18px;border:2px dashed #d5dfeb;border-radius:13px;background:#fafbfd;color:#66788e;text-align:center;cursor:pointer}
+.pdfWorkflowDrop svg{color:#e5322d}
+.pdfWorkflowDrop b{font-size:14px;color:#2b3a4e}
+.pdfWorkflowDrop span{font-size:11px}
+.pdfWorkflowDrop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.pdfWorkflowFileList{display:flex;flex-direction:column;gap:7px;margin:14px 0}
+.pdfWorkflowFileList>div{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 11px;border:1px solid #e1e7ef;border-radius:9px;background:#fff}
+.pdfWorkflowFileList>div>span{display:grid;place-items:center;flex:0 0 25px;height:25px;border-radius:7px;background:#fdebea;color:#c92329;font-size:11px;font-weight:900}
+.pdfWorkflowFileList b{overflow:hidden;flex:1;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+.pdfWorkflowFileList small{font-size:10px;color:#8290a2;white-space:nowrap}
+.pdfWorkflowOptions{margin-top:16px;padding:15px;border:1px solid #e0e6ef;border-radius:12px}
+.pdfWorkflowOptions h3{margin:0 0 11px;font-size:14px}
+.pdfWorkflowOption{display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid #edf0f4}
+.pdfWorkflowOption>div{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
+.pdfWorkflowOption b,.pdfWorkflowQuality b{font-size:12px;color:#2c3b50}
+.pdfWorkflowOption small,.pdfWorkflowQuality small{font-size:10px;color:#8390a1;line-height:1.6}
+.pdfWorkflowOption strong{font-size:10px;color:#78869a;white-space:nowrap}
+.pdfWorkflowCheck{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;background:#e8f8f0;color:#16845e;font-weight:900}
+.pdfWorkflowToggle{cursor:pointer}
+.pdfWorkflowToggle>input{width:17px;height:17px;accent-color:#e5322d}
+.pdfWorkflowWatermark{display:flex;flex-direction:column;gap:7px;padding:2px 0 12px}
+.pdfWorkflowWatermark span{font-size:11px;font-weight:800}
+.pdfWorkflowWatermark input{width:100%;padding:10px;border:1px solid #d9e1eb;border-radius:8px;background:#fff;color:#27364a;font:12px Cairo,Arial,sans-serif}
+.pdfWorkflowQuality{display:grid;grid-template-columns:1fr minmax(100px,180px) 48px;align-items:center;gap:14px;padding:12px 0 0;border-top:1px solid #edf0f4}
+.pdfWorkflowQuality>div{display:flex;flex-direction:column;gap:3px}
+.pdfWorkflowQuality input{width:100%;accent-color:#e5322d}
+.pdfWorkflowQuality>span{text-align:left;font-size:11px;font-weight:900;color:#bd252b}
+.pdfWorkflowProgress{margin-top:14px;padding:12px;border:1px solid #dfe6ef;border-radius:10px;background:#f8fafc}
+.pdfWorkflowProgress>div{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pdfWorkflowProgress>div b{color:#e5322d;font-size:13px}
+.pdfWorkflowProgress>div span{font-size:11px;color:#66778c}
+.pdfWorkflowProgress>i{display:block;height:7px;overflow:hidden;border-radius:9px;background:#e2e8f0}
+.pdfWorkflowProgress>i>em{display:block;height:100%;border-radius:9px;background:#e5322d;transition:width .25s}
+.pdfWorkflowStatus{margin:12px 0 0;padding:10px 12px;border-radius:9px;background:#f3f6fa;color:#607086;font-size:11px;line-height:1.7}
+.pdfWorkflowStatus.success{background:#eaf8f1;color:#147a55}
+.pdfWorkflowResult{display:flex;align-items:center;gap:13px;margin-top:14px;padding:14px;border:1px solid #b8e4ce;border-radius:12px;background:#f4fcf7}
+.pdfWorkflowResultIcon{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:#ddf6e8;color:#16845e}
+.pdfWorkflowResultInfo{display:flex;flex:1;flex-direction:column;gap:5px;min-width:0}
+.pdfWorkflowResultInfo>b{font-size:12px;color:#176746}
+.pdfWorkflowResultInfo>span{font-size:10px;color:#6d8379}
+.pdfWorkflowResultInfo input{width:min(260px,100%);padding:7px 9px;border:1px solid #cde6d8;border-radius:7px;background:#fff;color:#27364a;font:11px Cairo,Arial,sans-serif}
+.pdfWorkflowResultActions{display:flex;flex-direction:column;gap:7px}
+.pdfWorkflowResultActions button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:7px 10px;border:1px solid #d6e0eb;border-radius:8px;background:#fff;color:#285078;font:800 11px Cairo,Arial,sans-serif;cursor:pointer;white-space:nowrap}
+.pdfWorkflowResultActions button:last-child{border-color:#16845e;background:#16845e;color:#fff}
+.pdfWorkflowFooter{display:flex;justify-content:space-between;gap:10px;padding:14px 20px;border-top:1px solid #e7ebf1;background:#fbfcfe}
+.pdfWorkflowFooter button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 15px;border-radius:9px;font:800 12px Cairo,Arial,sans-serif;cursor:pointer}
+.pdfWorkflowFooter .secondary{border:1px solid #d9e1eb;background:#fff;color:#53647a}
+.pdfWorkflowFooter .primary{border:0;background:#e5322d;color:#fff}
+.pdfWorkflowFooter .primary:disabled{opacity:.5;cursor:not-allowed}
+.dark .workflowLaunch{background:linear-gradient(110deg,#251c25,#1b2839);border-color:#57343b}
+.dark .workflowLaunchCopy b{color:#eef3fa}
+.dark .workflowLaunchCopy span{color:#aab7c8}
+.dark .pdfWorkflowPanel{background:#1b2839;border-color:#354459;color:#eef3fa}
+.dark .pdfWorkflowHeader,.dark .pdfWorkflowFooter,.dark .pdfWorkflowSteps{background:#172334;border-color:#354459}
+.dark .pdfWorkflowHeader>button,.dark .pdfWorkflowFooter .secondary{background:#202e40;border-color:#40516a;color:#d9e3ef}
+.dark .pdfWorkflowHeader span,.dark .pdfWorkflowSteps>div{color:#aab7c8}
+.dark .pdfWorkflowSteps>div.active{color:#ff9a96}
+.dark .pdfWorkflowBody .pdfWorkflowDrop{background:#172334;border-color:#40516a;color:#aab7c8}
+.dark .pdfWorkflowDrop b,.dark .pdfWorkflowOption b,.dark .pdfWorkflowQuality b,.dark .pdfWorkflowOptions h3{color:#eef3fa}
+.dark .pdfWorkflowFileList>div,.dark .pdfWorkflowWatermark input,.dark .pdfWorkflowResultInfo input{background:#202e40;border-color:#40516a;color:#eef3fa}
+.dark .pdfWorkflowFileList b{color:#eef3fa}
+.dark .pdfWorkflowOptions,.dark .pdfWorkflowFileList>div,.dark .pdfWorkflowOption,.dark .pdfWorkflowQuality,.dark .pdfWorkflowResult{border-color:#354459}
+.dark .pdfWorkflowResult{background:#17362c}
+.dark .pdfWorkflowResultInfo>b{color:#83e0b2}
+.dark .pdfWorkflowResultInfo>span{color:#a0b8ad}
+.dark .pdfWorkflowResultActions button{background:#202e40;border-color:#40516a;color:#d9eaff}
+.dark .pdfWorkflowResultActions button:last-child{background:#16845e;color:#fff}
+.dark .pdfWorkflowStatus,.dark .pdfWorkflowProgress{background:#172334;border-color:#354459;color:#b9c5d5}
+@media(max-width:720px){
+ .workflowLaunch{align-items:flex-start;flex-wrap:wrap;padding:14px}
+ .workflowLaunchCopy{flex-basis:calc(100% - 65px)}
+ .workflowLaunch>button{width:100%}
+ .pdfWorkflowOverlay{align-items:flex-start;padding:7px}
+ .pdfWorkflowPanel{max-height:calc(100dvh - 14px);border-radius:13px}
+ .pdfWorkflowHeader{padding:12px}
+ .pdfWorkflowSteps{padding:10px;gap:4px}
+ .pdfWorkflowSteps>div{flex-direction:column;gap:4px;text-align:center}
+ .pdfWorkflowSteps>div b{font-size:9px}
+ .pdfWorkflowBody{padding:12px}
+ .pdfWorkflowResult{align-items:flex-start;flex-wrap:wrap}
+ .pdfWorkflowResultInfo{flex-basis:calc(100% - 60px)}
+ .pdfWorkflowResultActions{width:100%;flex-direction:row}
+ .pdfWorkflowResultActions button{flex:1;white-space:normal}
+ .pdfWorkflowQuality{grid-template-columns:1fr 100px 40px;gap:8px}
+}
