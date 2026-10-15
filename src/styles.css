@@ -2095,7 +2095,10 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 
 /* Keep merge output actions visible in the same viewport; never rely on page scrolling. */
 .mergeStudioWorkspace{flex:1 1 0!important;min-height:0!important;overflow:hidden!important}
-.mergeStudioResultBar{flex:0 0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;padding:10px 14px!important;margin:0!important;border-top:1px solid #d5e0eb!important;background:#f7fbff!important;min-height:68px!important;box-sizing:border-box!important}
+.mergeStudioWorkspace:has(.mergeStudioResultBar) .mergeStudioFooter{display:none!important}
+.mergeStudioWorkspace:has(.mergeStudioResultBar) .mergeStudioBody{min-height:0!important;flex:1 1 auto!important}
+.mergeStudioWorkspace:has(.mergeStudioResultBar) .mergeStudioResultBar{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:100000!important;width:100%!important;min-height:76px!important;padding:12px 22px!important;box-shadow:0 -8px 24px #14243a20!important;border-top:2px solid #d5e0eb!important}
+
 .mergeStudioResultFile{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;color:#13795b!important}
 .mergeStudioResultFile>div{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
 .mergeStudioResultFile b{font-size:13px!important;color:#1c3448!important}
