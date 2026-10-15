@@ -2631,3 +2631,17 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .pdfPageExpandButton{position:absolute!important;top:8px!important;left:8px!important;z-index:5!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border:1px solid rgba(255,255,255,.8)!important;border-radius:9px!important;background:rgba(20,31,48,.88)!important;color:#fff!important;cursor:zoom-in!important;box-shadow:0 3px 10px rgba(0,0,0,.18)!important}
 .pdfPageExpandButton:hover{background:#e5322d!important}
 .pagePaper{position:relative}
+
+
+/* Split PDF: selecting a card must never trigger the full-size preview.
+   Only the dedicated expand icon is interactive. */
+.splitStudioImageOpen{cursor:default!important}
+.splitStudioExpandButton{
+ position:absolute!important;top:12px!important;left:12px!important;z-index:8!important;
+ display:grid!important;place-items:center!important;width:36px!important;height:36px!important;
+ padding:0!important;border:1px solid rgba(255,255,255,.82)!important;border-radius:9px!important;
+ background:rgba(20,31,48,.9)!important;color:#fff!important;box-shadow:0 3px 12px rgba(0,0,0,.22)!important;
+ cursor:zoom-in!important;pointer-events:auto!important
+}
+.splitStudioExpandButton:hover{background:#e5322d!important;border-color:#e5322d!important}
+.splitStudioImageOpen .splitStudioExpandButton svg{pointer-events:none!important}
