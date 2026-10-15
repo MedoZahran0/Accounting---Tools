@@ -2485,3 +2485,37 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
  .mergeStudioPageCounter{flex:1 1 100%!important;min-width:0!important;margin:0!important}
  .mergeStudioSideSuccess{flex:1 1 100%!important}
 }
+/* Correct merge layout: keep the action rail on the side and stretch it to the bottom. */
+.mergeStudioWorkspace{
+ grid-template-columns:minmax(0,1fr) 286px!important;
+ grid-template-rows:auto minmax(0,1fr)!important;
+}
+.mergeStudioToolbar{grid-column:1 / -1!important;grid-row:1!important}
+.mergeStudioBody{grid-column:1!important;grid-row:2!important;min-height:0!important;height:100%!important;align-self:stretch!important;overflow:auto!important}
+.mergeStudioSideActions{
+ grid-column:2!important;grid-row:2!important;
+ align-self:stretch!important;width:100%!important;height:100%!important;min-height:0!important;
+ display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;
+ align-items:stretch!important;justify-content:flex-start!important;gap:12px!important;
+ padding:22px 16px!important;box-sizing:border-box!important;
+ border-top:0!important;border-left:1px solid #e0e5ed!important;
+ background:#fff!important;box-shadow:none!important;overflow-y:auto!important;
+}
+.mergeStudioSideBrand{flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;padding:8px 0 18px!important;margin:0 0 4px!important}
+.mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{width:100%!important;min-width:0!important;flex:0 0 auto!important;min-height:54px!important;padding:0 12px!important}
+.mergeStudioPageCounter{flex-direction:column!important;min-width:0!important;width:100%!important;margin:8px 0!important;padding:18px 10px!important}
+.mergeStudioPageCounter strong{font-size:38px!important}
+.mergeStudioSideSuccess{margin-top:6px!important}
+@media(max-width:760px){
+ .mergeStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr) auto!important}
+ .mergeStudioToolbar{grid-column:1!important;grid-row:1!important}
+ .mergeStudioBody{grid-column:1!important;grid-row:2!important;height:auto!important}
+ .mergeStudioSideActions{grid-column:1!important;grid-row:3!important;width:100%!important;height:auto!important;min-height:0!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;flex-direction:initial!important;flex-wrap:initial!important;padding:10px!important;border-left:0!important;border-top:1px solid #e0e5ed!important}
+ .mergeStudioSideBrand{grid-column:1/-1!important;flex-direction:row!important;justify-content:flex-start!important;padding:0 0 8px!important}
+ .mergeStudioPageCounter{grid-column:1/-1!important;flex-direction:row!important;min-width:0!important;margin:0!important;padding:8px!important}
+ .mergeStudioPageCounter strong{font-size:24px!important}
+ .mergeStudioSideRun,.mergeStudioPreviewButton,.mergeStudioDownloadButton{min-height:42px!important}
+ .mergeStudioSideSuccess{grid-column:1/-1!important;margin:0!important}
+}
+/* Remove the malformed stray punctuation artifact reported in the merge view. */
+.mergeStudioWorkspace .mergeStudioToolbarActions{isolation:isolate}
