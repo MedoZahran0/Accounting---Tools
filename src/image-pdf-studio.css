@@ -71,3 +71,10 @@
 .app.dark .ips-start-drop.is-over{background:#392326;border-color:#ff7771}
 .app.dark .ips-start-drop>b{color:#f5eeee}
 @media(max-width:650px){.ips-start-main{padding:18px 12px 28px}.ips-start-card{padding:25px 17px;border-radius:15px}.ips-start-hero-icon{width:65px;height:65px}.ips-start-card>p{font-size:13px}.ips-start-drop{padding:20px 10px}.ips-start-benefits{gap:10px 14px}}
+
+
+/* Keep image-to-PDF simple: A4 automatic, rotate selected image, create PDF. */
+.ips-order-box,.ips-advanced-setting{display:none!important}
+.ips-a4-default{font-size:12px;font-weight:800;color:#16785b;background:#e8f7f0;border-radius:8px;padding:6px 9px}
+.ips-simple-a4 p{margin:8px 0 0;color:#667085;font-size:12px;line-height:1.8}
+.ips-simple-a4{background:#f8fafc;border:1px solid #e5eaf0;border-radius:12px}
