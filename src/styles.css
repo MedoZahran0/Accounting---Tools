@@ -2519,3 +2519,16 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 }
 /* Remove the malformed stray punctuation artifact reported in the merge view. */
 .mergeStudioWorkspace .mergeStudioToolbarActions{isolation:isolate}
+
+
+/* Merge workspace toolbar: compact home and reset-to-file-selection actions. */
+.mergeStudioToolbarActions{display:flex!important;align-items:center!important;gap:9px!important;flex-wrap:wrap!important}
+.mergeStudioToolbarActions .mergeStudioHomeButton,
+.mergeStudioToolbarActions .mergeStudioCloseButton{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:40px!important;padding:0 14px!important;border-radius:9px!important;font-size:13px!important;font-weight:800!important;white-space:nowrap!important;box-shadow:none!important}
+.mergeStudioToolbarActions .mergeStudioHomeButton{background:#f4f7fb!important;border:1px solid #d8e1ec!important;color:#334155!important}
+.mergeStudioToolbarActions .mergeStudioCloseButton{background:#fff1f0!important;border:1px solid #f4c7c4!important;color:#bd2924!important}
+.mergeStudioToolbarActions .mergeStudioHomeButton:hover{background:#e9eff7!important}
+.mergeStudioToolbarActions .mergeStudioCloseButton:hover{background:#ffe3e1!important}
+/* Prevent any stray punctuation pseudo-element from rendering as a box in the merge toolbar. */
+.mergeStudioToolbarActions:before,.mergeStudioToolbarActions:after{content:none!important;display:none!important}
+@media(max-width:600px){.mergeStudioToolbar{align-items:flex-start!important;flex-wrap:wrap!important}.mergeStudioToolbarActions{width:100%!important}.mergeStudioToolbarActions button{flex:1 1 120px!important}}
