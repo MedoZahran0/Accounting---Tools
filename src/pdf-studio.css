@@ -186,3 +186,8 @@
 .ps-redact-drawing{background:rgba(229,50,45,.18)!important;border:2px solid #e5322d;box-shadow:0 0 0 1px rgba(255,255,255,.8) inset}
 .ps-mark-surface:has(.ps-redact-box){cursor:crosshair}
 .ps-redact-tip{font-size:12px;line-height:1.7;color:#6b7280;background:#f8fafc;padding:9px;border-radius:8px}
+
+/* Blur redaction preview and final selection outline. */
+.ps-redact-box{position:absolute;z-index:6;pointer-events:none;box-sizing:border-box;border:1px solid rgba(90,105,120,.35);background:rgba(245,248,252,.16);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset}
+.ps-redact-drawing{background:rgba(100,116,139,.14)!important;border:2px solid #e5322d;box-shadow:0 0 0 1px rgba(255,255,255,.85) inset;backdrop-filter:none}
+.ps-mark-surface:has(.ps-redact-box){cursor:crosshair}
