@@ -2645,3 +2645,12 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 }
 .splitStudioExpandButton:hover{background:#e5322d!important;border-color:#e5322d!important}
 .splitStudioImageOpen .splitStudioExpandButton svg{pointer-events:none!important}
+
+
+/* Consistent file-picker frame and a clear top-left back action across tools. */
+.mergeStartBackTop{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 13px!important;border:1px solid #e5322d!important;border-radius:10px!important;background:#e5322d!important;color:#fff!important;font:700 12px Cairo,Arial,sans-serif!important;white-space:nowrap;cursor:pointer}
+.mergeStartBackTop:hover{background:#c92724!important;border-color:#c92724!important}
+.app.dark .mergeStartBackTop{background:#e5322d!important;color:#fff!important}
+.mergeStartModal{width:min(920px,96vw)!important;height:min(700px,92vh)!important;min-height:min(500px,85vh)!important}
+.mergeStartHeader{min-height:78px}
+@media(max-width:560px){.mergeStartBackTop{font-size:11px!important;padding:0 9px!important}.mergeStartModal{height:min(700px,94vh)!important;min-height:420px!important}.mergeStartCard{padding:24px 16px!important}}
