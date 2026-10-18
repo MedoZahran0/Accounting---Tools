@@ -2654,3 +2654,18 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .mergeStartModal{width:min(920px,96vw)!important;height:min(700px,92vh)!important;min-height:min(500px,85vh)!important}
 .mergeStartHeader{min-height:78px}
 @media(max-width:560px){.mergeStartBackTop{font-size:11px!important;padding:0 9px!important}.mergeStartModal{height:min(700px,94vh)!important;min-height:420px!important}.mergeStartCard{padding:24px 16px!important}}
+
+
+/* Full-page OCR file picker, matching the dedicated PDF tool start screens. */
+.ocrStartOverlay{position:fixed!important;inset:0!important;z-index:10020!important;width:100vw!important;height:100vh!important;height:100dvh!important;overflow:auto!important;background:#f4f6fa!important;color:#1c293a!important;font-family:Cairo,Arial,sans-serif!important;direction:rtl!important}
+.ocrStartPage{width:100%;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(145deg,#f7f9fc,#edf2f8)}
+.ocrStartHeader{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(18px,4vw,56px);background:#fff;border-bottom:1px solid #e1e7ef;box-shadow:0 2px 12px rgba(25,45,72,.04)}
+.ocrStartBrand{display:flex;align-items:center;gap:12px}.ocrStartLogo{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:#173b67;color:#fff;font-weight:900}.ocrStartBrand>div{display:flex;flex-direction:column;gap:3px}.ocrStartBrand b{font-size:15px}.ocrStartBrand small{font-size:12px;color:#7a8595}
+.ocrStartBack{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 15px;border:1px solid #e5322d;border-radius:10px;background:#e5322d;color:#fff;font:700 13px Cairo,Arial,sans-serif;cursor:pointer}
+.ocrStartMain{flex:1;display:grid;place-items:center;padding:36px 18px}
+.ocrStartCard{width:min(640px,100%);padding:clamp(24px,4vw,42px);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;background:#fff;border:1px solid #e0e6ef;border-radius:22px;box-shadow:0 18px 55px rgba(24,44,72,.09)}
+.ocrStartIcon{width:68px;height:68px;display:grid;place-items:center;border-radius:18px;background:#e5322d;color:#fff}
+.ocrStartCard h1{margin:0;font-size:clamp(22px,3vw,29px);color:#1d2a3a}.ocrStartCard p{max-width:480px;margin:0;color:#667386;font-size:14px;line-height:1.9}
+.ocrStartChoose{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 24px;border:0;border-radius:11px;background:#e5322d;color:#fff;font:700 14px Cairo,Arial,sans-serif;cursor:pointer}.ocrStartChoose:hover,.ocrStartBack:hover{background:#c92724}.ocrStartChoose input{display:none}
+.ocrStartDrop{width:100%;min-height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed #c7d2e0;border-radius:15px;background:#f8fafc;color:#344054}.ocrStartDrop.is-over{border-color:#e5322d;background:#fff4f3}.ocrStartDrop span{font-size:12px;color:#7b8492}
+@media(max-width:600px){.ocrStartHeader{padding:12px 14px}.ocrStartBrand small{display:none}.ocrStartMain{padding:20px 12px}.ocrStartCard{border-radius:16px}.ocrStartBack{padding:0 10px;font-size:11px}}
