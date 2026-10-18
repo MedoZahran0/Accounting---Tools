@@ -2669,3 +2669,42 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 .ocrStartChoose{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 24px;border:0;border-radius:11px;background:#e5322d;color:#fff;font:700 14px Cairo,Arial,sans-serif;cursor:pointer}.ocrStartChoose:hover,.ocrStartBack:hover{background:#c92724}.ocrStartChoose input{display:none}
 .ocrStartDrop{width:100%;min-height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed #c7d2e0;border-radius:15px;background:#f8fafc;color:#344054}.ocrStartDrop.is-over{border-color:#e5322d;background:#fff4f3}.ocrStartDrop span{font-size:12px;color:#7b8492}
 @media(max-width:600px){.ocrStartHeader{padding:12px 14px}.ocrStartBrand small{display:none}.ocrStartMain{padding:20px 12px}.ocrStartCard{border-radius:16px}.ocrStartBack{padding:0 10px;font-size:11px}}
+
+
+/* Homepage: show every tool card immediately, with action/conversion marks instead of stars. */
+.homeAllToolsGrid{margin-top:24px}
+.homeToolCard .toolConversionMark{display:flex;align-items:center;justify-content:center;gap:3px;min-width:66px;height:34px;padding:0 7px;border:1px solid #f0d6d4;border-radius:10px;background:#fff5f4;color:#c9323e}
+.homeToolCard .toolConversionMark i{font-style:normal;font-size:12px;font-weight:900;color:#8793a4}
+.homeToolCard .toolmain{grid-template-columns:52px minmax(0,1fr) 70px!important}
+.homeToolCard .homeToolCopy{min-width:0}
+.homeToolCard .homeToolCopy h3{overflow-wrap:anywhere}
+@media(max-width:700px){.homeToolCard .toolmain{grid-template-columns:42px minmax(0,1fr) 62px!important;gap:10px!important;padding:16px 12px!important}.homeToolCard .homeToolIcon{width:42px!important;height:42px!important}.homeToolCard .toolConversionMark{min-width:58px;padding:0 4px}}
+/* All tool file-picking screens use the same full-page workspace dimensions as PDF Studio. */
+.mergeStartOverlay{position:fixed!important;inset:0!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;z-index:100000!important}
+.mergeStartModal{width:100%!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:0!important;border-radius:0!important;box-shadow:none!important;overflow:auto!important}
+.mergeStartMain{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+.mergeStartCard{width:min(760px,94vw)!important}
+.dark .homeToolCard .toolConversionMark{background:#321f25;border-color:#66323b;color:#ffb7bd}
+
+
+/* Full-screen watermark workspace with left controls and a centered page preview. */
+.mergeStudioModal>.watermarkStudioWorkspace{display:grid!important;grid-template-columns:300px minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;direction:ltr!important;flex:1 1 0!important;min-height:180px!important;margin:0!important;border:0!important;border-radius:0!important}
+.watermarkStudioSideActions{grid-column:1!important;grid-row:1!important;display:flex;flex-direction:column;align-items:stretch;gap:16px;min-width:0;min-height:0;overflow:auto;padding:22px 18px;background:#fff;border-right:1px solid #dbe2ea;direction:rtl}
+.watermarkStudioField{display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:700;color:#46556b}
+.watermarkStudioField>span{display:flex;justify-content:space-between;gap:8px}
+.watermarkStudioField input[type=text]{width:100%;min-height:40px;padding:9px 11px;border:1px solid #d5dce6;border-radius:9px;background:#fff;color:#172033;font:inherit}
+.watermarkStudioField input[type=range]{width:100%;accent-color:#e53945}
+.watermarkStudioSideActions .workspaceChangeFile{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;border:1px solid #dbe2ea;border-radius:9px;background:#f7f9fc;color:#344054;font:inherit;font-weight:700;cursor:pointer}
+.watermarkStudioStatus{font-size:11px;color:#667085;line-height:1.6}
+.watermarkStudioPreviewPane{grid-column:2!important;grid-row:1!important;display:flex;flex-direction:column;min-width:0;min-height:0;background:#e9edf3;direction:rtl}
+.watermarkStudioPreviewHead{height:54px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px;background:#f8fafc;border-bottom:1px solid #dbe2ea}
+.watermarkStudioPreviewHead b{font-size:13px}.watermarkStudioPreviewHead span{font-size:12px;color:#667085;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.watermarkStudioCanvas{display:flex;align-items:center;justify-content:center;flex:1;min-height:0;overflow:auto;padding:24px}
+.watermarkStudioPaper{position:relative;display:grid;place-items:center;max-width:100%;max-height:100%;background:#fff;box-shadow:0 6px 28px #17203324;overflow:hidden}
+.watermarkStudioPaper img{display:block;max-width:min(100%,900px);max-height:calc(100dvh - 210px);width:auto;height:auto;object-fit:contain}
+.watermarkStudioPaper>span{position:absolute;left:50%;top:50%;max-width:95%;white-space:nowrap;color:#6b7280;font-weight:800;pointer-events:none}
+.mergeStudioModal:has(.watermarkStudioWorkspace)>.watermarkOptions,.mergeStudioModal:has(.watermarkStudioWorkspace)>.watermarkPreviewBtn{display:none!important}
+.mergeStudioModal:has(.watermarkStudioWorkspace)>.progress,.mergeStudioModal:has(.watermarkStudioWorkspace)>.notice,.mergeStudioModal:has(.watermarkStudioWorkspace)>.watermarkResult{display:none!important}
+@media(max-width:760px){.mergeStudioModal>.watermarkStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(240px,1fr) auto!important}.watermarkStudioPreviewPane{grid-column:1!important;grid-row:1!important;min-height:250px!important}.watermarkStudioSideActions{grid-column:1!important;grid-row:2!important;max-height:42vh!important;border-right:0;border-top:1px solid #dbe2ea;padding:14px;gap:11px}.watermarkStudioPaper img{max-height:42vh!important}.watermarkStudioCanvas{padding:10px}}
+.dark .watermarkStudioSideActions{background:#182334;border-color:#344256}.dark .watermarkStudioField{color:#d7e0ed}.dark .watermarkStudioField input[type=text]{background:#101827;color:#edf2f7;border-color:#344256}.dark .watermarkStudioPreviewPane,.dark .watermarkStudioPreviewHead{background:#101827;color:#edf2f7;border-color:#344256}
+
