@@ -180,4 +180,3 @@
 .ps-annotation-text{position:absolute;z-index:4;line-height:1.25;white-space:pre-wrap;overflow-wrap:anywhere;text-shadow:0 0 1px rgba(255,255,255,.18);pointer-events:none;font-family:Tahoma,Arial,sans-serif;font-weight:700}
 .ps-annotation-count{margin-right:auto;background:#fff1f0;color:#c52b27;border:1px solid #ffd5d2;border-radius:20px;padding:3px 9px;font-weight:700;white-space:nowrap}
 .ps-mark-surface:has(.ps-annotation-svg){cursor:crosshair}
-.ps-mark-surface{touch-action:none}
