@@ -98,6 +98,82 @@ export async function pdfRows(file,onProgress){
   return {rows,mode,detailed,statement};
 }
 
+
+// Convert extracted bank-statement rows into the user's accounting layout.
+// Bank statement debit/withdrawal is CREDIT in the customer's books, and
+// bank statement credit/deposit is DEBIT. Balances are recomputed from opening balance.
+const bankDateCell = value => {
+  const s=normalize(value).replace(/[.]/g,'/');
+  return /^(?:\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|\d{4}[\/-]\d{1,2}[\/-]\d{1,2})$/.test(s) ? s : '';
+};
+const bankAmountCell = value => {
+  let s=toEnglish(value).replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g,'').trim();
+  if(!s || !/[0-9٠-٩۰-۹]/.test(s)) return null;
+  s=s.replace(/\s/g,'').replace(/[٬،]/g,',').replace(/[^0-9.,()\-]/g,'');
+  if(/^\(.*\)$/.test(s)) s='-'+s.slice(1,-1);
+  if(s.includes(',') && s.includes('.')) s=s.replace(/,/g,'');
+  else if(s.includes(',') && /,\d{1,2}$/.test(s)) s=s.replace(',','.');
+  else s=s.replace(/,/g,'');
+  if(!/^-?\d+(?:\.\d+)?$/.test(s)) return null;
+  const n=Number(s); return Number.isFinite(n)?n:null;
+};
+const bankHeaderKind = value => {
+  const s=normalize(value).toLowerCase();
+  if(/date|التاريخ|تاريخ/.test(s)) return 'date';
+  if(/description|details|narration|particular|البيان|الوصف|التفاصيل|الحركة/.test(s)) return 'description';
+  if(/debit|withdraw|withdrawal|مدين|مسحوب|سحب|خصم/.test(s)) return 'debit';
+  if(/credit|deposit|إيداع|ايداع|دائن|إضافة|اضافة/.test(s)) return 'credit';
+  if(/balance|الرصيد|رصيد/.test(s)) return 'balance';
+  return '';
+};
+const moneyRound = n => Math.round((Number(n)||0)*100)/100;
+export function buildBankStatementRows(sourceRows, openingBalance='') {
+  const rows=(Array.isArray(sourceRows)?sourceRows:[]).map(row=>(Array.isArray(row)?row:[row]).map(v=>String(v??'').replace(/[\u200b-\u200f\ufeff]/g,'').trim()));
+  const headers=rows.findIndex(row=>row.filter(v=>bankHeaderKind(v)).length>=2);
+  const header= headers>=0 ? rows[headers] : [];
+  const indexOf=kind=>header.findIndex(v=>bankHeaderKind(v)===kind);
+  const dateIndex=indexOf('date'), descIndex=indexOf('description'), bankDebitIndex=indexOf('debit'), bankCreditIndex=indexOf('credit'), balanceIndex=indexOf('balance');
+  const hasUsableHeaders=[dateIndex,descIndex,bankDebitIndex,bankCreditIndex,balanceIndex].some(i=>i>=0);
+  const parseStart=headers>=0?headers+1:0;
+  const opening=bankAmountCell(openingBalance)??0;
+  let running=opening;
+  const out=[['التاريخ','البيان','المدين','الدائن','الرصيد'],['','رصيد أول المدة',opening?moneyRound(opening):0,'',moneyRound(opening)]];
+  let last=null, parsed=0;
+  for(let ri=parseStart;ri<rows.length;ri++){
+    const row=rows[ri];
+    if(!row.some(Boolean)) continue;
+    const dateCell=(dateIndex>=0?row[dateIndex]:'') || row.find(bankDateCell) || '';
+    const date=bankDateCell(dateCell);
+    if(!date){
+      const continuation=row.filter((v,i)=>v && i!==balanceIndex && bankAmountCell(v)===null && !bankHeaderKind(v)).join(' ').trim();
+      if(continuation && last) last[1]=(last[1]+' '+continuation).trim();
+      continue;
+    }
+    let sourceDebit=null,sourceCredit=null;
+    if(hasUsableHeaders && (bankDebitIndex>=0 || bankCreditIndex>=0)){
+      sourceDebit=bankDebitIndex>=0?bankAmountCell(row[bankDebitIndex]):null;
+      sourceCredit=bankCreditIndex>=0?bankAmountCell(row[bankCreditIndex]):null;
+    } else {
+      const numeric=row.map((v,i)=>({i,n:bankAmountCell(v)})).filter(x=>x.n!==null && x.i!==dateIndex);
+      const usable=numeric.filter(x=>x.i!==balanceIndex);
+      if(usable.length>=2){sourceDebit=usable[usable.length-2].n;sourceCredit=usable[usable.length-1].n;}
+      else if(usable.length===1){
+        // Without recognizable headers, keep the amount but do not guess its accounting side.
+        sourceDebit=usable[0].n;
+      }
+    }
+    const descParts=row.filter((v,i)=>v && i!==dateIndex && i!==bankDebitIndex && i!==bankCreditIndex && i!==balanceIndex && !bankDateCell(v) && bankAmountCell(v)===null && !bankHeaderKind(v));
+    let description=(descIndex>=0?row[descIndex]:'') || descParts.join(' ');
+    description=String(description||'').trim();
+    const debit=sourceCredit===null?'':moneyRound(sourceCredit);
+    const credit=sourceDebit===null?'':moneyRound(sourceDebit);
+    running=moneyRound(running+(Number(debit)||0)-(Number(credit)||0));
+    const record=[date,description,debit,credit,running];
+    out.push(record);last=record;parsed++;
+  }
+  return {rows:out, parsed, openingBalance:moneyRound(opening), headersDetected:headers>=0, sourceColumnsDetected:hasUsableHeaders};
+}
+
 export const rowsWorkbook=(rows,sheet='Data')=>{
   const data=rows.filter(r=>r?.some(v=>String(v??'').trim())).map(r=>r.map(v=>v??''));
   const max=Math.max(1,...data.map(r=>r.length)),a=data.map(r=>{const x=r.slice(0,max);while(x.length<max)x.push('');return x});
