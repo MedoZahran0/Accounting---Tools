@@ -25,7 +25,7 @@ export default function ImagePdfStudio({close}){
  const openPdf=()=>{if(!output)return;const w=window.open(output.url+'#toolbar=1&navpanes=1&zoom=page-fit','_blank');if(!w)setError('المتصفح منع فتح المعاينة في تبويب جديد. اسمح بالنوافذ المنبثقة ثم حاول مرة أخرى.')};
  const visibleZoom=fit?100:zoom;
  if(items.length===0) return <div className="ips-shell ips-start-shell" dir="rtl">
-  <header className="ips-topbar ips-start-topbar"><div className="ips-brand"><button className="ips-icon-btn" onClick={close} title="العودة للأدوات"><ArrowRight size={19}/></button><span className="ips-brand-icon"><FileImage size={22}/></span><div><b>الصور إلى PDF</b><small>حوّل صورك إلى ملف PDF بسهولة</small></div></div></header>
+  <header className="ips-topbar ips-start-topbar"><div className="ips-brand"><button className="ips-icon-btn ips-back-tools" onClick={close} title="رجوع للأدوات">← رجوع للأدوات</button><span className="ips-brand-icon"><FileImage size={22}/></span><div><b>الصور إلى PDF</b><small>حوّل صورك إلى ملف PDF بسهولة</small></div></div></header>
   <main className="ips-start-main">
    <section className="ips-start-card">
     <div className="ips-start-hero-icon"><FileImage size={38}/></div>
