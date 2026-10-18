@@ -138,11 +138,13 @@ function MergeFileCards({files,onChange}){
       try{
        const canvas=await renderMergePage(page,.72);
        thumb=canvas.toDataURL('image/jpeg',.88);
-       // Release the temporary canvas immediately; retaining many page canvases
-       // can exhaust browser memory when users add large multi-page PDFs.
        canvas.width=0;canvas.height=0;
-      }catch(renderError){console.warn('Merge thumbnail render failed',files[i]?.name,p,renderError)}
-      finally{try{page.cleanup?.()}catch{}}
+      }catch(renderError){
+       console.warn('Merge thumbnail render failed',files[i]?.name,p,renderError);
+       // A failed page must be visibly identified rather than shown as a misleading white thumbnail.
+       const message='تعذر عرض الصفحة';
+       thumb='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="220" height="300" viewBox="0 0 220 300"><rect width="220" height="300" fill="#fff7ed"/><rect x="8" y="8" width="204" height="284" rx="8" fill="none" stroke="#c2410c" stroke-dasharray="6 5"/><text x="110" y="140" text-anchor="middle" font-size="15" fill="#9a3412" font-family="Arial,sans-serif">'+message+'</text><text x="110" y="166" text-anchor="middle" font-size="12" fill="#9a3412" font-family="Arial,sans-serif">يمكن تجربة المعاينة الكاملة</text></svg>');
+      }finally{try{page.cleanup?.()}catch{}}
       next.push({id:i+'-'+p,fileIndex:i,page:p,name:files[i].name,size:files[i].size,pages:pdf.numPages,thumb,rotation:0});
       // Yield between pages so the browser can paint and reclaim memory.
       if(p%4===0)await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
@@ -165,7 +167,7 @@ function MergeFileCards({files,onChange}){
  const toggleSelect=(id,additive)=>setSelectedIds(prev=>{const next=new Set(additive?prev:[]);if(additive&&next.has(id))next.delete(id);else next.add(id);return next});
  const deletePage=id=>{const next=pages.filter(p=>p.id!==id);publishOrder(next);setSelectedIds(prev=>{const out=new Set(prev);out.delete(id);return out})};
  const deleteSelected=()=>{if(!selectedIds.size)return;const next=pages.filter(p=>!selectedIds.has(p.id));publishOrder(next);setSelectedIds(new Set())};
- const openFullPreview=async item=>{setPreviewingId(item.id);setZoom(1);setPan({x:0,y:0});try{const pdf=await loadPdf(files[item.fileIndex]);const canvas=await renderMergePage(await pdf.getPage(item.page),2.5);setFullPreview({src:canvas.toDataURL('image/png'),title:item.name+' — صفحة '+item.page})}catch(e){setError('تعذر فتح الصفحة بالحجم الكامل: '+(e?.message||''))}finally{setPreviewingId(null)}};
+ const openFullPreview=async item=>{setPreviewingId(item.id);setZoom(1);setPan({x:0,y:0});let pdf;try{pdf=await loadPdf(files[item.fileIndex]);const page=await pdf.getPage(item.page);let canvas;try{canvas=await renderMergePage(page,2.2)}catch(firstError){console.warn('Primary full preview failed; retrying at low resolution',firstError);canvas=await renderMergePage(page,.8)}setFullPreview({src:canvas.toDataURL('image/png'),title:item.name+' — صفحة '+item.page});canvas.width=0;canvas.height=0;try{page.cleanup?.()}catch{}await pdf.destroy()}catch(e){setError('تعذر عرض الصفحة حتى بعد إعادة المحاولة. قد يكون الملف تالفًا أو يستخدم تشفيرًا/ترميزًا غير مدعوم: '+(e?.message||''));if(pdf)try{await pdf.destroy()}catch{}}finally{setPreviewingId(null)}};
  const closePreview=()=>{setFullPreview(null);setZoom(1);setPan({x:0,y:0});setPanning(false);panStart.current=null};
  const onZoomWheel=e=>{e.preventDefault();setZoom(z=>Math.max(0.5,Math.min(6,+(z*(e.deltaY<0?1.15:1/1.15)).toFixed(2))))};
  const startPan=e=>{if(e.button!==0)return;e.preventDefault();panStart.current={x:e.clientX,y:e.clientY,panX:pan.x,panY:pan.y};setPanning(true);e.currentTarget.setPointerCapture?.(e.pointerId)};
@@ -178,14 +180,34 @@ function MergeFileCards({files,onChange}){
  {fullPreview&&<div className="mergeFullPreviewOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)closePreview()}} onKeyDown={e=>{if(e.key==='Escape')closePreview()}}><section className="mergeFullPreviewDialog" role="dialog" aria-modal="true" aria-label={fullPreview.title}><header className="mergeFullPreviewHeader"><b>{fullPreview.title}</b><div className="mergeZoomControls"><button type="button" aria-label="تصغير" onClick={()=>setZoom(z=>Math.max(.5,+(z/1.2).toFixed(2)))}>−</button><span>{Math.round(zoom*100)}%</span><button type="button" aria-label="تكبير" onClick={()=>setZoom(z=>Math.min(6,+(z*1.2).toFixed(2)))}>+</button><button type="button" onClick={()=>{setZoom(1);setPan({x:0,y:0})}}>ملاءمة</button><button type="button" aria-label="إغلاق المعاينة" onClick={closePreview}>×</button></div></header><div ref={previewCanvasRef} className={'mergeFullPreviewCanvas '+(panning?'is-panning':'')} onWheel={onZoomWheel} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan}><img src={fullPreview.src} alt={fullPreview.title} draggable={false} onPointerDown={startPan} style={{transform:'translate('+pan.x+'px,'+pan.y+'px) scale('+zoom+')',cursor:panning?'grabbing':zoom>1?'grab':'zoom-in'}}/></div><div className="mergeFullPreviewFooter">عجلة الماوس للتكبير والتصغير • اضغط واسحب للتحرك داخل الصفحة • زر «ملاءمة» لإرجاع الحجم الطبيعي</div></section></div>}</>
 }
 async function renderMergePage(page,scale=1){
- const viewport=page.getViewport({scale});
- const canvas=document.createElement('canvas');
- canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
- const context=canvas.getContext('2d',{alpha:false});
- if(!context)throw new Error('تعذر إنشاء مساحة رسم للصفحة');
- context.save();context.fillStyle='#ffffff';context.fillRect(0,0,canvas.width,canvas.height);context.restore();
- await page.render({canvasContext:context,viewport,background:'#ffffff',intent:'display'}).promise;
- return canvas;
+ const attempts=[
+  {scale,alpha:false,intent:'display'},
+  {scale:Math.min(scale,.55),alpha:true,intent:'print'},
+  {scale:Math.min(scale,.4),alpha:false,intent:'display'}
+ ];
+ let lastError=null;
+ for(const attempt of attempts){
+  let canvas;
+  try{
+   const viewport=page.getViewport({scale:attempt.scale});
+   canvas=document.createElement('canvas');
+   canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
+   const context=canvas.getContext('2d',{alpha:attempt.alpha,willReadFrequently:true});
+   if(!context)throw new Error('تعذر إنشاء مساحة رسم للصفحة');
+   context.fillStyle='#ffffff';context.fillRect(0,0,canvas.width,canvas.height);
+   await page.render({canvasContext:context,viewport,background:'#ffffff',intent:attempt.intent,annotationMode:1}).promise;
+   // Avoid returning a blank canvas if the first PDF.js rendering path silently fails.
+   const sample=context.getImageData(0,0,canvas.width,canvas.height).data;
+   let nonWhite=0,checked=0;
+   const stride=Math.max(4,Math.floor((canvas.width*canvas.height)/18000)*4);
+   for(let i=0;i<sample.length;i+=stride){checked++;if(sample[i]<245||sample[i+1]<245||sample[i+2]<245)nonWhite++}
+   if(checked>0&&nonWhite===0&&attempt!==attempts[attempts.length-1]){
+    canvas.width=0;canvas.height=0;continue;
+   }
+   return canvas;
+  }catch(e){lastError=e;if(canvas){canvas.width=0;canvas.height=0}}
+ }
+ throw lastError||new Error('تعذر عرض الصفحة باستخدام طرق المعاينة المتاحة');
 }
 function ImagePdfOrder({files,order,onChange}){const [orderText,setOrderText]=useState('');useEffect(()=>{setOrderText((order.length?order:files.map((_,i)=>i)).map(i=>i+1).join('-'))},[files,order]);const move=(from,to)=>{if(to<0||to>=order.length)return;const next=[...order],item=next.splice(from,1)[0];next.splice(to,0,item);onChange(next);setOrderText(next.map(i=>i+1).join('-'))};const apply=()=>{const nums=orderText.split(/[,\\s-]+/).filter(Boolean).map(Number);if(nums.length!==files.length||nums.some(n=>!Number.isInteger(n)||n<1||n>files.length)||new Set(nums).size!==files.length){setOrderText(order.map(i=>i+1).join('-'));return}onChange(nums.map(n=>n-1))};const dragIndex=useRef(null);return <section className="imagePdfOrder" dir="rtl"><div className="imagePdfOrderHead"><b>ترتيب الصور ومعاينتها</b><span>{files.length} صورة • أول صورة تصبح الصفحة الأولى</span></div><div className="imagePdfOrderInput"><label htmlFor="image-pdf-order">الترتيب بالأرقام</label><div><input id="image-pdf-order" value={orderText} onChange={e=>setOrderText(e.target.value)} placeholder="مثال: 2-1-3"/><button type="button" onClick={apply}>تطبيق الترتيب</button></div><small>اكتب أرقام كل الصور مرة واحدة، مثال: 3-1-2</small></div><div className="imagePdfThumbs">{order.map((fileIndex,pos)=>{const file=files[fileIndex];return <article className="imagePdfThumb" key={fileIndex} draggable onDragStart={()=>{dragIndex.current=pos}} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();if(dragIndex.current===null||dragIndex.current===pos)return;const next=[...order],item=next.splice(dragIndex.current,1)[0];next.splice(pos,0,item);onChange(next);setOrderText(next.map(i=>i+1).join('-'));dragIndex.current=null}}><div className="imagePdfThumbImage"><img src={URL.createObjectURL(file)} alt={'معاينة '+file.name} onLoad={e=>{const u=e.currentTarget.src;setTimeout(()=>URL.revokeObjectURL(u),0)}}/><span>{pos+1}</span></div><b title={file.name}>{file.name}</b><div className="imagePdfThumbActions"><button type="button" disabled={pos===0} onClick={()=>move(pos,pos-1)} aria-label="تحريك الصورة لأعلى">↑</button><button type="button" disabled={pos===order.length-1} onClick={()=>move(pos,pos+1)} aria-label="تحريك الصورة لأسفل">↓</button></div></article>})}</div><p className="imagePdfOrderHint">اسحب الصور لتغيير ترتيبها، أو استخدم الأسهم. بعد التنفيذ افتح «معاينة» لعرض ملف PDF داخل عارض المتصفح مع أدوات التكبير والتنزيل.</p></section>}
 
