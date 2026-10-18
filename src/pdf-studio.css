@@ -180,3 +180,9 @@
 .ps-annotation-text{position:absolute;z-index:4;line-height:1.25;white-space:pre-wrap;overflow-wrap:anywhere;text-shadow:0 0 1px rgba(255,255,255,.18);pointer-events:none;font-family:Tahoma,Arial,sans-serif;font-weight:700}
 .ps-annotation-count{margin-right:auto;background:#fff1f0;color:#c52b27;border:1px solid #ffd5d2;border-radius:20px;padding:3px 9px;font-weight:700;white-space:nowrap}
 .ps-mark-surface:has(.ps-annotation-svg){cursor:crosshair}
+
+/* Redaction selection behaves like a drag-to-select privacy tool. */
+.ps-redact-box{position:absolute;z-index:6;pointer-events:none;box-sizing:border-box;border:1.5px solid #e5322d;opacity:.98}
+.ps-redact-drawing{background:rgba(229,50,45,.18)!important;border:2px solid #e5322d;box-shadow:0 0 0 1px rgba(255,255,255,.8) inset}
+.ps-mark-surface:has(.ps-redact-box){cursor:crosshair}
+.ps-redact-tip{font-size:12px;line-height:1.7;color:#6b7280;background:#f8fafc;padding:9px;border-radius:8px}
