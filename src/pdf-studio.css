@@ -158,3 +158,19 @@
 .ps-start-topbar{padding-left:clamp(18px,4vw,56px)!important;padding-right:clamp(18px,4vw,56px)!important}
 .ps-start-card{width:min(640px,calc(100% - 28px))!important;border:1px solid #e0e6ef!important;border-radius:22px!important;box-shadow:0 18px 55px rgba(24,44,72,.09)!important}
 @media(max-width:560px){.ps-start-shell{height:100dvh!important;min-height:100dvh!important}.ps-start-card{width:calc(100% - 24px)!important}}
+
+
+/* PDF Studio file picker follows the full-workspace layout used by Merge PDF. */
+.pdfStudioStart.ps-start-merge-screen{display:flex;align-items:stretch;justify-content:stretch;padding:0;background:#f2f4f7;overflow:hidden}
+.ps-start-merge-screen .ps-start-shell{width:100%;height:100%;min-height:0;max-height:none;border-radius:0;background:#f2f4f7;box-shadow:none;overflow:hidden}
+.ps-start-merge-screen .mergeStudioToolbar{min-height:66px;padding:12px 18px}
+.ps-start-merge-screen .mergeStartIcon{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0;border-radius:11px;background:#fff0ef;color:#e5322d}
+.ps-start-merge-screen .mergeStudioFileSummary b{font-size:16px;color:#26364b}
+.ps-start-merge-screen .mergeStudioFileSummary span:not(.mergeStartIcon){font-size:12px;color:#667085}
+.ps-start-merge-screen .mergeStudioToolbarActions button{min-height:38px}
+.ps-start-merge-screen .ps-start-merge-drop{flex:1;min-height:0;margin:14px 18px 16px;padding:28px;border:2px dashed #cbd5e1;border-radius:14px;background:#fff;gap:13px}
+.ps-start-merge-screen .ps-start-merge-drop>svg{width:42px;height:42px;padding:9px;border-radius:12px;background:#fff0ef;color:#e5322d}
+.ps-start-merge-screen .ps-start-merge-drop>b{font-size:20px}
+.ps-start-merge-screen .ps-start-merge-drop>span{max-width:520px;line-height:1.8}
+.ps-start-merge-screen .ps-start-merge-drop>small{font-size:11px;color:#8a94a3}
+@media(max-width:760px){.ps-start-merge-screen .mergeStudioToolbar{padding:10px;gap:8px}.ps-start-merge-screen .mergeStudioFileSummary{gap:8px}.ps-start-merge-screen .mergeStudioFileSummary b{font-size:14px}.ps-start-merge-screen .mergeStudioFileSummary span:not(.mergeStartIcon){font-size:10px}.ps-start-merge-screen .mergeStudioToolbarActions button{padding:8px;font-size:11px}.ps-start-merge-screen .ps-start-merge-drop{margin:8px;padding:20px 12px}.ps-start-merge-screen .ps-start-merge-drop>b{font-size:16px}.ps-start-merge-screen .ps-start-merge-drop>span{font-size:12px}}
