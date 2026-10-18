@@ -2708,3 +2708,20 @@ body{min-height:100vh;background-color:#f8f9fc!important;background-image:
 @media(max-width:760px){.mergeStudioModal>.watermarkStudioWorkspace{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(240px,1fr) auto!important}.watermarkStudioPreviewPane{grid-column:1!important;grid-row:1!important;min-height:250px!important}.watermarkStudioSideActions{grid-column:1!important;grid-row:2!important;max-height:42vh!important;border-right:0;border-top:1px solid #dbe2ea;padding:14px;gap:11px}.watermarkStudioPaper img{max-height:42vh!important}.watermarkStudioCanvas{padding:10px}}
 .dark .watermarkStudioSideActions{background:#182334;border-color:#344256}.dark .watermarkStudioField{color:#d7e0ed}.dark .watermarkStudioField input[type=text]{background:#101827;color:#edf2f7;border-color:#344256}.dark .watermarkStudioPreviewPane,.dark .watermarkStudioPreviewHead{background:#101827;color:#edf2f7;border-color:#344256}
 
+
+
+/* Compact homepage hero and remove the unused privacy banner footprint. */
+.homeHero{gap:22px!important;margin-bottom:14px!important;padding:18px 22px!important;min-height:0!important}
+.homeHeroCopy .homeHeroKicker{font-size:10px!important;padding:5px 9px!important}
+.homeHeroCopy h2{font-size:clamp(27px,3.1vw,37px)!important;line-height:1.15!important;margin:8px 0 6px!important;letter-spacing:-.6px!important}
+.homeHeroCopy p{font-size:13px!important;line-height:1.65!important}
+.homeHeroPills{margin-top:10px!important;gap:6px!important}
+.homeHeroPills span{padding:4px 9px!important;font-size:10px!important}
+.homeHeroArt{flex-basis:170px!important;height:125px!important;transform:scale(.82);transform-origin:center!important}
+.homeHeroArt .heroOrbit{width:130px;height:130px}
+.homeHeroArt .heroOrbitTwo{width:98px;height:98px}
+.homeHeroArt .heroFile{width:50px;height:64px;font-size:16px}
+.homeAllToolsGrid{margin-top:12px!important}
+.homeToolCard .homeToolCopy h3{font-size:14px!important;line-height:1.45!important}
+.homeToolCard .homeToolCopy p{font-size:11px!important;line-height:1.65!important}
+@media(max-width:700px){.homeHero{padding:14px!important;gap:8px!important;margin-bottom:10px!important}.homeHeroArt{display:none!important}.homeHeroCopy h2{font-size:28px!important}.homeHeroCopy p{font-size:12px!important}.homeAllToolsGrid{margin-top:8px!important}}
