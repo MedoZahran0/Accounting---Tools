@@ -78,3 +78,14 @@
 .ips-a4-default{font-size:12px;font-weight:800;color:#16785b;background:#e8f7f0;border-radius:8px;padding:6px 9px}
 .ips-simple-a4 p{margin:8px 0 0;color:#667085;font-size:12px;line-height:1.8}
 .ips-simple-a4{background:#f8fafc;border:1px solid #e5eaf0;border-radius:12px}
+
+
+/* Shared dimensions for the image-to-PDF file picker and top-left back control. */
+.ips-start-shell{align-items:center!important;justify-content:center!important;padding:18px!important;background:rgba(16,24,40,.58)!important;backdrop-filter:blur(5px)!important}
+.ips-start-topbar{position:relative;width:min(920px,96vw);height:78px!important;min-height:78px!important;flex:none!important;border-radius:20px 20px 0 0;border-bottom:1px solid #e0e6ef!important;padding:14px 22px!important}
+.ips-start-topbar .ips-brand{width:100%;justify-content:flex-start}
+.ips-start-topbar .ips-icon-btn{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:auto!important;min-width:126px;padding:0 12px!important;background:#e5322d!important;border-color:#e5322d!important;border-radius:10px!important;color:#fff!important;font-weight:700;font-size:12px}
+.ips-start-main{width:min(920px,96vw);height:calc(min(700px,92vh) - 78px);min-height:420px;flex:none!important;display:grid!important;place-items:center!important;overflow:auto;background:#f7f8fa!important;border-radius:0 0 20px 20px;}
+.ips-start-card{width:min(560px,calc(100% - 36px));margin:auto;padding:26px 28px!important;box-shadow:none!important}
+.ips-topbar .ips-back-tools{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:auto!important;min-width:126px;padding:0 12px!important;background:#e5322d!important;border-color:#e5322d!important;border-radius:10px!important;color:#fff!important;font-weight:700;font-size:12px}
+@media(max-width:560px){.ips-start-shell{padding:10px!important}.ips-start-topbar{padding:10px 12px!important}.ips-start-main{height:calc(94vh - 68px);min-height:350px}.ips-start-card{padding:20px 15px!important}.ips-start-topbar .ips-icon-btn,.ips-topbar .ips-back-tools{left:10px;min-width:auto;padding:0 8px!important;font-size:10px}}
