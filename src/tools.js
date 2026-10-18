@@ -13,7 +13,20 @@ export const normalize=v=>toEnglish(v).replace(/[\u200e\u200f]/g,'').replace(/\s
 export const safeName=(n='result')=>n.replace(/\.[^.]+$/,'').replace(/[^\w\u0600-\u06FF-]+/g,'_')||'result';
 export const download=(blob,name)=>{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
 export const bytesDownload=(b,n,t='application/octet-stream')=>download(new Blob([b],{type:t}),n,t);
-export const loadPdf=async f=>pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer()),useWorkerFetch:true}).promise;
+export const loadPdf=async f=>{
+ const data=new Uint8Array(await f.arrayBuffer());
+ try{
+  return await pdfjsLib.getDocument({data,useWorkerFetch:true,isEvalSupported:false,useSystemFonts:true,stopAtErrors:false}).promise;
+ }catch(firstError){
+  // Retry with PDF.js network/font optimizations disabled for scanned, older, or unusual PDFs.
+  try{
+   return await pdfjsLib.getDocument({data:new Uint8Array(data),useWorkerFetch:false,isEvalSupported:false,useSystemFonts:true,stopAtErrors:false,disableFontFace:false,enableXfa:true}).promise;
+  }catch(secondError){
+   secondError.message='تعذر فتح ملف PDF بعد المحاولة العادية ومحاولة التوافق: '+(secondError.message||firstError.message||'صيغة غير مدعومة أو ملف تالف');
+   throw secondError;
+  }
+ }
+};
 export const renderPage=async(page,scale=2)=>{const v=page.getViewport({scale}),c=document.createElement('canvas');c.width=Math.ceil(v.width);c.height=Math.ceil(v.height);await page.render({canvasContext:c.getContext('2d',{willReadFrequently:true}),viewport:v}).promise;return c};
 
 const rowGroup=(items,tolerance=0.55)=>{
