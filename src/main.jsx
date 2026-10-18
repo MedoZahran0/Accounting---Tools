@@ -162,7 +162,7 @@ function MergeFileCards({files,onChange}){
  </div>
  {fullPreview&&<div className="mergeFullPreviewOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)closePreview()}} onKeyDown={e=>{if(e.key==='Escape')closePreview()}}><section className="mergeFullPreviewDialog" role="dialog" aria-modal="true" aria-label={fullPreview.title}><header className="mergeFullPreviewHeader"><b>{fullPreview.title}</b><div className="mergeZoomControls"><button type="button" aria-label="تصغير" onClick={()=>setZoom(z=>Math.max(.5,+(z/1.2).toFixed(2)))}>−</button><span>{Math.round(zoom*100)}%</span><button type="button" aria-label="تكبير" onClick={()=>setZoom(z=>Math.min(6,+(z*1.2).toFixed(2)))}>+</button><button type="button" onClick={()=>{setZoom(1);setPan({x:0,y:0})}}>ملاءمة</button><button type="button" aria-label="إغلاق المعاينة" onClick={closePreview}>×</button></div></header><div ref={previewCanvasRef} className={'mergeFullPreviewCanvas '+(panning?'is-panning':'')} onWheel={onZoomWheel} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan}><img src={fullPreview.src} alt={fullPreview.title} draggable={false} onPointerDown={startPan} style={{transform:'translate('+pan.x+'px,'+pan.y+'px) scale('+zoom+')',cursor:panning?'grabbing':zoom>1?'grab':'zoom-in'}}/></div><div className="mergeFullPreviewFooter">عجلة الماوس للتكبير والتصغير • اضغط واسحب للتحرك داخل الصفحة • زر «ملاءمة» لإرجاع الحجم الطبيعي</div></section></div>}</>
 }
-function renderMergePage(page,scale=1){
+async function renderMergePage(page,scale=1){
  const viewport=page.getViewport({scale});
  const canvas=document.createElement('canvas');
  canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
