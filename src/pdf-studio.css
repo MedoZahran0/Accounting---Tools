@@ -195,4 +195,6 @@
 /* Marker cursor: marker pen tip, no plus cursor. */
 .ps-mark-surface.ps-marker-mode{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg transform='rotate(-42 14 14)'%3E%3Crect x='9' y='3' width='10' height='16' rx='2' fill='%23f7d84a' stroke='%233a4654' stroke-width='1.4'/%3E%3Cpath d='M9 17h10l-5 8z' fill='%233a4654'/%3E%3Cpath d='M11 5h6' stroke='%23fff4a0' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E") 4 23, crosshair}
 .ps-annotation-text-selected{outline:1px dashed #e5322d;outline-offset:3px;cursor:move!important;}
-@media(min-width:900px){.homeAllToolsGrid>.homeToolCard:first-child{grid-column:span 2}}
+
+/* Marker tool cursor: override the generic crosshair when marker mode is active. */
+.pdfStudio:has(.ps-properties) .ps-mark-surface.ps-marker-mode{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg transform='rotate(-42 16 16)'%3E%3Cpath d='M11 3h10v18H11z' rx='2' fill='%23ffe45c' stroke='%232d3748' stroke-width='1.5'/%3E%3Cpath d='M11 21h10l-5 8z' fill='%23374151' stroke='%232d3748' stroke-width='1'/%3E%3Cpath d='M13 6h6' stroke='%23fff8bf' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E") 5 27, crosshair!important}
