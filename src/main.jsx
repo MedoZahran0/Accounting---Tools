@@ -131,11 +131,26 @@ function MergeFileCards({files,onChange}){
    const next=[];
    for(let i=0;i<files.length;i++){
     const pdf=await loadPdf(files[i]);
-    for(let p=1;p<=pdf.numPages;p++){
-     const page=await pdf.getPage(p);
-     let thumb='';
-     try{const canvas=await renderMergePage(page,.72);thumb=canvas.toDataURL('image/jpeg',.94)}catch(renderError){console.warn('Merge thumbnail render failed',files[i]?.name,p,renderError)}
-     next.push({id:i+'-'+p,fileIndex:i,page:p,name:files[i].name,size:files[i].size,pages:pdf.numPages,thumb,rotation:0});
+    try{
+     for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      let thumb='';
+      try{
+       const canvas=await renderMergePage(page,.72);
+       thumb=canvas.toDataURL('image/jpeg',.88);
+       // Release the temporary canvas immediately; retaining many page canvases
+       // can exhaust browser memory when users add large multi-page PDFs.
+       canvas.width=0;canvas.height=0;
+      }catch(renderError){console.warn('Merge thumbnail render failed',files[i]?.name,p,renderError)}
+      finally{try{page.cleanup?.()}catch{}}
+      next.push({id:i+'-'+p,fileIndex:i,page:p,name:files[i].name,size:files[i].size,pages:pdf.numPages,thumb,rotation:0});
+      // Yield between pages so the browser can paint and reclaim memory.
+      if(p%4===0)await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
+     }
+    }finally{
+     // Each document is reopened on demand for full-size preview, so its worker
+     // and caches can be released after its thumbnails are generated.
+     try{await pdf.destroy()}catch{}
     }
    }
    if(!cancelled){setPages(next);publishOrder(next);if(next.some(p=>!p.thumb))setError('بعض الصفحات لم تُرسم في المعاينة. جرّب تكبير الصفحة أو إعادة إضافة الملف.')}
