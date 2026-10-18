@@ -33,8 +33,9 @@ return <div className={dark?'app dark':'app'}>{boot&&<div className="siteIntro" 
 </main><footer><div><b>Abdel-hamid Zahran</b> • أدوات المحاسب</div><div>الموقع تجريبي وجاري إضافة مزيد من الأدوات</div><div className="footerContact">للتواصل: <b dir="ltr">01095247005</b></div></footer>{sel&&(sel.id==='amount-words'?<AmountWordsModal close={()=>setSel(null)}/>:sel.id==='pdf-studio'?<PdfStudio initialPanel='page' close={()=>setSel(null)}/>:sel.id==='image-pdf'?<ImagePdfStudio close={()=>setSel(null)}/>:<ToolWorkspace t={sel} close={()=>setSel(null)}/>) }</div>}
 
 function numberToArabicWords(value){
- const digits=String(value??'').replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).replace(/[۰-۹]/g,d=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))).replace(/٫/g,'.');
- const cleaned=digits.replace(/[٬,\s]/g,'');
+ const digits=String(value??'').replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).replace(/[۰-۹]/g,d=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))).replace(/[٫،]/g,'.');
+ let cleaned=digits.replace(/[٬\s]/g,'');
+ if(cleaned.includes('.')||!cleaned.includes(',')){cleaned=cleaned.replace(/,/g,'')}else{const parts=cleaned.split(',');const tail=parts[parts.length-1];cleaned=parts.length===2&&tail.length>0&&tail.length!==3?parts[0]+'.'+tail:parts.join('')}
  if(!/^-?\d+(?:\.\d+)?$/.test(cleaned))return '';
  const negative=cleaned.startsWith('-'), raw=cleaned.replace(/^-/,'');
  const [wholeRaw,fracRaw='']=raw.split('.');
