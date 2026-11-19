@@ -212,7 +212,7 @@ export const mergePdfPages=async(files,order,onProgress)=>{
    if(pageNumber>source.numPages)throw Error('الصفحة '+pageNumber+' غير موجودة في الملف '+files[fileIndex].name);
    const page=await source.getPage(pageNumber);
    const angle=((Number(page.rotate)||0)+(Number(item.rotation)||0)+360)%360;
-   const viewport=page.getViewport({scale:2,rotation:angle});
+   const viewport=page.getViewport({scale:300/72,rotation:angle});
    const base=page.getViewport({scale:1,rotation:angle});
    const canvas=document.createElement('canvas');
    canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
