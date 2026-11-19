@@ -202,6 +202,28 @@ export const mergePdfPages=async(files,order,onProgress)=>{
  if(!Array.isArray(order)||!order.length)throw Error('لا توجد صفحات محددة للدمج');
  const out=await PDFDocument.create();
  const sources=new Map();
+ const maxPixels=30000000,maxDimension=10000,targetScale=300/72;
+ const sampleCanvas=document.createElement('canvas');
+ sampleCanvas.width=64;sampleCanvas.height=64;
+ const sampleCtx=sampleCanvas.getContext('2d',{willReadFrequently:true});
+ const looksBlank=canvas=>{
+  if(!sampleCtx)return false;
+  sampleCtx.fillStyle='#fff';sampleCtx.fillRect(0,0,64,64);
+  sampleCtx.drawImage(canvas,0,0,64,64);
+  const pixels=sampleCtx.getImageData(0,0,64,64).data;
+  let visible=0;
+  for(let i=0;i<pixels.length;i+=4)if(pixels[i]<245||pixels[i+1]<245||pixels[i+2]<245)visible++;
+  return visible<12;
+ };
+ const renderAt=async(page,viewport,intent)=>{
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+  const ctx=canvas.getContext('2d',{alpha:false});
+  if(!ctx)throw Error('تعذر تجهيز مساحة رسم الصفحة');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  await page.render({canvasContext:ctx,viewport,background:'rgb(255,255,255)',intent}).promise;
+  return canvas;
+ };
  try{
   for(let i=0;i<order.length;i++){
    const item=order[i],fileIndex=Number(item.fileIndex),pageNumber=Number(item.page);
@@ -212,15 +234,25 @@ export const mergePdfPages=async(files,order,onProgress)=>{
    if(pageNumber>source.numPages)throw Error('الصفحة '+pageNumber+' غير موجودة في الملف '+files[fileIndex].name);
    const page=await source.getPage(pageNumber);
    const angle=((Number(page.rotate)||0)+(Number(item.rotation)||0)+360)%360;
-   const viewport=page.getViewport({scale:300/72,rotation:angle});
    const base=page.getViewport({scale:1,rotation:angle});
-   const canvas=document.createElement('canvas');
-   canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-   const ctx=canvas.getContext('2d',{alpha:false});
-   if(!ctx)throw Error('تعذر تجهيز مساحة رسم الصفحة '+pageNumber);
-   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
-   await page.render({canvasContext:ctx,viewport,background:'rgb(255,255,255)'}).promise;
+   const safeScale=Math.min(targetScale,Math.sqrt(maxPixels/(base.width*base.height)),maxDimension/Math.max(base.width,base.height));
+   const scale=Math.max(1,safeScale);
+   const viewport=page.getViewport({scale,rotation:angle});
+   let canvas=await renderAt(page,viewport,'display');
+   if(looksBlank(canvas)){
+    const [textContent,operatorList]=await Promise.all([page.getTextContent(),page.getOperatorList()]);
+    const hasContent=(textContent.items?.length||0)>0||(operatorList.fnArray?.length||0)>4;
+    if(hasContent){
+     canvas.width=0;canvas.height=0;
+     canvas=await renderAt(page,viewport,'print');
+     if(looksBlank(canvas)){
+      canvas.width=0;canvas.height=0;
+      throw Error('تعذر إظهار محتوى الصفحة '+pageNumber+' من الملف "'+(files[fileIndex].name||'PDF')+'". أوقفنا الدمج بدل إنشاء صفحة بيضاء.');
+     }
+    }
+   }
    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('تعذر تحويل الصفحة إلى صورة')),'image/png'));
+   if(!blob.size)throw Error('صورة الصفحة '+pageNumber+' من الملف "'+(files[fileIndex].name||'PDF')+'" فارغة.');
    const image=await out.embedPng(new Uint8Array(await blob.arrayBuffer()));
    const outputPage=out.addPage([base.width,base.height]);
    outputPage.drawImage(image,{x:0,y:0,width:base.width,height:base.height});
@@ -231,6 +263,7 @@ export const mergePdfPages=async(files,order,onProgress)=>{
   if(!bytes?.length)throw Error('ملف الدمج الناتج فارغ.');
   return bytes;
  }finally{
+  sampleCanvas.width=0;sampleCanvas.height=0;
   for(const source of sources.values()){try{await source.destroy()}catch{}}
  }
 };
