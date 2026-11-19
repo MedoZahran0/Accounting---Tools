@@ -197,7 +197,43 @@ export const rowsWorkbook=(rows,sheet='Data')=>{
 export const exportRows=(rows,name)=>XLSX.writeFile(rowsWorkbook(rows),name);
 export const excelRows=async f=>{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:true});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})};
 export const mergePdfs=async fs=>{const out=await PDFDocument.create();for(const f of fs){const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});const copied=await out.copyPages(s,s.getPageIndices());copied.forEach(p=>out.addPage(p))}return out.save()};
-export const mergePdfPages=async(files,order,onProgress)=>{if(!Array.isArray(files)||!files.length)throw Error('اختر ملفات PDF أولاً');if(!Array.isArray(order)||!order.length)throw Error('لا توجد صفحات محددة للدمج');const out=await PDFDocument.create();const sources=new Map();for(let i=0;i<order.length;i++){const item=order[i],fileIndex=Number(item.fileIndex),pageNumber=Number(item.page);if(!Number.isInteger(fileIndex)||fileIndex<0||fileIndex>=files.length)throw Error('ترتيب الدمج يحتوي على ملف غير صالح عند الصفحة '+(i+1));if(!Number.isInteger(pageNumber)||pageNumber<1)throw Error('رقم صفحة غير صالح عند الصفحة '+(i+1));let source=sources.get(fileIndex);if(!source){source=await PDFDocument.load(await files[fileIndex].arrayBuffer(),{ignoreEncryption:true,updateMetadata:false});sources.set(fileIndex,source)}if(pageNumber>source.getPageCount())throw Error('الصفحة '+pageNumber+' غير موجودة في الملف '+files[fileIndex].name);const [page]=await out.copyPages(source,[pageNumber-1]);const rotation=Number(item.rotation)||0;if(rotation)page.setRotation(degrees((page.getRotation().angle+rotation+360)%360));out.addPage(page);onProgress?.(i+1,order.length)}const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});if(!bytes?.length)throw Error('ملف الدمج الناتج فارغ.');return bytes};
+export const mergePdfPages=async(files,order,onProgress)=>{
+ if(!Array.isArray(files)||!files.length)throw Error('اختر ملفات PDF أولاً');
+ if(!Array.isArray(order)||!order.length)throw Error('لا توجد صفحات محددة للدمج');
+ const out=await PDFDocument.create();
+ const sources=new Map();
+ try{
+  for(let i=0;i<order.length;i++){
+   const item=order[i],fileIndex=Number(item.fileIndex),pageNumber=Number(item.page);
+   if(!Number.isInteger(fileIndex)||fileIndex<0||fileIndex>=files.length)throw Error('ترتيب الدمج يحتوي على ملف غير صالح عند الصفحة '+(i+1));
+   if(!Number.isInteger(pageNumber)||pageNumber<1)throw Error('رقم صفحة غير صالح عند الصفحة '+(i+1));
+   let source=sources.get(fileIndex);
+   if(!source){source=await loadPdf(files[fileIndex]);sources.set(fileIndex,source)}
+   if(pageNumber>source.numPages)throw Error('الصفحة '+pageNumber+' غير موجودة في الملف '+files[fileIndex].name);
+   const page=await source.getPage(pageNumber);
+   const angle=((Number(page.rotate)||0)+(Number(item.rotation)||0)+360)%360;
+   const viewport=page.getViewport({scale:2,rotation:angle});
+   const base=page.getViewport({scale:1,rotation:angle});
+   const canvas=document.createElement('canvas');
+   canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+   const ctx=canvas.getContext('2d',{alpha:false});
+   if(!ctx)throw Error('تعذر تجهيز مساحة رسم الصفحة '+pageNumber);
+   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+   await page.render({canvasContext:ctx,viewport,background:'rgb(255,255,255)'}).promise;
+   const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('تعذر تحويل الصفحة إلى صورة')),'image/png'));
+   const image=await out.embedPng(new Uint8Array(await blob.arrayBuffer()));
+   const outputPage=out.addPage([base.width,base.height]);
+   outputPage.drawImage(image,{x:0,y:0,width:base.width,height:base.height});
+   canvas.width=0;canvas.height=0;
+   onProgress?.(i+1,order.length);
+  }
+  const bytes=await out.save({useObjectStreams:false,addDefaultPage:false});
+  if(!bytes?.length)throw Error('ملف الدمج الناتج فارغ.');
+  return bytes;
+ }finally{
+  for(const source of sources.values()){try{await source.destroy()}catch{}}
+ }
+};
 export const pagesPdf=async(f,numbers)=>{const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true}),o=await PDFDocument.create(),idx=numbers.map(Number).map(n=>n-1).filter(n=>n>=0&&n<s.getPageCount());if(!idx.length)throw Error('لم يتم تحديد صفحات صحيحة');(await o.copyPages(s,idx)).forEach(p=>o.addPage(p));return o.save()};
 export const rotatePdf=async(f,a)=>{const p=await PDFDocument.load(await f.arrayBuffer());p.getPages().forEach(x=>x.setRotation(degrees((x.getRotation().angle+a+360)%360)));return p.save()};
 export const annotatePdf=async(f,kind,text,opts={})=>{
